@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
@@ -19,7 +18,6 @@ import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../../helpers/constants.dart';
 import '../../../public/colors.dart';
-import 'add_circuit_pop_up.dart';
 
 class CircuitsPageDesktop extends StatefulWidget {
   const CircuitsPageDesktop({super.key});
@@ -216,7 +214,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                         icon: Icon(Icons.save_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground),
-                                        text: 'Export Excel',
+                                        text: 'Export xlsx',
                                         onTap: () async {
                                           // if (context.canPop()) context.pop();
 
@@ -225,53 +223,56 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 30),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CustomTextIconButton(
-                                        isLoading: false,
-                                        icon: Icon(Icons.save_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground),
-                                        text: 'Export PDF',
-                                        onTap: () async {
-                                          // if (context.canPop()) context.pop();
-                                          provider.exportToPDF();
-                                          // await provider.clientPDF(
-                                          //     context, columns, rows);
-                                        }),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 30),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CustomTextIconButton(
-                                        isLoading: false,
-                                        icon: Icon(Icons.save_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground),
-                                        text: 'Add Circuit',
-                                        onTap: () async {
-                                          provider.clearAll();
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(
+                              //       vertical: 0, horizontal: 30),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: [
+                              //       CustomTextIconButton(
+                              //           isLoading: false,
+                              //           icon: Icon(Icons.save_outlined,
+                              //               color: AppTheme.of(context)
+                              //                   .primaryBackground),
+                              //           text: 'Export PDF',
+                              //           onTap: () async {
+                              //             // if (context.canPop()) context.pop();
+                              //             provider.exportToPDF();
+                              //             // await provider.clientPDF(
+                              //             //     context, columns, rows);
+                              //           }),
+                              //     ],
+                              //   ),
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(
+                              //       vertical: 0, horizontal: 30),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: [
+                              //       CustomTextIconButton(
+                              //           isLoading: false,
+                              //           icon: Icon(Icons.save_outlined,
+                              //               color: AppTheme.of(context)
+                              //                   .primaryBackground),
+                              //           text: 'Add Circuit',
+                              //           onTap: () async {
+                              //             provider.clearAll();
+                              //             context.pushReplacement(
+                              //                 routeAddedCircuit);
 
-                                          if (!mounted) return;
-                                          await showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return const AddCircuitPopUp();
-                                              });
-                                          provider.updateState();
-                                        }),
-                                  ],
-                                ),
-                              ),
+                              //             // if (!mounted) return;
+                              //             // await showDialog(
+                              //             //     context: context,
+                              //             //     builder: (BuildContext context) {
+                              //             //       return const AddCircuitPopUp();
+                              //             //     });
+
+                              //             provider.updateState();
+                              //           }),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -308,65 +309,6 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                         //         );
                         //       }),
                         // ),
-                        // CustomCard(
-                        //     title: "JSA TEMPLATE PREVIEW ",
-                        //     height: MediaQuery.of(context).size.height * 0.3,
-                        //     width: MediaQuery.of(context).size.width * 0.3,
-                        //     child: SizedBox(
-                        //       child: Row(
-                        //         children: [
-                        //           Container(
-                        //             color: Colors.grey,
-                        //             height: MediaQuery.of(context).size.height *
-                        //                 0.2,
-                        //             // width: MediaQuery.of(context).size.width * 0.3,
-                        //             width: MediaQuery.of(context).size.height *
-                        //                 0.2,
-                        //             child: provider.finalPdfController == null
-                        //                 ? const CircularProgressIndicator()
-                        //                 : PdfView(
-                        //                     pageSnapping: false,
-                        //                     scrollDirection: Axis.vertical,
-                        //                     physics:
-                        //                         const BouncingScrollPhysics(),
-                        //                     renderer: (PdfPage page) {
-                        //                       if (page.width >= page.height) {
-                        //                         return page.render(
-                        //                           width: page.width * 7,
-                        //                           height: page.height * 4,
-                        //                           format:
-                        //                               PdfPageImageFormat.jpeg,
-                        //                           backgroundColor: '#15FF0D',
-                        //                         );
-                        //                       } else if (page.width ==
-                        //                           page.height) {
-                        //                         return page.render(
-                        //                           width: page.width * 4,
-                        //                           height: page.height * 4,
-                        //                           format:
-                        //                               PdfPageImageFormat.jpeg,
-                        //                           backgroundColor: '#15FF0D',
-                        //                         );
-                        //                       } else {
-                        //                         return page.render(
-                        //                           width: page.width * 4,
-                        //                           height: page.height * 7,
-                        //                           format:
-                        //                               PdfPageImageFormat.jpeg,
-                        //                           backgroundColor: '#15FF0D',
-                        //                         );
-                        //                       }
-                        //                     },
-                        //                     controller:
-                        //                         provider.finalPdfController!,
-                        //                     onDocumentLoaded: (document) {},
-                        //                     onPageChanged: (page) {},
-                        //                     onDocumentError: (error) {},
-                        //                   ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     )),
 
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -988,57 +930,59 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                               onTap: () async {
                                                 provider.editCircuit(
                                                     rendererContext.cell.value);
-                                                if (!mounted) return;
-                                                await showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return const EditCircuitPopUp();
-                                                    });
-                                                provider.updateState();
-                                              },
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            child: CustomTextIconButton(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  // 0.08,
-                                                  0.06,
-                                              isLoading: false,
-                                              icon: Icon(Icons.delete_outlined,
-                                                  color: AppTheme.of(context)
-                                                      .primaryBackground),
-                                              text: 'Delete',
-                                              style: AppTheme.of(context)
-                                                  .contenidoTablas
-                                                  .override(
-                                                    fontFamily:
-                                                        'Gotham-Regular',
-                                                    useGoogleFonts: false,
-                                                    color: AppTheme.of(context)
-                                                        .primaryBackground,
-                                                  ),
-                                              color: AppTheme.of(context)
-                                                  .odePrimary,
-                                              onTap: () async {
-                                                await provider.selectCircuit(
-                                                    rendererContext.cell.value);
+                                                context.pushReplacement(
+                                                    routeEditingCircuit);
                                                 // if (!mounted) return;
-                                                await showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return const DeleteCIrcuitPopUp();
-                                                    });
+                                                // await showDialog(
+                                                //     context: context,
+                                                //     builder:
+                                                //         (BuildContext context) {
+                                                //       return const EditCircuitPopUp();
+                                                //     });
+                                                // provider.updateState();
                                               },
                                             ),
                                           ),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.symmetric(
+                                          //       horizontal: 4),
+                                          //   child: CustomTextIconButton(
+                                          //     mainAxisAlignment:
+                                          //         MainAxisAlignment.center,
+                                          //     width: MediaQuery.of(context)
+                                          //             .size
+                                          //             .width *
+                                          //         // 0.08,
+                                          //         0.06,
+                                          //     isLoading: false,
+                                          //     icon: Icon(Icons.delete_outlined,
+                                          //         color: AppTheme.of(context)
+                                          //             .primaryBackground),
+                                          //     text: 'Delete',
+                                          //     style: AppTheme.of(context)
+                                          //         .contenidoTablas
+                                          //         .override(
+                                          //           fontFamily:
+                                          //               'Gotham-Regular',
+                                          //           useGoogleFonts: false,
+                                          //           color: AppTheme.of(context)
+                                          //               .primaryBackground,
+                                          //         ),
+                                          //     color: AppTheme.of(context)
+                                          //         .odePrimary,
+                                          //     onTap: () async {
+                                          //       await provider.selectCircuit(
+                                          //           rendererContext.cell.value);
+                                          //       // if (!mounted) return;
+                                          //       await showDialog(
+                                          //           context: context,
+                                          //           builder:
+                                          //               (BuildContext context) {
+                                          //             return const DeleteCIrcuitPopUp();
+                                          //           });
+                                          //     },
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                     );

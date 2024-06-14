@@ -297,6 +297,9 @@ const String routeInventory = '/inventory';
 const String routeJobCompleteTechni = '/job_complete_technicians';
 const String routemaintenanceDashboard = '/maintenanceDashboard';
 
+// USER
+const String routeUserProfile = '/user_profile';
+
 // JSA
 const String routeJSADochument = '/jsa_document_list';
 const String routeJSADashboard = '/jsa_dashboards';
@@ -356,6 +359,8 @@ const String mapCoverage = '/gigfast_network/map_coverage';
 const String routeCircuits = '/gigfast_network/circuits';
 const String routeCircuitSelected =
     '/gigfast_network/circuits/detailed_circuit';
+const String routeAddedCircuit = '/gigfast_network/circuits/Circuit_add';
+const String routeEditingCircuit = '/gigfast_network/circuits/Circuit_editing';
 
 // Call Center
 const String ecommerceRTA = '/call_center/ecommerceRTA';

@@ -485,7 +485,16 @@ class CircuitsProvider extends ChangeNotifier {
   // Función para eliminar un vehiculo
   Future<bool> deleteCircuit(int id) async {
     try {
+      // Primero eliminamos el comentario
+      await supabaseDashboard
+          .from('circuit_comments')
+          .delete()
+          .match({'id_circuit': id});
+
+      // Luego eliminamos el circuito
       await supabaseDashboard.from('rta_circuits').delete().match({'id': id});
+
+      notifyListeners();
       return true;
     } catch (e) {
       log('Error in deleteCircuit() - $e');

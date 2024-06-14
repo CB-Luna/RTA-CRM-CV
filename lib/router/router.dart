@@ -15,8 +15,10 @@ import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_fmt_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/add_circuit_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/circuits_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/detailed_circuit_desktop.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/edit_circuit_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
 import 'package:rta_crm_cv/pages/jsa/download_apk/download_apk_jsa_page.dart';
@@ -34,7 +36,7 @@ import 'package:rta_crm_cv/pages/crm/quotes/create_quote.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/detail_quote.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/quotes_page.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/validate_quote.dart';
-import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
+import 'package:rta_crm_cv/pages/users_page/user_profile/user_profile.dart';
 import 'package:rta_crm_cv/providers/users_provider.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document_client.dart';
@@ -316,6 +318,17 @@ final GoRouter router = GoRouter(
       },
       pageBuilder: (context, state) =>
           pageTransition(context, state, const QuotesPage()),
+    ),
+    // User
+
+    GoRoute(
+      path: routeUserProfile,
+      name: 'User',
+      builder: (BuildContext context, GoRouterState state) {
+        return const UserProfileDesktop();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const UserProfileDesktop()),
     ),
 
     GoRoute(
@@ -997,6 +1010,26 @@ final GoRouter router = GoRouter(
         // if (state.extra == null) return const CircuitsPageDesktop();
         // return ReportedIssues(vehicle: state.extra as Vehicle);
         return const DetailedCircuitsPageDesktop();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeAddedCircuit,
+      name: 'circuitadded',
+      builder: (BuildContext context, GoRouterState state) {
+        // if (state.extra == null) return const CircuitsPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const CircuitsAddDesktop();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeEditingCircuit,
+      name: 'circuitediting',
+      builder: (BuildContext context, GoRouterState state) {
+        // if (state.extra == null) return const CircuitsPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const CircuitsEditDesktop();
       },
       // (context, state, const DetailsPopUp()),
     ),
