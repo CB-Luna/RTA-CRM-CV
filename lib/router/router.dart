@@ -19,6 +19,7 @@ import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/add_circuit_desktop.
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/circuits_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/detailed_circuit_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/edit_circuit_desktop.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/map_circuits_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
 import 'package:rta_crm_cv/pages/jsa/download_apk/download_apk_jsa_page.dart';
@@ -1024,14 +1025,21 @@ final GoRouter router = GoRouter(
       // (context, state, const DetailsPopUp()),
     ),
     GoRoute(
-      path: routeEditingCircuit,
-      name: 'circuitediting',
+        path: routeEditingCircuit,
+        name: 'circuitediting',
+        builder: (BuildContext context, GoRouterState state) {
+          // if (state.extra == null) return const CircuitsPageDesktop();
+          // return ReportedIssues(vehicle: state.extra as Vehicle);
+          return const CircuitsEditDesktop();
+        }),
+    GoRoute(
+      path: mapCircuits,
+      name: 'Map Circuit',
       builder: (BuildContext context, GoRouterState state) {
         // if (state.extra == null) return const CircuitsPageDesktop();
         // return ReportedIssues(vehicle: state.extra as Vehicle);
-        return const CircuitsEditDesktop();
+        return const MapCircuitsPageDesktop();
       },
-      // (context, state, const DetailsPopUp()),
     ),
     ////////Call Center
     GoRoute(

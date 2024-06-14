@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdfx/pdfx.dart' as pdfx;
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:pluto_grid_export/pluto_grid_export.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/comments.dart';
@@ -22,7 +21,6 @@ class CircuitsProvider extends ChangeNotifier {
   int page = 1;
   PlutoGridStateManager? stateManager;
   List<PlutoRow> rows = [];
-
   // Individual
   Circuits? circuitSelected;
   pdfx.PdfController? finalPdfController;
@@ -173,7 +171,7 @@ class CircuitsProvider extends ChangeNotifier {
     );
 
     // Muestra el diálogo de impresión para guardar o imprimir el PDF
-    await Printing.layoutPdf(
+    await pluto_grid_export.Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async => pdf.save(),
     );
   }
