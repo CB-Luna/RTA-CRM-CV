@@ -1,8 +1,4 @@
-// ignore_for_file: unrelated_type_equality_checks, await_only_futures, unnecessary_null_comparison
-
 import 'package:flutter/material.dart';
-// import 'package:mapbox_search/colors/color.dart';
-// import 'package:mapbox_search/mapbox_search.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
@@ -13,11 +9,6 @@ import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import '../../../public/colors.dart';
-// import 'package:flutter_map/flutter_map.dart';
-// import 'package:latlong2/latlong.dart';
-// import 'dart:html' as html;
-// import 'dart:ui' as ui;
-// import 'package:webview_flutter/webview_flutter.dart';
 
 class DetailedCircuitsPageDesktop extends StatefulWidget {
   const DetailedCircuitsPageDesktop({super.key});
@@ -918,13 +909,7 @@ class _DetailedCircuitsPageDesktopState
                           ),
                         ),
                       ),
-                      // Container(
-                      //   height: 500,
-                      //   width: 500,
-                      //   color: Colors.red,
-                      //   child: HtmlElementView(viewType: 'mapbox-view-type'),
-                      // ),
-
+                      
                       // GoogleMap(
                       //   onMapCreated: _onMapCreated,
                       //   initialCameraPosition: CameraPosition(

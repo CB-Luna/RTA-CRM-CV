@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
+import 'package:rta_crm_cv/providers/dashboard_rta/map_circuits_provider.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_training_provider.dart';
 import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -76,6 +77,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => JsaTrainingProvider()),
         ChangeNotifierProvider(create: (context) => JsaTrainingListProvider()),
         ChangeNotifierProvider(create: (context) => CircuitsProvider()),
+        ChangeNotifierProvider(create: (context) => MapCircuitsProvider()),
       ],
       child: const MyApp(),
     ),
