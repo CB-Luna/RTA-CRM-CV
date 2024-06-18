@@ -13,6 +13,7 @@ import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field_circuit.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
@@ -125,6 +126,22 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(Icons.arrow_back_outlined,
+                                  color:
+                                      AppTheme.of(context).primaryBackground),
+                              text: '',
+                              onTap: () async {
+                                // context.pop();
+                                context.pushReplacement(routeCircuits);
+                              },
+                            ),
+                          ],
+                        ),
                         SizedBox(
                           height:
                               MediaQuery.of(context).size.height / cardHeight +
@@ -159,7 +176,7 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                               child: CustomTextFieldCircuit(
                                                 key: const Key('PPCID'),
                                                 required: true,
-                                                enabled: true,
+                                                enabled: false, // true
                                                 width: txfFieldWidth,
                                                 controller:
                                                     provider.pccidController,
@@ -171,13 +188,6 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                                   FilteringTextInputFormatter
                                                       .digitsOnly,
                                                 ],
-                                                // validator: (value) {
-                                                //   if (value == null ||
-                                                //       value.isEmpty) {
-                                                //     return 'Please enter some text';
-                                                //   }
-                                                //   return null;
-                                                // },
                                               ),
                                             ),
                                           ],
@@ -188,7 +198,7 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                           child: CustomTextFieldCircuit(
                                             key: const Key('rta_customer'),
                                             required: true,
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller:
                                                 provider.rtaCustomerController,
@@ -204,64 +214,125 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                             // },
                                           ),
                                         ),
+                                        // Padding(
+                                        //   padding:
+                                        //       const EdgeInsets.only(bottom: 10),
+                                        //   child: CustomTextFieldCircuit(
+                                        //     key: const Key('cktStatus'),
+                                        //     required: true,
+                                        //     enabled: true,
+                                        //     width: txfFieldWidth,
+                                        //     controller:
+                                        //         provider.cktStatusController,
+                                        //     label: 'CKTStatus',
+                                        //     icon: Icons
+                                        //         .settings_input_component_outlined,
+                                        //     keyboardType: TextInputType.text,
+                                        //     // validator: (value) {
+                                        //     //   if (value == null ||
+                                        //     //       value.isEmpty) {
+                                        //     //     return 'Please enter some text';
+                                        //     //   }
+                                        //     //   return null;
+                                        //     // },
+                                        //   ),
+                                        // ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextFieldCircuit(
-                                            key: const Key('cktStatus'),
-                                            required: true,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: CustomDDownMenu(
                                             enabled: true,
+                                            list: provider.statusList,
+                                            dropdownValue:
+                                                provider.statusSelectedValue,
+                                            onChanged: (p0) {
+                                              /* if (provider.idVendor == null) {
+                                                    if (p0 != null) provider.selectVendor(p0);
+                                                  } */
+                                              //if (p0 != null) provider.selectVendor(p0);
+                                            },
                                             width: txfFieldWidth,
-                                            controller:
-                                                provider.cktStatusController,
-                                            label: 'CKTStatus',
                                             icon: Icons
                                                 .settings_input_component_outlined,
-                                            keyboardType: TextInputType.text,
-                                            // validator: (value) {
-                                            //   if (value == null ||
-                                            //       value.isEmpty) {
-                                            //     return 'Please enter some text';
-                                            //   }
-                                            //   return null;
-                                            // },
+                                            label: 'Circuit Status',
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextFieldCircuit(
-                                            key: const Key('geMap'),
-                                            required: true,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: CustomDDownMenu(
                                             enabled: true,
+                                            list: provider.geMapList,
+                                            dropdownValue:
+                                                provider.geMapSelectedValue,
+                                            onChanged: (p0) {
+                                              /* if (provider.idVendor == null) {
+                                                    if (p0 != null) provider.selectVendor(p0);
+                                                  } */
+                                              //if (p0 != null) provider.selectVendor(p0);
+                                            },
                                             width: txfFieldWidth,
-                                            controller:
-                                                provider.geMapController,
-                                            label: 'GeMap',
                                             icon: Icons.map_outlined,
-                                            keyboardType: TextInputType.text,
+                                            label: 'GeMap',
                                           ),
                                         ),
+                                        // Padding(
+                                        //   padding:
+                                        //       const EdgeInsets.only(bottom: 10),
+                                        //   child: CustomTextFieldCircuit(
+                                        //     key: const Key('geMap'),
+                                        //     required: true,
+                                        //     enabled: true,
+                                        //     width: txfFieldWidth,
+                                        //     controller:
+                                        //         provider.geMapController,
+                                        //     label: 'GeMap',
+                                        //     icon: Icons.map_outlined,
+                                        //     keyboardType: TextInputType.text,
+                                        //   ),
+                                        // ),
+                                        // Padding(
+                                        //   padding:
+                                        //       const EdgeInsets.only(bottom: 10),
+                                        //   child: CustomTextFieldCircuit(
+                                        //     key: const Key('Carrier'),
+                                        //     required: true,
+                                        //     enabled: true,
+                                        //     width: txfFieldWidth,
+                                        //     controller:
+                                        //         provider.carrierController,
+                                        //     label: 'Carrier',
+                                        //     icon: Icons.smartphone_outlined,
+                                        //     keyboardType: TextInputType.text,
+                                        //     // validator: (value) {
+                                        //     //   if (value == null ||
+                                        //     //       value.isEmpty) {
+                                        //     //     return 'Please enter some text';
+                                        //     //   }
+                                        //     //   return null;
+                                        //     // },
+                                        //   ),
+                                        // ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextFieldCircuit(
-                                            key: const Key('Carrier'),
-                                            required: true,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: CustomDDownMenu(
                                             enabled: true,
+                                            list: provider.vendorsList
+                                                .map((vendor) =>
+                                                    vendor.vendorName!)
+                                                .toList(),
+                                            dropdownValue:
+                                                provider.carrierSelectedValue,
+                                            onChanged: (p0) {
+                                              /* if (provider.idVendor == null) {
+                                                    if (p0 != null) provider.selectVendor(p0);
+                                                  } */
+                                              //if (p0 != null) provider.selectVendor(p0);
+                                            },
                                             width: txfFieldWidth,
-                                            controller:
-                                                provider.carrierController,
+                                            icon: Icons.location_city_outlined,
                                             label: 'Carrier',
-                                            icon: Icons.smartphone_outlined,
-                                            keyboardType: TextInputType.text,
-                                            // validator: (value) {
-                                            //   if (value == null ||
-                                            //       value.isEmpty) {
-                                            //     return 'Please enter some text';
-                                            //   }
-                                            //   return null;
-                                            // },
                                           ),
                                         ),
                                         Padding(
@@ -303,49 +374,93 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: CustomTextIconButton(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.1,
-                                              isLoading: false,
-                                              icon: Icon(Icons.save_outlined,
-                                                  color: AppTheme.of(context)
-                                                      .primaryBackground),
-                                              text: 'Save Circuit',
-                                              onTap: () async {
-                                                if (!formKey.currentState!
-                                                    .validate()) {
-                                                  return;
-                                                }
-                                                // await provider.uploadImage();
-                                                // //Crear perfil de usuario
-                                                bool res = await provider
-                                                    .createCircuit();
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: CustomTextIconButton(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.1,
+                                                isLoading: false,
+                                                icon: Icon(Icons.save_outlined,
+                                                    color: AppTheme.of(context)
+                                                        .primaryBackground),
+                                                text: 'Update Circuit',
+                                                onTap: () async {
+                                                  if (!formKey.currentState!
+                                                      .validate()) {
+                                                    return;
+                                                  }
+                                                  // await provider.uploadImage();
+                                                  // //Crear perfil de usuario
+                                                  bool res = await provider
+                                                      .updateCircuit();
 
-                                                if (!res) {
-                                                  await ApiErrorHandler.callToast(
-                                                      'Error at create Circuit');
-                                                  return;
-                                                }
+                                                  if (!res) {
+                                                    await ApiErrorHandler.callToast(
+                                                        'Error at Update Circuit');
+                                                    return;
+                                                  }
 
-                                                if (!mounted) return;
-                                                fToast.showToast(
-                                                  child: const SuccessToast(
-                                                    message:
-                                                        'Circuit Added Succesfuly',
-                                                  ),
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  toastDuration: const Duration(
-                                                      seconds: 2),
-                                                );
-                                                context.pushReplacement(
-                                                    routeCircuits);
-                                              }),
-                                        )
+                                                  if (!mounted) return;
+                                                  fToast.showToast(
+                                                    child: const SuccessToast(
+                                                      message:
+                                                          'Circuit Updated Succesfuly',
+                                                    ),
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    toastDuration:
+                                                        const Duration(
+                                                            seconds: 2),
+                                                  );
+
+                                                  if (context.canPop())
+                                                    context.pop();
+                                                })
+                                            //  CustomTextIconButton(
+                                            //     mainAxisAlignment:
+                                            //         MainAxisAlignment.center,
+                                            //     width: MediaQuery.of(context)
+                                            //             .size
+                                            //             .width *
+                                            //         0.1,
+                                            //     isLoading: false,
+                                            //     icon: Icon(Icons.save_outlined,
+                                            //         color: AppTheme.of(context)
+                                            //             .primaryBackground),
+                                            //     text: 'Save Circuit',
+                                            //     onTap: () async {
+                                            //       if (!formKey.currentState!
+                                            //           .validate()) {
+                                            //         return;
+                                            //       }
+                                            //       // await provider.uploadImage();
+                                            //       // //Crear perfil de usuario
+                                            //       bool res = await provider
+                                            //           .createCircuit();
+
+                                            //       if (!res) {
+                                            //         await ApiErrorHandler.callToast(
+                                            //             'Error at create Circuit');
+                                            //         return;
+                                            //       }
+
+                                            //       if (!mounted) return;
+                                            //       fToast.showToast(
+                                            //         child: const SuccessToast(
+                                            //           message:
+                                            //               'Circuit Added Succesfuly',
+                                            //         ),
+                                            //         gravity: ToastGravity.BOTTOM,
+                                            //         toastDuration: const Duration(
+                                            //             seconds: 2),
+                                            //       );
+                                            //       context.pushReplacement(
+                                            //           routeCircuits);
+                                            //     }),
+                                            )
                                       ],
                                     ),
                                   ),
@@ -587,6 +702,28 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                                           TextInputType.text,
                                                     ),
                                                   ),
+                                                  // Los Handoff no quedan
+                                                  // Padding(
+                                                  //   padding:
+                                                  //       const EdgeInsets.only(
+                                                  //           bottom: 10),
+                                                  //   child: CustomDDownMenuUser(
+                                                  //     width: txfFieldWidth,
+                                                  //     enabled: true,
+                                                  //     list: provider.handoffList
+                                                  //         .map((location) =>
+                                                  //             location.name!)
+                                                  //         .toList(),
+                                                  //     dropdownValue: provider
+                                                  //         .handoffSelectedValue,
+                                                  //     onChanged: (p0) {
+                                                  //       //if (p0 != null) provider.selectHandoff(p0);
+                                                  //     },
+                                                  //     icon: Icons
+                                                  //         .waving_hand_outlined,
+                                                  //     label: 'Handoff',
+                                                  //   ),
+                                                  // ),
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.only(

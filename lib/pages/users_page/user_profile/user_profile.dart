@@ -566,7 +566,7 @@ class _UserProfileDesktopState extends State<UserProfileDesktop> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.2,
+                                                0.25,
                                             width: txfFieldWidth,
                                             child: ListView.builder(
                                               scrollDirection: Axis.vertical,
@@ -726,7 +726,7 @@ class _UserProfileDesktopState extends State<UserProfileDesktop> {
                                     // ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
+                                          vertical: 5),
                                       child: CustomDDownMenuUser(
                                         hint: 'Choose a status*',
                                         label: 'Status',

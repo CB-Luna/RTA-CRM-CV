@@ -10,8 +10,12 @@ import 'package:pdf/pdf.dart';
 import 'package:pdfx/pdfx.dart' as pdfx;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20generic_cat.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/comments.dart';
+import 'package:rta_crm_cv/models/dashboard_rta/towers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pluto_grid_export/pluto_grid_export.dart' as pluto_grid_export;
@@ -23,6 +27,11 @@ class CircuitsProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
   // Individual
   Circuits? circuitSelected;
+  String carrierSelectedValue = '';
+  late String circuitTypeSelectedValue;
+  String handoffSelectedValue = "";
+  String statusSelectedValue = "";
+  String geMapSelectedValue = "";
   pdfx.PdfController? finalPdfController;
   Uint8List? documento;
   final date = DateTime.now();
@@ -35,6 +44,17 @@ class CircuitsProvider extends ChangeNotifier {
   };
   // Listas
   List<Circuits> listCircuits = [];
+  List<TowerRta> listTowers = [];
+  List<Vendor> vendorsList = []; //Vendor(vendorName: 'ATT')
+  List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
+  List<GenericCat> handoffList = [GenericCat(name: 'New')];
+  List<String> statusList = [
+    "Active",
+    "Installing",
+    "Disconnected ",
+    "Deactivated"
+  ];
+  List<String> geMapList = ["Yes", "No"];
 
   // Controladores
   final searchController = TextEditingController();
@@ -83,35 +103,6 @@ class CircuitsProvider extends ChangeNotifier {
 
   final commentsController = TextEditingController();
 
-  // void exportToPDF(PlutoGridStateManager stateManager) async {
-  //   // Genera el documento PDF
-  //   final pdf = pw.Document();
-
-  //   // Obtiene la lista de columnas y filas del PlutoGrid
-  //   final columns = stateManager.columns;
-  //   final rows = stateManager.rows;
-
-  //   // Crea una tabla en el PDF
-  //   pdf.addPage(
-  //     pw.Page(
-  //       build: (context) {
-  //         return pw.Table.fromTextArray(
-  //           headers: columns.map((col) => col.title).toList(),
-  //           data: rows.map((row) {
-  //             return row.cells.values
-  //                 .map((cell) => cell.value.toString())
-  //                 .toList();
-  //           }).toList(),
-  //         );
-  //       },
-  //     ),
-  //   );
-
-  //   // Muestra el diálogo de impresión para guardar o imprimir el PDF
-  //   await Printing.layoutPdf(
-  //     onLayout: (PdfPageFormat format) async => pdf.save(),
-  //   );
-  // }
   void exportToPDF() async {
     // Genera el documento PDF
     final pdf = pw.Document();
@@ -176,29 +167,6 @@ class CircuitsProvider extends ChangeNotifier {
     );
   }
 
-  // void exportToPdf() async {
-  //   final themeData = pluto_grid_export.ThemeData.withFont(
-  //     base: pluto_grid_export.Font.ttf(
-  //       await rootBundle.load('fonts/open_sans/OpenSans-Regular.ttf'),
-  //     ),
-  //     bold: pluto_grid_export.Font.ttf(
-  //       await rootBundle.load('fonts/open_sans/OpenSans-Bold.ttf'),
-  //     ),
-  //   );
-
-  //   var plutoGridPdfExport = pluto_grid_export.PlutoGridDefaultPdfExport(
-  //     title: "Pluto Grid Sample pdf print",
-  //     creator: "Pluto Grid Rocks!",
-  //     format: pluto_grid_export.PdfPageFormat.a4.landscape,
-  //     themeData: themeData,
-  //   );
-
-  //   await pluto_grid_export.Printing.sharePdf(
-  //     bytes: await plutoGridPdfExport.export(stateManager!),
-  //     filename: plutoGridPdfExport.getFilename(),
-  //   );
-  // }
-
   void setPageSize(String x) {
     switch (x) {
       case 'more':
@@ -236,17 +204,16 @@ class CircuitsProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
-    rows.clear();
     await setIndex(0);
+    rows.clear();
 
     await getCircuits();
   }
 
   List<bool> indexSelected = [
-    true, // Order Info
-    false, // Order Info 2
-    false, // APOPS
-    false, // BPOPS
+    true, // Circuits
+    false, // Towers
+    false, // Others
   ];
 
   Future setIndex(int index, {bool notify = true}) async {
@@ -255,10 +222,19 @@ class CircuitsProvider extends ChangeNotifier {
     }
     indexSelected[index] = true;
 
-    // notifyListeners();
-    if (notify) notifyListeners();
+    switch (index) {
+      case 0:
+        await getCircuits(); // Circuits
+        break;
+      case 1:
+        await getTowers(); // Towers
+        break;
+      case 2:
+        await getCircuits(); // Others
+        break;
+    }
 
-    // if (stateManager != null) stateManager!.notifyListeners();
+    notifyListeners();
   }
 
   // final commentController = TextEditingController();
@@ -356,6 +332,7 @@ class CircuitsProvider extends ChangeNotifier {
 
   // Traer los circuitos
   Future<void> getCircuits() async {
+    rows.clear();
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
@@ -364,19 +341,7 @@ class CircuitsProvider extends ChangeNotifier {
       final query = await supabase.rpc('search_circuits', params: {
         'busqueda': searchController.text,
       });
-      print("getCircuits");
-      // El problema es la función
-      // final query = supabaseDashboard
-      //     .from('circuits_view')
-      //     .select()
-      //     // .or(
-      //     //     'rta_customer.ilike.%${searchController.text}%,pccid.ilike.%${searchController.text}%,ckttype.ilike.%${searchController.text}%,carrier.ilike.%${searchController.text}%)');
-
-      //     .like('rta_customer | pccid', '%${searchController.text}%');
-
       final res = await query;
-      // final res = await supabaseDashboard.from('circuits_view').select();
-
       listCircuits = (res as List<dynamic>)
           .map((vehicles) => Circuits.fromJson(jsonEncode(vehicles)))
           .toList();
@@ -407,6 +372,48 @@ class CircuitsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Función para traer la información de la torre
+  Future<void> getTowers() async {
+    rows.clear();
+    if (stateManager != null) {
+      stateManager!.setShowLoading(true);
+      notifyListeners();
+    }
+    try {
+      // final query = await supabase.rpc('search_circuits', params: {
+      //   'busqueda': searchController.text,
+      // });
+      final res = await supabaseDashboard.from("rta_towers").select();
+      listTowers = (res as List<dynamic>)
+          .map((tower) => TowerRta.fromJson(jsonEncode(tower)))
+          .toList();
+
+      for (TowerRta towers in listTowers) {
+        // rows.clear();
+        rows.add(
+          PlutoRow(
+            cells: {
+              "company_id_Column": PlutoCell(value: towers.companyId),
+              "name_Column": PlutoCell(value: towers.name),
+              "type_Column": PlutoCell(value: towers.type),
+              "address_Column": PlutoCell(value: towers.address),
+              "make_Column": PlutoCell(value: towers.make),
+              "model_Column": PlutoCell(value: towers.model),
+              "use_Column": PlutoCell(value: towers.use),
+              "users_Column": PlutoCell(value: towers.numbCustomerServed),
+              "actions": PlutoCell(value: towers.id),
+            },
+          ),
+        );
+      }
+
+      if (stateManager != null) stateManager!.notifyListeners();
+    } catch (e) {
+      log('Error en getCircuits() - $e');
+    }
+    notifyListeners();
+  }
+
   Future<void> selectCircuit(int id) async {
     try {
       final res =
@@ -416,9 +423,6 @@ class CircuitsProvider extends ChangeNotifier {
           .map((circuit) => Circuits.fromJson(jsonEncode(circuit)))
           .toList();
       circuitSelected = circuitss.first;
-
-      print(
-          "circuitSelected en el selectCircuit: ${circuitSelected?.rtaCustomer}");
       notifyListeners();
     } catch (e) {
       print("Error in selectCircuit - $e");
@@ -426,59 +430,57 @@ class CircuitsProvider extends ChangeNotifier {
   }
 
   // Agarrar info supabase del circuito seleccionado
-  Future<void> editCircuit(int id) async {
-    try {
-      final res =
-          await supabaseDashboard.from("rta_circuits").select().eq('id', id);
-      List<Circuits> circuitss = [];
-      circuitss = (res as List<dynamic>)
-          .map((circuit) => Circuits.fromJson(jsonEncode(circuit)))
-          .toList();
-      circuitSelected = circuitss.first;
+  // Future<void> editCircuit(int id) async {
+  //   try {
+  //     final res =
+  //         await supabaseDashboard.from("rta_circuits").select().eq('id', id);
+  //     List<Circuits> circuitss = [];
+  //     circuitss = (res as List<dynamic>)
+  //         .map((circuit) => Circuits.fromJson(jsonEncode(circuit)))
+  //         .toList();
+  //     circuitSelected = circuitss.first;
+  //     pccidController.text = circuitSelected?.pccid.toString() ?? "-";
+  //     rtaCustomerController.text =
+  //         circuitSelected?.rtaCustomer.toString() ?? "-";
+  //     cktStatusController.text = circuitSelected?.cktstatus ?? "-";
+  //     geMapController.text = circuitSelected?.gemap ?? "-";
+  //     carrierController.text = circuitSelected?.carrier ?? "-";
+  //     cktTypeController.text = circuitSelected?.cktid ?? "-";
+  //     cktUseController.text = circuitSelected?.cktuse ?? "-";
+  //     cktIDController.text = circuitSelected?.cktid ?? "-";
+  //     evcController.text = circuitSelected?.evc ?? "-";
+  //     caracctnumController.text = circuitSelected?.caracctnum ?? "-";
+  //     carcontIDController.text = circuitSelected?.carcontid?.toString() ?? "-";
 
-      print(circuitSelected?.rtaCustomer);
-      pccidController.text = circuitSelected?.pccid.toString() ?? "-";
-      rtaCustomerController.text =
-          circuitSelected?.rtaCustomer.toString() ?? "-";
-      cktStatusController.text = circuitSelected?.cktstatus ?? "-";
-      geMapController.text = circuitSelected?.gemap ?? "-";
-      carrierController.text = circuitSelected?.carrier ?? "-";
-      cktTypeController.text = circuitSelected?.cktid ?? "-";
-      cktUseController.text = circuitSelected?.cktuse ?? "-";
-      cktIDController.text = circuitSelected?.cktid ?? "-";
-      evcController.text = circuitSelected?.evc ?? "-";
-      caracctnumController.text = circuitSelected?.caracctnum ?? "-";
-      carcontIDController.text = circuitSelected?.carcontid?.toString() ?? "-";
+  //     contexpController.text =
+  //         DateFormat("MM/dd/yyyy").format(circuitSelected!.contexp!);
+  //     contLengthController.text = circuitSelected?.contlength.toString() ?? "-";
+  //     streetController.text = circuitSelected?.street ?? "-";
+  //     cityController.text = circuitSelected?.city ?? "-";
+  //     stateController.text = circuitSelected?.state ?? "-";
+  //     zipController.text = circuitSelected?.zip?.toString() ?? "-";
+  //     latitudeController.text = circuitSelected?.latitude ?? "-";
+  //     longitudeController.text = circuitSelected?.longitude ?? "-";
+  //     cirController.text = circuitSelected?.cir?.toString() ?? "-";
+  //     portController.text = circuitSelected?.port?.toString() ?? "-";
+  //     handoffController.text = circuitSelected?.handoff ?? "-";
+  //     apopStreetController.text = circuitSelected?.apopstreet ?? "-";
+  //     apopCityController.text = circuitSelected?.apopcity ?? "-";
+  //     apopStateController.text = circuitSelected?.apopzip.toString() ?? "-";
+  //     apopZipController.text = circuitSelected?.apopzip.toString() ?? "-";
 
-      contexpController.text =
-          DateFormat("MM/dd/yyyy").format(circuitSelected!.contexp!);
-      contLengthController.text = circuitSelected?.contlength.toString() ?? "-";
-      streetController.text = circuitSelected?.street ?? "-";
-      cityController.text = circuitSelected?.city ?? "-";
-      stateController.text = circuitSelected?.state ?? "-";
-      zipController.text = circuitSelected?.zip?.toString() ?? "-";
-      latitudeController.text = circuitSelected?.latitude ?? "-";
-      longitudeController.text = circuitSelected?.longitude ?? "-";
-      cirController.text = circuitSelected?.cir?.toString() ?? "-";
-      portController.text = circuitSelected?.port?.toString() ?? "-";
-      handoffController.text = circuitSelected?.handoff ?? "-";
-      apopStreetController.text = circuitSelected?.apopstreet ?? "-";
-      apopCityController.text = circuitSelected?.apopcity ?? "-";
-      apopStateController.text = circuitSelected?.apopzip.toString() ?? "-";
-      apopZipController.text = circuitSelected?.apopzip.toString() ?? "-";
-
-      apopLatitudeController.text = circuitSelected?.apoplat ?? "-";
-      apopLongitudeController.text = circuitSelected?.apoplong ?? "-";
-      bpopStreetController.text = circuitSelected?.bpopstreet ?? "-";
-      bpopCityController.text = circuitSelected?.bpopcity ?? "-";
-      bpopStateController.text = circuitSelected?.bpopstate ?? "-";
-      bpopZipController.text = circuitSelected?.bpopzip.toString() ?? "-";
-      bpopLatitudeController.text = circuitSelected?.bpoplat ?? "-";
-      bpopLongitudeController.text = circuitSelected?.bpoplong ?? "-";
-    } catch (e) {
-      print("Error in EditCircuit - $e");
-    }
-  }
+  //     apopLatitudeController.text = circuitSelected?.apoplat ?? "-";
+  //     apopLongitudeController.text = circuitSelected?.apoplong ?? "-";
+  //     bpopStreetController.text = circuitSelected?.bpopstreet ?? "-";
+  //     bpopCityController.text = circuitSelected?.bpopcity ?? "-";
+  //     bpopStateController.text = circuitSelected?.bpopstate ?? "-";
+  //     bpopZipController.text = circuitSelected?.bpopzip.toString() ?? "-";
+  //     bpopLatitudeController.text = circuitSelected?.bpoplat ?? "-";
+  //     bpopLongitudeController.text = circuitSelected?.bpoplong ?? "-";
+  //   } catch (e) {
+  //     print("Error in EditCircuit - $e");
+  //   }
+  // }
 
   // Función para eliminar un vehiculo
   Future<bool> deleteCircuit(int id) async {
@@ -506,9 +508,12 @@ class CircuitsProvider extends ChangeNotifier {
       await supabaseDashboard.from('rta_circuits').update({
         "pccid": pccidController.text,
         "rta_customer": rtaCustomerController.text,
-        'cktstatus': cktStatusController.text,
-        "gemap": geMapController.text,
-        "carrier": carrierController.text,
+        // 'cktstatus': cktStatusController.text,
+        "cktstatus": statusSelectedValue,
+        // "gemap": geMapController.text,
+        "gemap": geMapSelectedValue,
+        // "carrier": carrierController.text,
+        "carrier": carrierSelectedValue,
         "ckttype": cktTypeController.text,
         "cktuse": cktUseController.text,
         "cktid": cktTypeController.text,
@@ -556,7 +561,7 @@ class CircuitsProvider extends ChangeNotifier {
       cktStatusController.text = circuitSelected?.cktstatus ?? "-";
       geMapController.text = circuitSelected?.gemap ?? "-";
       carrierController.text = circuitSelected?.carrier ?? "-";
-      cktTypeController.text = circuitSelected?.cktid ?? "-";
+      cktTypeController.text = circuitSelected?.ckttype ?? "-";
       cktUseController.text = circuitSelected?.cktuse ?? "-";
       cktIDController.text = circuitSelected?.cktid ?? "-";
       evcController.text = circuitSelected?.evc ?? "-";
@@ -589,6 +594,11 @@ class CircuitsProvider extends ChangeNotifier {
       bpopLatitudeController.text = circuitSelected?.bpoplat ?? "-";
       bpopLongitudeController.text = circuitSelected?.bpoplong ?? "-";
       // commentsController.text = circuitSelected!.notes!;
+      carrierSelectedValue = circuitSelected?.carrier ?? '';
+      handoffSelectedValue = circuitSelected?.handoff ?? '';
+      statusSelectedValue = circuitSelected?.cktstatus ?? '';
+      geMapSelectedValue = circuitSelected?.gemap ?? "";
+      notifyListeners();
     } catch (e) {
       print('Error en getInformationTraining() - $e');
     }
@@ -683,6 +693,46 @@ class CircuitsProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       print('Error in createCircuit() - $e');
+      return false;
+    }
+  }
+
+  //  Vendor = Carrier
+  Future<bool> getCatalog() async {
+    try {
+      // Carrier
+      dynamic response =
+          await supabaseCRM.from('cat_vendors').select().eq('visible', true);
+      vendorsList.clear();
+      vendorsList = (response as List<dynamic>)
+          .map((index) => Vendor.fromJson(jsonEncode(index)))
+          .toList();
+
+      // carrierSelectedValue = vendorsList.first.vendorName!;
+      // Use
+      response = await supabaseCRM
+          .from('cat_circuit_types')
+          .select()
+          .eq('visible', true);
+      circuitTypeList.clear();
+      circuitTypeList = (response as List<dynamic>)
+          .map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index)))
+          .toList();
+      circuitTypeSelectedValue = circuitTypeList.first.name!;
+      // HandOfff
+      response =
+          await supabaseCRM.from('cat_handoffs').select().eq('visible', true);
+      handoffList.clear();
+      handoffList = (response as List<dynamic>)
+          .map((index) => GenericCat.fromRawJson(jsonEncode(index)))
+          .toList();
+
+      // handoffSelectedValue = handoffList.first.name!;
+      // Status
+      notifyListeners();
+      return true;
+    } catch (e) {
+      log("Error in getCatalog -$e");
       return false;
     }
   }
