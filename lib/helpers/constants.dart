@@ -64,6 +64,9 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfigDashboard(
 double rowHeight = 60;
 double rowHeightJSA = 45;
 
+double markerSizeExpaned = 55.0;
+double markerSizeShrinked = 30.0;
+
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
   return AppTheme.themeMode == ThemeMode.light
       ? PlutoGridStyleConfig(

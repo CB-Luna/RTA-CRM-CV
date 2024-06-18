@@ -3,15 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 // import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
 
 class MapCircuitsProvider extends ChangeNotifier {
-
   // PlutoGridStateManager? stateManager;
   List<Marker> markers = [];
+  Circuits? circuitSelected;
+  int? indexSelected;
   List<List<LatLng>> linesApops = [];
   List<List<LatLng>> linesBpops = [];
 
@@ -32,6 +34,7 @@ class MapCircuitsProvider extends ChangeNotifier {
 
   // Controladores
   final searchController = TextEditingController();
+  final pageController = PageController();
 
 
   Future<void> updateState() async {
@@ -61,7 +64,9 @@ class MapCircuitsProvider extends ChangeNotifier {
           .map((vehicles) => Circuits.fromJson(jsonEncode(vehicles)))
           .toList();
 
-      for (Circuits circuit in listCircuits) {
+      for (var circuit in listCircuits) {
+        //Se guarda el index actual de Markers
+        final index = markers.length;
         List<LatLng> subLineApop = [];
         List<LatLng> subLineBpop = [];
         if (circuit.gemap == "Yes") {
@@ -72,15 +77,23 @@ class MapCircuitsProvider extends ChangeNotifier {
           subLineApop.add(point);
           markers.add(
             Marker(
-              height: 40,
-              width: 40,
+              height: markerSizeExpaned,
+              width: markerSizeExpaned,
               point: point, 
               builder: (_) {
                 return GestureDetector(
                   onTap: () {
+                    //Se salta hacia la información del marker que se presione
+                    circuitSelected = circuit;
+                    indexSelected = index;
+                    print("Circuit es: ${circuit.id}");
+                    pageController.jumpToPage(index);
                     print("Selected: ${circuit.carrier}, ${circuit.apopstreet}, ${circuit.apopcity}");
+                    notifyListeners();
                   },
-                  child: Image.asset("assets/images/icon.png"),
+                  child: LocationMarker(
+                    selected: indexSelected == index,
+                  ),
                 );
               }
             ),
@@ -126,4 +139,26 @@ class MapCircuitsProvider extends ChangeNotifier {
     linesBpops.clear();
   }
 
+}
+
+class LocationMarker extends StatelessWidget {
+  const LocationMarker({
+    super.key,
+    this.selected = false,
+  });
+
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = selected ? markerSizeExpaned : markerSizeShrinked;
+    return Center(
+      child: AnimatedContainer(
+        height: size,
+        width: size,
+        duration: const Duration(milliseconds: 400),
+        child: Image.asset("assets/images/icon.png"),
+      ),
+    );
+  }
 }
