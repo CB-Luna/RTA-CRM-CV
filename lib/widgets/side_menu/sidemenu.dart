@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
+import 'package:rta_crm_cv/providers/user_profile_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
@@ -35,6 +37,9 @@ class _SideMenuState extends State<SideMenu> {
   @override
   Widget build(BuildContext context) {
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
+    UserProfileProvider userProfileprovider =
+        Provider.of<UserProfileProvider>(context);
+
     provider.checkWindowSize(context);
 
     return Material(
@@ -211,11 +216,16 @@ class _SideMenuState extends State<SideMenu> {
                   SideMenuItemsList(isOpen: provider.isOpen),
                   const Spacer(),
                   Expanded(
-                    child: SideMenuFooter(
-                      isOpen: provider.isOpen,
-                      image: currentUser!.image ?? assets.avatar,
-                      text1: currentUser!.fullName,
-                      text2: currentUser!.currentRole.roleName,
+                    child: InkWell(
+                      onTap: () async {
+                        context.pushReplacement(routeUserProfile);
+                      },
+                      child: SideMenuFooter(
+                        isOpen: provider.isOpen,
+                        image: currentUser!.image ?? assets.avatar,
+                        text1: currentUser!.fullName,
+                        text2: currentUser!.currentRole.roleName,
+                      ),
                     ),
                   )
                 ],

@@ -1,27 +1,61 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdfx/pdfx.dart' as pdfx;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20generic_cat.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/comments.dart';
-import 'package:rta_crm_cv/public/colors.dart';
+import 'package:rta_crm_cv/models/dashboard_rta/towers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pluto_grid_export/pluto_grid_export.dart' as pluto_grid_export;
 
 class CircuitsProvider extends ChangeNotifier {
   int pageRowCount = 11;
   int page = 1;
   PlutoGridStateManager? stateManager;
   List<PlutoRow> rows = [];
-
   // Individual
   Circuits? circuitSelected;
+  String carrierSelectedValue = '';
+  String circuitTypeSelectedValue = "";
+  String handoffSelectedValue = "";
+  String statusSelectedValue = "";
+  String geMapSelectedValue = "";
+  pdfx.PdfController? finalPdfController;
+  Uint8List? documento;
+  final date = DateTime.now();
 
+  final borderStyle = const pw.BorderSide(width: 1);
+  final columnWidths = {
+    0: const pw.FlexColumnWidth(1), // Ancho flexible para la primera columna
+    1: const pw.FlexColumnWidth(1), // Ancho flexible para la segunda columna
+    2: const pw.FlexColumnWidth(1), // Ancho flexible para la tercera columna
+  };
   // Listas
   List<Circuits> listCircuits = [];
+  List<TowerRta> listTowers = [];
+  List<Vendor> vendorsList = []; //Vendor(vendorName: 'ATT')
+  List<CatCircuitTypes> circuitTypeList = []; //CatCircuitTypes(name: 'NNI')
+  List<GenericCat> handoffList = [GenericCat(name: 'New')];
+  List<String> statusList = [
+    "Active",
+    "Installing",
+    "Disconnected ",
+    "Deactivated"
+  ];
+  List<String> geMapList = ["Yes", "No"];
+  List<CommentCircuit> comments = [];
 
   // Controladores
   final searchController = TextEditingController();
@@ -67,7 +101,6 @@ class CircuitsProvider extends ChangeNotifier {
   final bpopZipController = TextEditingController();
   final bpopLatitudeController = TextEditingController();
   final bpopLongitudeController = TextEditingController();
-
   final commentsController = TextEditingController();
 
   void setPageSize(String x) {
@@ -107,17 +140,16 @@ class CircuitsProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
-    rows.clear();
     await setIndex(0);
+    rows.clear();
 
     await getCircuits();
   }
 
   List<bool> indexSelected = [
-    true, // Order Info
-    false, // Order Info 2
-    false, // APOPS
-    false, // BPOPS
+    true, // Circuits
+    false, // Towers
+    false, // Others
   ];
 
   Future setIndex(int index, {bool notify = true}) async {
@@ -126,14 +158,49 @@ class CircuitsProvider extends ChangeNotifier {
     }
     indexSelected[index] = true;
 
-    // notifyListeners();
-    if (notify) notifyListeners();
+    switch (index) {
+      case 0:
+        await getCircuits(); // Circuits
+        break;
+      case 1:
+        await getTowers(); // Towers
+        break;
+      case 2:
+        await getCircuits(); // Others
+        break;
+    }
 
-    // if (stateManager != null) stateManager!.notifyListeners();
+    notifyListeners();
   }
 
-  // final commentController = TextEditingController();
-  List<CommentCircuit> comments = [];
+  // Función para actualizar el carrier
+  void selectCarrier(String selected) {
+    carrierSelectedValue = selected;
+    notifyListeners();
+  }
+
+  // Función para actualizar el type
+  void selectedType(String selected) {
+    circuitTypeSelectedValue = selected;
+    notifyListeners();
+  }
+
+  // Función para actualizar el geMap
+  void selectGeMap(String selected) {
+    geMapSelectedValue = selected;
+    notifyListeners();
+  }
+
+  // Función para actualizar el status
+  void selectStatus(String selected) {
+    statusSelectedValue = selected;
+    notifyListeners();
+  }
+
+  // void selectLeadSource(String selected) {
+  //   selectLeadSourceValue = selected;
+  //   notifyListeners();
+  // }
 
   // Agregar Comentario en la detailedCircuit
   Future<void> addComment() async {
@@ -227,6 +294,7 @@ class CircuitsProvider extends ChangeNotifier {
 
   // Traer los circuitos
   Future<void> getCircuits() async {
+    rows.clear();
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
@@ -235,19 +303,7 @@ class CircuitsProvider extends ChangeNotifier {
       final query = await supabase.rpc('search_circuits', params: {
         'busqueda': searchController.text,
       });
-      print("getCircuits");
-      // El problema es la función
-      // final query = supabaseDashboard
-      //     .from('circuits_view')
-      //     .select()
-      //     // .or(
-      //     //     'rta_customer.ilike.%${searchController.text}%,pccid.ilike.%${searchController.text}%,ckttype.ilike.%${searchController.text}%,carrier.ilike.%${searchController.text}%)');
-
-      //     .like('rta_customer | pccid', '%${searchController.text}%');
-
       final res = await query;
-      // final res = await supabaseDashboard.from('circuits_view').select();
-
       listCircuits = (res as List<dynamic>)
           .map((vehicles) => Circuits.fromJson(jsonEncode(vehicles)))
           .toList();
@@ -278,6 +334,48 @@ class CircuitsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Función para traer la información de la torre
+  Future<void> getTowers() async {
+    rows.clear();
+    if (stateManager != null) {
+      stateManager!.setShowLoading(true);
+      notifyListeners();
+    }
+    try {
+      // final query = await supabase.rpc('search_circuits', params: {
+      //   'busqueda': searchController.text,
+      // });
+      final res = await supabaseDashboard.from("rta_towers").select();
+      listTowers = (res as List<dynamic>)
+          .map((tower) => TowerRta.fromJson(jsonEncode(tower)))
+          .toList();
+
+      for (TowerRta towers in listTowers) {
+        // rows.clear();
+        rows.add(
+          PlutoRow(
+            cells: {
+              "company_id_Column": PlutoCell(value: towers.companyId),
+              "name_Column": PlutoCell(value: towers.name),
+              "type_Column": PlutoCell(value: towers.type),
+              "address_Column": PlutoCell(value: towers.address),
+              "make_Column": PlutoCell(value: towers.make),
+              "model_Column": PlutoCell(value: towers.model),
+              "use_Column": PlutoCell(value: towers.use),
+              "users_Column": PlutoCell(value: towers.numbCustomerServed),
+              "actions": PlutoCell(value: towers.id),
+            },
+          ),
+        );
+      }
+
+      if (stateManager != null) stateManager!.notifyListeners();
+    } catch (e) {
+      log('Error en getCircuits() - $e');
+    }
+    notifyListeners();
+  }
+
   Future<void> selectCircuit(int id) async {
     try {
       final res =
@@ -287,74 +385,25 @@ class CircuitsProvider extends ChangeNotifier {
           .map((circuit) => Circuits.fromJson(jsonEncode(circuit)))
           .toList();
       circuitSelected = circuitss.first;
-
-      print(
-          "circuitSelected en el selectCircuit: ${circuitSelected?.rtaCustomer}");
       notifyListeners();
     } catch (e) {
       print("Error in selectCircuit - $e");
     }
   }
 
-  // Agarrar info supabase del circuito seleccionado
-  Future<void> editCircuit(int id) async {
-    try {
-      final res =
-          await supabaseDashboard.from("rta_circuits").select().eq('id', id);
-      List<Circuits> circuitss = [];
-      circuitss = (res as List<dynamic>)
-          .map((circuit) => Circuits.fromJson(jsonEncode(circuit)))
-          .toList();
-      circuitSelected = circuitss.first;
-
-      print(circuitSelected?.rtaCustomer);
-      pccidController.text = circuitSelected?.pccid.toString() ?? "-";
-      rtaCustomerController.text =
-          circuitSelected?.rtaCustomer.toString() ?? "-";
-      cktStatusController.text = circuitSelected?.cktstatus ?? "-";
-      geMapController.text = circuitSelected?.gemap ?? "-";
-      carrierController.text = circuitSelected?.carrier ?? "-";
-      cktTypeController.text = circuitSelected?.cktid ?? "-";
-      cktUseController.text = circuitSelected?.cktuse ?? "-";
-      cktIDController.text = circuitSelected?.cktid ?? "-";
-      evcController.text = circuitSelected?.evc ?? "-";
-      caracctnumController.text = circuitSelected?.caracctnum ?? "-";
-      carcontIDController.text = circuitSelected?.carcontid?.toString() ?? "-";
-
-      contexpController.text =
-          DateFormat("MM/dd/yyyy").format(circuitSelected!.contexp!);
-      contLengthController.text = circuitSelected?.contlength.toString() ?? "-";
-      streetController.text = circuitSelected?.street ?? "-";
-      cityController.text = circuitSelected?.city ?? "-";
-      stateController.text = circuitSelected?.state ?? "-";
-      zipController.text = circuitSelected?.zip?.toString() ?? "-";
-      latitudeController.text = circuitSelected?.latitude ?? "-";
-      longitudeController.text = circuitSelected?.longitude ?? "-";
-      cirController.text = circuitSelected?.cir?.toString() ?? "-";
-      portController.text = circuitSelected?.port?.toString() ?? "-";
-      handoffController.text = circuitSelected?.handoff ?? "-";
-      apopStreetController.text = circuitSelected?.apopstreet ?? "-";
-      apopCityController.text = circuitSelected?.apopcity ?? "-";
-      apopStateController.text = circuitSelected?.apopzip.toString() ?? "-";
-      apopZipController.text = circuitSelected?.apopzip.toString() ?? "-";
-
-      apopLatitudeController.text = circuitSelected?.apoplat ?? "-";
-      apopLongitudeController.text = circuitSelected?.apoplong ?? "-";
-      bpopStreetController.text = circuitSelected?.bpopstreet ?? "-";
-      bpopCityController.text = circuitSelected?.bpopcity ?? "-";
-      bpopStateController.text = circuitSelected?.bpopstate ?? "-";
-      bpopZipController.text = circuitSelected?.bpopzip.toString() ?? "-";
-      bpopLatitudeController.text = circuitSelected?.bpoplat ?? "-";
-      bpopLongitudeController.text = circuitSelected?.bpoplong ?? "-";
-    } catch (e) {
-      print("Error in EditCircuit - $e");
-    }
-  }
-
   // Función para eliminar un vehiculo
   Future<bool> deleteCircuit(int id) async {
     try {
+      // Primero eliminamos el comentario
+      await supabaseDashboard
+          .from('circuit_comments')
+          .delete()
+          .match({'id_circuit': id});
+
+      // Luego eliminamos el circuito
       await supabaseDashboard.from('rta_circuits').delete().match({'id': id});
+
+      notifyListeners();
       return true;
     } catch (e) {
       log('Error in deleteCircuit() - $e');
@@ -365,15 +414,20 @@ class CircuitsProvider extends ChangeNotifier {
   // Update Circuit
   Future<bool> updateCircuit() async {
     try {
+      print(
+          "Valores en carrrier: $carrierSelectedValue  en type: $circuitTypeSelectedValue");
       await supabaseDashboard.from('rta_circuits').update({
         "pccid": pccidController.text,
         "rta_customer": rtaCustomerController.text,
-        'cktstatus': cktStatusController.text,
-        "gemap": geMapController.text,
-        "carrier": carrierController.text,
-        "ckttype": cktTypeController.text,
+        // 'cktstatus': cktStatusController.text,
+        "cktstatus": statusSelectedValue,
+        // "gemap": geMapController.text,
+        "gemap": geMapSelectedValue,
+        // "carrier": carrierController.text,
+        "carrier": carrierSelectedValue,
+        "ckttype": circuitTypeSelectedValue,
         "cktuse": cktUseController.text,
-        "cktid": cktTypeController.text,
+        "cktid": cktIDController.text,
         "evc": evcController.text,
         "caracctnum": caracctnumController.text,
         "carcontid": carcontIDController.text,
@@ -418,13 +472,12 @@ class CircuitsProvider extends ChangeNotifier {
       cktStatusController.text = circuitSelected?.cktstatus ?? "-";
       geMapController.text = circuitSelected?.gemap ?? "-";
       carrierController.text = circuitSelected?.carrier ?? "-";
-      cktTypeController.text = circuitSelected?.cktid ?? "-";
+      cktTypeController.text = circuitSelected?.ckttype ?? "-";
       cktUseController.text = circuitSelected?.cktuse ?? "-";
       cktIDController.text = circuitSelected?.cktid ?? "-";
       evcController.text = circuitSelected?.evc ?? "-";
       caracctnumController.text = circuitSelected?.caracctnum ?? "-";
       carcontIDController.text = circuitSelected?.carcontid?.toString() ?? "-";
-
       contexpController.text =
           DateFormat("MM/dd/yyyy").format(circuitSelected!.contexp!);
       contLengthController.text = circuitSelected?.contlength.toString() ?? "-";
@@ -451,6 +504,12 @@ class CircuitsProvider extends ChangeNotifier {
       bpopLatitudeController.text = circuitSelected?.bpoplat ?? "-";
       bpopLongitudeController.text = circuitSelected?.bpoplong ?? "-";
       // commentsController.text = circuitSelected!.notes!;
+      carrierSelectedValue = circuitSelected?.carrier ?? '';
+      handoffSelectedValue = circuitSelected?.handoff ?? '';
+      statusSelectedValue = circuitSelected?.cktstatus ?? '';
+      geMapSelectedValue = circuitSelected?.gemap ?? "";
+      circuitTypeSelectedValue = circuitSelected?.ckttype ?? "";
+      notifyListeners();
     } catch (e) {
       print('Error en getInformationTraining() - $e');
     }
@@ -545,6 +604,45 @@ class CircuitsProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       print('Error in createCircuit() - $e');
+      return false;
+    }
+  }
+
+  //  Vendor = Carrier
+  Future<bool> getCatalog() async {
+    try {
+      // Carrier
+      dynamic response =
+          await supabaseCRM.from('cat_vendors').select().eq('visible', true);
+      vendorsList.clear();
+      vendorsList = (response as List<dynamic>)
+          .map((index) => Vendor.fromJson(jsonEncode(index)))
+          .toList();
+
+      // carrierSelectedValue = vendorsList.first.vendorName!;
+      // Use
+      response = await supabaseCRM
+          .from('cat_circuit_types')
+          .select()
+          .eq('visible', true);
+      circuitTypeList.clear();
+      circuitTypeList = (response as List<dynamic>)
+          .map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index)))
+          .toList();
+      // HandOfff
+      response =
+          await supabaseCRM.from('cat_handoffs').select().eq('visible', true);
+      handoffList.clear();
+      handoffList = (response as List<dynamic>)
+          .map((index) => GenericCat.fromRawJson(jsonEncode(index)))
+          .toList();
+
+      // handoffSelectedValue = handoffList.first.name!;
+      // Status
+      notifyListeners();
+      return true;
+    } catch (e) {
+      log("Error in getCatalog -$e");
       return false;
     }
   }
@@ -854,18 +952,6 @@ class CircuitsProvider extends ChangeNotifier {
         ];
         sheet.appendRow(row);
       }
-      //   var cell = sheet
-      //       .cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: i + 3));
-      //   cell.cellStyle = CellStyle(
-      //     backgroundColorHex: colorFinal, // Cambia el color aquí
-      //   );
-
-      //   var cellCO = sheet
-      //       .cell(CellIndex.indexByColumnRow(columnIndex: 23, rowIndex: i + 2));
-      //   var style = cellCO.cellStyle ?? CellStyle();
-      //   style.rightBorder.borderStyle;
-      //   cellCO.cellStyle = style;
-      // }
 
       //Descargar
       final List<int>? fileBytes = excel.save(fileName: "RTA_Circuits.xlsx");
@@ -880,5 +966,333 @@ class CircuitsProvider extends ChangeNotifier {
       print("Error in excelActivityReport -$e");
       return false;
     }
+  }
+
+  // Crear PDF
+  Future<pdfx.PdfController> clientPDF(BuildContext context,
+      List<PlutoColumn> columns, List<PlutoRow> rows) async {
+    finalPdfController = null;
+    // notifyListeners();
+    final logo = (await rootBundle.load('assets/images/rta_logo.png'))
+        .buffer
+        .asUint8List();
+
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4.landscape,
+        build: (pw.Context context) {
+          return pw.Table.fromTextArray(
+            headers: columns.map((column) => column.title).toList(),
+            data: rows
+                .map((row) => columns.map((column) {
+                      final cellValue = row.cells[column.field]?.value ?? '';
+                      return cellValue.toString();
+                    }).toList())
+                .toList(),
+          );
+        },
+      ),
+    );
+/*
+    pdf.addPage(
+      pw.Page(
+        build: (context) => pw.Column(
+          children: [
+            pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Container(
+                    alignment: pw.Alignment.topLeft,
+                    width: 250,
+                    height: 80,
+                    child: pw.Image(pw.MemoryImage(logo), fit: pw.BoxFit.fill),
+                  ),
+                  //Titulo
+                  pw.Column(children: [
+                    pw.Text(
+                      textAlign: pw.TextAlign.end,
+                      'JSA No._______________________',
+                      style: const pw.TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ]),
+                ]),
+
+            pw.SizedBox(height: 10),
+            // pw.Row(children: [
+            //   pw.Text('Company Name: ___${generalInfo!.company}___',
+            //       textAlign: pw.TextAlign.start),
+            //   pw.Text('Title:__${generalInfo.title}__')
+            // ]),
+            //Contenido
+            pw.SizedBox(height: 15),
+            pw.Container(
+              alignment: pw.Alignment.center,
+              child: pw.Table(
+                  border: pw.TableBorder(
+                    left: borderStyle,
+                    right: borderStyle,
+                    top: borderStyle,
+                    bottom: borderStyle,
+                    verticalInside: borderStyle,
+                    horizontalInside: borderStyle,
+                  ),
+                  columnWidths: columnWidths,
+                  children: [
+                    pw.TableRow(
+                        verticalAlignment: pw.TableCellVerticalAlignment.middle,
+                        children: [
+                          pw.Text('Job Steps',
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                fontSize: 15,
+                              )),
+                          pw.Text('Hazards',
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                fontSize: 15,
+                              )),
+                          pw.Text('Barriers or Controls',
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                fontSize: 15,
+                              ))
+                        ]),
+                    //Builder de los diferentes Steps
+                    //HACER CONSULTA DOBLE EN CUANTO A  LOS STEPS PARA RIESGOS Y CONTROL
+                  ]),
+            ),
+            // pw.ListView.builder(
+            //     itemBuilder: (context, index) {
+            //       return pw.Table(
+            //           border: pw.TableBorder(
+            //             left: borderStyle,
+            //             right: borderStyle,
+            //             top: borderStyle,
+            //             bottom: borderStyle,
+            //             verticalInside: borderStyle,
+            //             horizontalInside: borderStyle,
+            //           ),
+            //           columnWidths: columnWidths,
+            //           children: [
+            //             pw.TableRow(
+            //               children: [
+            //                 // pw.Text(
+            //                 //   generalInfo.jsaStepsJson![index].title,
+            //                 //   textAlign: pw.TextAlign.center,
+            //                 //   style: const pw.TextStyle(
+            //                 //     fontSize: 13,
+            //                 //   ),
+            //                 // ),
+            //                 // pw.Container(
+            //                 //   child: pw.Column(children: [
+            //                 //     pw.ListView.builder(
+            //                 //       itemCount: generalInfo
+            //                 //           .jsaStepsJson![index].risks.length,
+            //                 //       itemBuilder: (context, indexR) {
+            //                 //         print(
+            //                 //             "Riesgos: ${generalInfo.jsaStepsJson![index].risks[indexR].title}");
+            //                 //         return pw.Text(
+            //                 //           textAlign: pw.TextAlign.center,
+            //                 //           "${generalInfo.jsaStepsJson![index].risks[indexR].title}",
+            //                 //           style: const pw.TextStyle(
+            //                 //             fontSize: 11,
+            //                 //           ),
+            //                 //         );
+            //                 //       },
+            //                 //     ),
+            //                 //     pw.Text(
+            //                 //         '${generalInfo.jsaStepsJson![index].riskLevel}')
+            //                 //   ]),
+            //                 // ),
+            //                 // pw.Container(
+            //                 //   child: pw.Column(children: [
+            //                 //     pw.ListView.builder(
+            //                 //       itemCount: generalInfo
+            //                 //           .jsaStepsJson![index].controls.length,
+            //                 //       itemBuilder: (context, indexC) {
+            //                 //         return pw.Text(
+            //                 //           textAlign: pw.TextAlign.center,
+            //                 //           "${generalInfo.jsaStepsJson![index].controls[indexC].title}",
+            //                 //           style: const pw.TextStyle(
+            //                 //             fontSize: 11,
+            //                 //           ),
+            //                 //         );
+            //                 //       },
+            //                 //     ),
+            //                 //     pw.Text(
+            //                 //         '${generalInfo.jsaStepsJson![index].controlLevel}')
+            //                 //   ]),
+            //                 // ),
+            //               ],
+            //             )
+            //           ]);
+            //     },
+            //     itemCount: step),
+            pw.SizedBox(height: 15),
+            pw.Container(
+                child: pw.Table(
+                    border: pw.TableBorder(
+                      left: borderStyle,
+                      right: borderStyle,
+                      top: borderStyle,
+                      bottom: borderStyle,
+                      verticalInside: borderStyle,
+                      horizontalInside: borderStyle,
+                    ),
+                    children: [
+                  pw.TableRow(children: [
+                    pw.Center(
+                      child: pw.Text("Team Members",
+                          style: const pw.TextStyle(
+                            fontSize: 15,
+                          )),
+                    ),
+                    pw.Container(
+                      child: pw.Column(children: [
+                        // pw.ListView.builder(
+                        //   itemCount: generalInfo.teamMembers!.length,
+                        //   itemBuilder: (context, indexC) {
+                        //     return pw.Text(
+                        //       textAlign: pw.TextAlign.center,
+                        //       "${generalInfo.teamMembers![indexC].name}",
+                        //       style: const pw.TextStyle(
+                        //         fontSize: 11,
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
+                      ]),
+                    ),
+                  ]),
+                ])),
+            pw.SizedBox(height: 15),
+            pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text(
+                    'Prepared By:_____${currentUser!.name} ${currentUser!.lastName}________',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  pw.Text(
+                    'Date Approved:____${DateFormat("MMM/dd/yyyy").format(date)}_________',
+                    textAlign: pw.TextAlign.end,
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+
+            pw.SizedBox(height: 10),
+            pw.Text(
+              'Instructions:',
+              style: const pw.TextStyle(
+                fontSize: 15,
+                // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+              ),
+            ),
+            pw.SizedBox(height: 10),
+            pw.Column(children: [
+              pw.Row(children: [
+                pw.Text(
+                  '1. To be prepared by the supervisor most directly involved in the work.',
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+              pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Text(
+                  "2. Must be approved by preparer's management supervisor",
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+              pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Text(
+                  '3. Must be reviewed by all workers involved in the work.',
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+              pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Text(
+                  '4. Emergency plan must be considered',
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+              pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Text(
+                  '5. If the work plan changes and the JSA is amended, changes must be reviewed \nby all workers involved in the work',
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+            ]),
+            pw.SizedBox(height: 20),
+            pw.Expanded(
+              child: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.center,
+                  children: [
+                    pw.Column(children: [
+                      pw.Text(
+                        'Accepted and Agreed to by RTA:',
+                        style: const pw.TextStyle(
+                          fontSize: 13,
+                          // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                        ),
+                      ),
+                      // pw.Image(
+                      //   pw.MemoryImage(signature!),
+                      //   height: 58,
+                      //   width: 200,
+                      //   fit: pw.BoxFit.fill,
+                      //   alignment: pw.Alignment.center,
+                      // ),
+                      pw.Text(
+                        '${currentUser!.name} ${currentUser!.lastName}, Employee',
+                        style: const pw.TextStyle(
+                          fontSize: 13,
+                          // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                        ),
+                      ),
+                    ]),
+                  ]),
+            )
+          ],
+        ),
+      ),
+    );
+    
+    */
+    pdf.save();
+    finalPdfController = pdfx.PdfController(
+      document: pdfx.PdfDocument.openData(pdf.save()),
+    );
+    documento = await pdf.save();
+
+    notifyListeners();
+
+    return finalPdfController!;
   }
 }
