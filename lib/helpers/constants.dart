@@ -21,6 +21,9 @@ String apiGatewayURL = "$enviromentDomain/wop_x2/api";
 String apiGatewayAirflowURL =
     "https://apps.cblsrv42.rtatel.com/wop_x2/api"; //TODO: Este no debe de existir en producción
 String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
+String mapboxAccessToken =
+    "pk.eyJ1IjoidXp6aWVscGFsbWE5OSIsImEiOiJja3hoeWxxaHUwYjVhMndvYzdkMW4wbTAzIn0.JGPo9_pMeml93PD7bELQRg";
+String mapboxStyle = "mapbox/light-v11";
 
 // final Uri urlFMTAPK = Uri.parse(
 //     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
@@ -37,6 +40,8 @@ String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
 // String apiGatewayAirflowURL =
 //     "https://apps.cblsrv41.rtatel.com/wop_x2/api"; //TODO: Este no debe de existir en producción
 // String powercodeURL = "https://apps.cblsrv41.rtatel.com/planbuilder/api";
+// String mapboxAccessToken = "pk.eyJ1IjoidXp6aWVscGFsbWE5OSIsImEiOiJja3hoeWxxaHUwYjVhMndvYzdkMW4wbTAzIn0.JGPo9_pMeml93PD7bELQRg";
+// String mapboxStyle = "mapbox/light-v11";
 
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   return PlutoGridScrollbarConfig(
@@ -59,6 +64,9 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfigDashboard(
 
 double rowHeight = 60;
 double rowHeightJSA = 45;
+
+double markerSizeExpaned = 55.0;
+double markerSizeShrinked = 30.0;
 
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
   return AppTheme.themeMode == ThemeMode.light
@@ -297,6 +305,9 @@ const String routeInventory = '/inventory';
 const String routeJobCompleteTechni = '/job_complete_technicians';
 const String routemaintenanceDashboard = '/maintenanceDashboard';
 
+// USER
+const String routeUserProfile = '/user_profile';
+
 // JSA
 const String routeJSADochument = '/jsa_document_list';
 const String routeJSADashboard = '/jsa_dashboards';
@@ -352,8 +363,17 @@ const String greenwoodFTTHDashboard = '/manager/greenwood_ftth_dashboard';
 const String monitoringDashboard = '/gigfast_network/monitoring_dashboard';
 const String mapCoverage = '/gigfast_network/map_coverage';
 // Circuits
+
 const String routeCircuits = '/gigfast_network/circuits';
-const String routeCircuitSelected = '/gigfast_network/circuits/2';
+const String routeCircuitSelected =
+    '/gigfast_network/circuits/detailed_circuit';
+const String routeAddedCircuit = '/gigfast_network/circuits/Circuit_add';
+const String routeEditingCircuit = '/gigfast_network/circuits/Circuit_editing';
+const String mapCircuits = '/gigfast_network/circuits/map_circuit';
+
+// Towers
+const String routeTowersSelected = '/gigfast_network/circuits/detailed_towers';
+const String routeEditingTowers = '/gigfast_network/circuits/editing_towers';
 
 // Call Center
 const String ecommerceRTA = '/call_center/ecommerceRTA';
