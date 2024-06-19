@@ -29,7 +29,7 @@ class TowerProvider extends ChangeNotifier {
   String leasedOwnerSelectedValue = "";
 
   //  Lists
-  List<String> leasedType = ["leased", "Owned", "Barter -t", "Barter"];
+  List<String> leasedType = ["Leased", "Owned", "Barter - t", "Barter"];
 
   // --------- FUNCTIONS -------------
 
@@ -99,7 +99,7 @@ class TowerProvider extends ChangeNotifier {
         "make": makeController.text,
         "model": modelController.text,
         "numb_customer_served": numbCustomerServedController.text,
-        "company_id": opcoController.text,
+        "company_id": towerSelected?.companyId,
         "frequency": frequencyController.text,
       }).eq("id", towerSelected!.id);
       return true;

@@ -6,8 +6,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/success_toast.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/tower_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field_circuit.dart';
@@ -255,16 +257,28 @@ class _EditTowersDesktopState extends State<EditTowersDesktop> {
                                                       .validate()) {
                                                     return;
                                                   }
-                                                  // await provider.uploadImage();
-                                                  // //Crear perfil de usuario
-                                                  // bool res = await provider
-                                                  //     .updateCircuit();
+                                                  //Crear perfil de usuario
+                                                  bool res = await provider
+                                                      .updateTowers();
 
-                                                  // if (!res) {
-                                                  //   await ApiErrorHandler.callToast(
-                                                  //       'Error at Update Circuit');
-                                                  //   return;
-                                                  // }
+                                                  if (!res) {
+                                                    await ApiErrorHandler.callToast(
+                                                        'Error at Update Circuit');
+                                                    return;
+                                                  }
+
+                                                  if (!mounted) return;
+                                                  fToast.showToast(
+                                                    child: const SuccessToast(
+                                                      message:
+                                                          'Tower Updated Succesfuly',
+                                                    ),
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    toastDuration:
+                                                        const Duration(
+                                                            seconds: 2),
+                                                  );
                                                 }))
                                       ],
                                     ),

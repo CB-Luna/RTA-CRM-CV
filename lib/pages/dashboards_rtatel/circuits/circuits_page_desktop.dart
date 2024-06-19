@@ -149,7 +149,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                             tabs: const [
                               Tab(text: 'Circuits'),
                               Tab(text: 'Towers'),
-                              Tab(text: 'Optical Fiber'),
+                              Tab(text: 'Data Center'),
                             ],
                           ),
                         ),
@@ -177,7 +177,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                         : provider.indexSelected[1]
                             ? "RTA Towers"
                             : provider.indexSelected[2]
-                                ? "RTA optical fiber"
+                                ? "RTA Data Center"
                                 : "",
                     child: Column(
                       children: [
