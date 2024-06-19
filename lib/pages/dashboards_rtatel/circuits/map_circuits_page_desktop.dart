@@ -219,8 +219,8 @@ class MapItemDetails extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.08,
               height: MediaQuery.of(context).size.width * 0.08,
               child: mapMarker?.carrier?.toLowerCase() != null ? 
-              Image.asset("assets/images/${mapMarker!.carrier!.toLowerCase()}.png") :
-              Image.asset("assets/images/icon.png")
+              Image.network("$supabaseUrl/storage/v1/object/public/assets/circuits/${mapMarker!.carrier!.toLowerCase()}.png") :
+              Image.network("$supabaseUrl/storage/v1/object/public/assets/circuits/icon.png")
             ),
           ),
           Text(

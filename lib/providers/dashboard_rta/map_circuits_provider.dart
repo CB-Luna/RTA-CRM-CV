@@ -160,7 +160,7 @@ class LocationMarker extends StatelessWidget {
         height: size,
         width: size,
         duration: const Duration(milliseconds: 400),
-        child: Image.asset("assets/images/$logo.png"),
+        child: Image.network("$supabaseUrl/storage/v1/object/public/assets/circuits/$logo.png"),
       ),
     );
   }
