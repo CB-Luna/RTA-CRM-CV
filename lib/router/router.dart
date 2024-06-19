@@ -20,6 +20,8 @@ import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/circuits_page_deskto
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/detailed_circuit_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/edit_circuit_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/map_circuits_page_desktop.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/towers/detailed_tower_desktop.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/towers/edit_tower_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
 import 'package:rta_crm_cv/pages/jsa/download_apk/download_apk_jsa_page.dart';
@@ -1039,6 +1041,26 @@ final GoRouter router = GoRouter(
         // if (state.extra == null) return const CircuitsPageDesktop();
         // return ReportedIssues(vehicle: state.extra as Vehicle);
         return const MapCircuitsPageDesktop();
+      },
+    ),
+
+    //////// Tower
+    GoRoute(
+      path: routeTowersSelected,
+      name: 'Tower Selected',
+      builder: (BuildContext context, GoRouterState state) {
+        // if (state.extra == null) return const CircuitsPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const TowersDesktop();
+      },
+    ),
+    GoRoute(
+      path: routeEditingTowers,
+      name: 'Tower Editing',
+      builder: (BuildContext context, GoRouterState state) {
+        // if (state.extra == null) return const CircuitsPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const EditTowersDesktop();
       },
     ),
     ////////Call Center

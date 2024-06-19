@@ -158,7 +158,7 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                     height: MediaQuery.of(context).size.height /
                                             cardHeight +
                                         // 127,
-                                        135,
+                                        138,
                                     width:
                                         MediaQuery.of(context).size.width / 5,
                                     title: 'Order Info',
@@ -249,7 +249,9 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                               /* if (provider.idVendor == null) {
                                                     if (p0 != null) provider.selectVendor(p0);
                                                   } */
-                                              //if (p0 != null) provider.selectVendor(p0);
+                                              if (p0 != null) {
+                                                provider.selectStatus(p0);
+                                              }
                                             },
                                             width: txfFieldWidth,
                                             icon: Icons
@@ -257,25 +259,7 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                             label: 'Circuit Status',
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: CustomDDownMenu(
-                                            enabled: true,
-                                            list: provider.geMapList,
-                                            dropdownValue:
-                                                provider.geMapSelectedValue,
-                                            onChanged: (p0) {
-                                              /* if (provider.idVendor == null) {
-                                                    if (p0 != null) provider.selectVendor(p0);
-                                                  } */
-                                              //if (p0 != null) provider.selectVendor(p0);
-                                            },
-                                            width: txfFieldWidth,
-                                            icon: Icons.map_outlined,
-                                            label: 'GeMap',
-                                          ),
-                                        ),
+
                                         // Padding(
                                         //   padding:
                                         //       const EdgeInsets.only(bottom: 10),
@@ -313,54 +297,87 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                         //     // },
                                         //   ),
                                         // ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                              child: CustomDDownMenu(
+                                                enabled: true,
+                                                list: provider.vendorsList
+                                                    .map((vendor) =>
+                                                        vendor.vendorName!)
+                                                    .toList(),
+                                                dropdownValue: provider
+                                                    .carrierSelectedValue,
+                                                onChanged: (p0) {
+                                                  /* if (provider.idVendor == null) {
+                                                        if (p0 != null) provider.selectVendor(p0);
+                                                      } */
+                                                  if (p0 != null) {
+                                                    provider.selectCarrier(p0);
+                                                  }
+                                                },
+                                                width: txfFieldWidth,
+                                                icon: Icons
+                                                    .location_city_outlined,
+                                                label: 'Carrier',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                              child: CustomDDownMenu(
+                                                enabled: true,
+                                                list: provider.geMapList,
+                                                dropdownValue:
+                                                    provider.geMapSelectedValue,
+                                                onChanged: (p0) {
+                                                  /* if (provider.idVendor == null) {
+                                                    if (p0 != null) provider.selectVendor(p0);
+                                                  } */
+                                                  if (p0 != null) {
+                                                    provider.selectGeMap(p0);
+                                                  }
+                                                },
+                                                width: txfFieldWidth - 50,
+                                                icon: Icons.map_outlined,
+                                                label: 'GeMap',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
+                                              vertical: 5),
                                           child: CustomDDownMenu(
                                             enabled: true,
-                                            list: provider.vendorsList
-                                                .map((vendor) =>
-                                                    vendor.vendorName!)
+                                            list: provider.circuitTypeList
+                                                .map((circuitType) =>
+                                                    circuitType.name!)
                                                 .toList(),
-                                            dropdownValue:
-                                                provider.carrierSelectedValue,
+                                            dropdownValue: provider
+                                                .circuitTypeSelectedValue,
                                             onChanged: (p0) {
                                               /* if (provider.idVendor == null) {
                                                     if (p0 != null) provider.selectVendor(p0);
                                                   } */
-                                              //if (p0 != null) provider.selectVendor(p0);
+                                              if (p0 != null) {
+                                                provider.selectedType(p0);
+                                              }
                                             },
                                             width: txfFieldWidth,
                                             icon: Icons.location_city_outlined,
-                                            label: 'Carrier',
+                                            label: 'Circuit Type',
                                           ),
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextFieldCircuit(
-                                            key: const Key('cktType'),
-                                            required: true,
-                                            enabled: true,
-                                            width: txfFieldWidth,
-                                            controller:
-                                                provider.cktTypeController,
-                                            label: 'CKTType',
-                                            icon: Icons
-                                                .settings_input_hdmi_outlined,
-                                            keyboardType: TextInputType.text,
-                                            // validator: (value) {
-                                            //   if (value == null ||
-                                            //       value.isEmpty) {
-                                            //     return 'Please enter some text';
-                                            //   }
-                                            //   return null;
-                                            // },
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
+                                              const EdgeInsets.only(bottom: 5),
                                           child: CustomTextFieldCircuit(
                                             key: const Key('cktUse'),
                                             required: true,

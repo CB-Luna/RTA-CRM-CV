@@ -6,6 +6,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
+import 'package:rta_crm_cv/providers/dashboard_rta/tower_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -41,75 +42,9 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    // SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
     CircuitsProvider provider = Provider.of<CircuitsProvider>(context);
+    TowerProvider towerProvider = Provider.of<TowerProvider>(context);
 
-    // List<String> titulos = [
-    //   "pccid",
-    //   "rta_customers",
-    //   "cktid",
-    //   "street",
-    //   "cktcity"
-    // ];
-
-    // final List<PlutoColumn> columns;
-    // final List<PlutoRow> rows;
-    // columns = titulos.map((title) {
-    //   return PlutoColumn(
-    //     title: title,
-    //     field: title,
-    //     type: PlutoColumnType.text(),
-    //   );
-    // }).toList();
-    // rows = List.generate(provider.listCircuits.length, (index) {
-    //   print("Lista circuit: ${provider.listCircuits.length}");
-    //   return PlutoRow(
-    //     cells: {
-    //       // "pccid": PlutoCell(value: 'pccid $index'),
-    //       // "rta_customers": PlutoCell(value: 'rta_customers $index'),
-    //       // "cktid": PlutoCell(value: 'cktid $index'),
-    //       // "street": PlutoCell(value: 'street $index'),
-    //       // "cktcity": PlutoCell(value: 'cktcity $index'),
-    //       "pccid": PlutoCell(value: provider.listCircuits[index].pccid),
-    //       "rta_customers":
-    //           PlutoCell(value: provider.listCircuits[index].rtaCustomer),
-    //       "cktid": PlutoCell(value: provider.listCircuits[index].cktid),
-    //       "street": PlutoCell(value: provider.listCircuits[index].street),
-    //       "cktcity": PlutoCell(value: provider.listCircuits[index].city),
-    //     },
-    //   );
-    // });
-    // final List<PlutoColumn> columns = List.generate(4, (index) {
-    //   return PlutoColumn(
-    //     // title: 'Column $index',
-    //     // field: 'column$index',
-    //     title: titulos[index],
-    //     field: titulos[index],
-    //     type: PlutoColumnType.text(),
-    //   );
-    // });
-
-    // // final List<Map<String, dynamic>> data = List.generate(100, (index) {
-    // final List<Map<String, dynamic>> data =
-    //     List.generate(provider.listCircuits.length, (index) {
-    //   return Map.fromIterable(
-    //     List.generate(4, (i) => i),
-    //     // key: (i) => 'column$i',
-    //     key: (i) => '${titulos[i]}',
-    //     value: (i) => 'Row $index Column $i',
-    //   );
-    // });
-
-    // final List<PlutoRow> rows = [];
-
-    // for (var item in data) {
-    //   rows.add(
-    //     PlutoRow(
-    //       cells:
-    //           item.map((key, value) => MapEntry(key, PlutoCell(value: value))),
-    //     ),
-    //   );
-    // }
     return Material(
         child: SizedBox(
       height: MediaQuery.of(context).size.height,
@@ -214,7 +149,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                             tabs: const [
                               Tab(text: 'Circuits'),
                               Tab(text: 'Towers'),
-                              Tab(text: 'Connection'),
+                              Tab(text: 'Optical Fiber'),
                             ],
                           ),
                         ),
@@ -242,7 +177,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                         : provider.indexSelected[1]
                             ? "RTA Towers"
                             : provider.indexSelected[2]
-                                ? "RTA Fiber"
+                                ? "RTA optical fiber"
                                 : "",
                     child: Column(
                       children: [
@@ -1307,7 +1242,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     backgroundColor: const Color(0XFF6491F7),
                                     titleSpan: TextSpan(children: [
                                       WidgetSpan(
-                                          child: Icon(Icons.router_outlined,
+                                          child: Icon(Icons.apartment_outlined,
                                               color: AppTheme.of(context)
                                                   .primaryBackground)),
                                       const WidgetSpan(
@@ -1373,7 +1308,8 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     backgroundColor: const Color(0XFF6491F7),
                                     titleSpan: TextSpan(children: [
                                       WidgetSpan(
-                                          child: Icon(Icons.router_outlined,
+                                          child: Icon(
+                                              Icons.account_circle_outlined,
                                               color: AppTheme.of(context)
                                                   .primaryBackground)),
                                       const WidgetSpan(
@@ -1478,7 +1414,9 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     backgroundColor: const Color(0XFF6491F7),
                                     titleSpan: TextSpan(children: [
                                       WidgetSpan(
-                                          child: Icon(Icons.router_outlined,
+                                          child: Icon(
+                                              Icons
+                                                  .format_align_justify_outlined,
                                               color: AppTheme.of(context)
                                                   .primaryBackground)),
                                       const WidgetSpan(
@@ -1524,7 +1462,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     backgroundColor: const Color(0XFF6491F7),
                                     titleSpan: TextSpan(children: [
                                       WidgetSpan(
-                                          child: Icon(Icons.router_outlined,
+                                          child: Icon(Icons.signpost_outlined,
                                               color: AppTheme.of(context)
                                                   .primaryBackground)),
                                       const WidgetSpan(
@@ -1571,7 +1509,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     backgroundColor: const Color(0XFF6491F7),
                                     titleSpan: TextSpan(children: [
                                       WidgetSpan(
-                                          child: Icon(Icons.router_outlined,
+                                          child: Icon(Icons.tv_outlined,
                                               color: AppTheme.of(context)
                                                   .primaryBackground)),
                                       const WidgetSpan(
@@ -1584,8 +1522,8 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     width:
                                         // MediaQuery.of(context).size.width * 0.09,
                                         MediaQuery.of(context).size.width *
-                                            // 0.063,
-                                            0.075,
+                                            // 0.075,
+                                            0.1,
                                     cellPadding: EdgeInsets.zero,
                                     titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
@@ -1618,7 +1556,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     backgroundColor: const Color(0XFF6491F7),
                                     titleSpan: TextSpan(children: [
                                       WidgetSpan(
-                                          child: Icon(Icons.router_outlined,
+                                          child: Icon(Icons.cast_outlined,
                                               color: AppTheme.of(context)
                                                   .primaryBackground)),
                                       const WidgetSpan(
@@ -1629,10 +1567,10 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                               .encabezadoTablas)
                                     ]),
                                     width: MediaQuery.of(context).size.width *
-                                        0.12,
+                                        0.135,
                                     cellPadding: EdgeInsets.zero,
                                     titleTextAlign: PlutoColumnTextAlign.center,
-                                    textAlign: PlutoColumnTextAlign.center,
+                                    textAlign: PlutoColumnTextAlign.start,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
                                     renderer: (rendererContext) {
@@ -1703,25 +1641,25 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     },
                                   ),
                                   PlutoColumn(
-                                    title: '#_customer_serv',
+                                    title: '#_Cust_S',
                                     field: 'users_Column',
                                     backgroundColor: const Color(0XFF6491F7),
                                     titleSpan: TextSpan(children: [
                                       WidgetSpan(
-                                          child: Icon(Icons.router_outlined,
+                                          child: Icon(Icons.group_outlined,
                                               color: AppTheme.of(context)
                                                   .primaryBackground)),
                                       const WidgetSpan(
                                           child: SizedBox(width: 5)),
                                       TextSpan(
-                                          text: '#_customer_serv',
+                                          text: '#_Cust_S',
                                           style: AppTheme.of(context)
                                               .encabezadoTablas)
                                     ]),
                                     width:
                                         // MediaQuery.of(context).size.width * 0.09,
                                         MediaQuery.of(context).size.width *
-                                            0.14, //0.12
+                                            0.1, //0.14
                                     cellPadding: EdgeInsets.zero,
                                     titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
@@ -1820,14 +1758,13 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                                 color: AppTheme.of(context)
                                                     .primaryColor,
                                                 onTap: () async {
-                                                  await provider
-                                                      .getInformationCircuit(
+                                                  await towerProvider
+                                                      .getInformationTower(
                                                           rendererContext
                                                               .cell.value);
-                                                  provider.getComments();
                                                   if (!context.mounted) return;
                                                   context.pushReplacement(
-                                                      routeCircuitSelected,
+                                                      routeTowersSelected,
                                                       extra: rendererContext
                                                           .cell.value);
                                                 },
@@ -1867,13 +1804,14 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                                 onTap: () async {
                                                   // provider.editCircuit(
                                                   //     rendererContext.cell.value);
-                                                  provider
-                                                      .getInformationCircuit(
+
+                                                  await towerProvider
+                                                      .getInformationTower(
                                                           rendererContext
                                                               .cell.value);
                                                   provider.getCatalog();
                                                   context.pushReplacement(
-                                                      routeEditingCircuit);
+                                                      routeEditingTowers);
 
                                                   // if (!mounted) return;
                                                   // await showDialog(

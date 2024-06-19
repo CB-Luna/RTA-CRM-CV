@@ -28,7 +28,7 @@ class CircuitsProvider extends ChangeNotifier {
   // Individual
   Circuits? circuitSelected;
   String carrierSelectedValue = '';
-  late String circuitTypeSelectedValue;
+  String circuitTypeSelectedValue = "";
   String handoffSelectedValue = "";
   String statusSelectedValue = "";
   String geMapSelectedValue = "";
@@ -46,7 +46,7 @@ class CircuitsProvider extends ChangeNotifier {
   List<Circuits> listCircuits = [];
   List<TowerRta> listTowers = [];
   List<Vendor> vendorsList = []; //Vendor(vendorName: 'ATT')
-  List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
+  List<CatCircuitTypes> circuitTypeList = []; //CatCircuitTypes(name: 'NNI')
   List<GenericCat> handoffList = [GenericCat(name: 'New')];
   List<String> statusList = [
     "Active",
@@ -55,6 +55,7 @@ class CircuitsProvider extends ChangeNotifier {
     "Deactivated"
   ];
   List<String> geMapList = ["Yes", "No"];
+  List<CommentCircuit> comments = [];
 
   // Controladores
   final searchController = TextEditingController();
@@ -100,72 +101,7 @@ class CircuitsProvider extends ChangeNotifier {
   final bpopZipController = TextEditingController();
   final bpopLatitudeController = TextEditingController();
   final bpopLongitudeController = TextEditingController();
-
   final commentsController = TextEditingController();
-
-  void exportToPDF() async {
-    // Genera el documento PDF
-    final pdf = pw.Document();
-
-    // Crear tabla en el PDF
-    pdf.addPage(
-      pw.Page(
-        build: (context) {
-          return pw.Table.fromTextArray(
-            headers: [
-              'Columna1',
-              'Columna2',
-              'Columna3'
-            ], // Reemplazar con los nombres de las columnas
-            data: listCircuits.map((circuit) {
-              return [
-                circuit.pccid,
-                circuit.rtaCustomer,
-                circuit.cktstatus,
-                circuit.gemap,
-                circuit.carrier,
-                circuit.ckttype,
-                circuit.cktuse,
-                circuit.cktid,
-                circuit.evc,
-                circuit.caracctnum,
-                circuit.carcontid,
-                circuit.contexp,
-                circuit.contlength,
-                circuit.street,
-                circuit.city,
-                circuit.state,
-                circuit.zip,
-                circuit.latitude,
-                circuit.longitude,
-                circuit.cir,
-                circuit.port,
-                circuit.handoff,
-                circuit.apopstreet,
-                circuit.apopcity,
-                circuit.apopstate,
-                circuit.apopzip,
-                circuit.apoplat,
-                circuit.apoplong,
-                circuit.bpopstreet,
-                circuit.bpopcity,
-                circuit.bpopstate,
-                circuit.bpopzip,
-                circuit.bpoplat,
-                circuit.bpoplong,
-                circuit.notes,
-              ]; // Reemplazar con los nombres de los campos de Circuit
-            }).toList(),
-          );
-        },
-      ),
-    );
-
-    // Muestra el diálogo de impresión para guardar o imprimir el PDF
-    await pluto_grid_export.Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => pdf.save(),
-    );
-  }
 
   void setPageSize(String x) {
     switch (x) {
@@ -237,8 +173,34 @@ class CircuitsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // final commentController = TextEditingController();
-  List<CommentCircuit> comments = [];
+  // Función para actualizar el carrier
+  void selectCarrier(String selected) {
+    carrierSelectedValue = selected;
+    notifyListeners();
+  }
+
+  // Función para actualizar el type
+  void selectedType(String selected) {
+    circuitTypeSelectedValue = selected;
+    notifyListeners();
+  }
+
+  // Función para actualizar el geMap
+  void selectGeMap(String selected) {
+    geMapSelectedValue = selected;
+    notifyListeners();
+  }
+
+  // Función para actualizar el status
+  void selectStatus(String selected) {
+    statusSelectedValue = selected;
+    notifyListeners();
+  }
+
+  // void selectLeadSource(String selected) {
+  //   selectLeadSourceValue = selected;
+  //   notifyListeners();
+  // }
 
   // Agregar Comentario en la detailedCircuit
   Future<void> addComment() async {
@@ -429,59 +391,6 @@ class CircuitsProvider extends ChangeNotifier {
     }
   }
 
-  // Agarrar info supabase del circuito seleccionado
-  // Future<void> editCircuit(int id) async {
-  //   try {
-  //     final res =
-  //         await supabaseDashboard.from("rta_circuits").select().eq('id', id);
-  //     List<Circuits> circuitss = [];
-  //     circuitss = (res as List<dynamic>)
-  //         .map((circuit) => Circuits.fromJson(jsonEncode(circuit)))
-  //         .toList();
-  //     circuitSelected = circuitss.first;
-  //     pccidController.text = circuitSelected?.pccid.toString() ?? "-";
-  //     rtaCustomerController.text =
-  //         circuitSelected?.rtaCustomer.toString() ?? "-";
-  //     cktStatusController.text = circuitSelected?.cktstatus ?? "-";
-  //     geMapController.text = circuitSelected?.gemap ?? "-";
-  //     carrierController.text = circuitSelected?.carrier ?? "-";
-  //     cktTypeController.text = circuitSelected?.cktid ?? "-";
-  //     cktUseController.text = circuitSelected?.cktuse ?? "-";
-  //     cktIDController.text = circuitSelected?.cktid ?? "-";
-  //     evcController.text = circuitSelected?.evc ?? "-";
-  //     caracctnumController.text = circuitSelected?.caracctnum ?? "-";
-  //     carcontIDController.text = circuitSelected?.carcontid?.toString() ?? "-";
-
-  //     contexpController.text =
-  //         DateFormat("MM/dd/yyyy").format(circuitSelected!.contexp!);
-  //     contLengthController.text = circuitSelected?.contlength.toString() ?? "-";
-  //     streetController.text = circuitSelected?.street ?? "-";
-  //     cityController.text = circuitSelected?.city ?? "-";
-  //     stateController.text = circuitSelected?.state ?? "-";
-  //     zipController.text = circuitSelected?.zip?.toString() ?? "-";
-  //     latitudeController.text = circuitSelected?.latitude ?? "-";
-  //     longitudeController.text = circuitSelected?.longitude ?? "-";
-  //     cirController.text = circuitSelected?.cir?.toString() ?? "-";
-  //     portController.text = circuitSelected?.port?.toString() ?? "-";
-  //     handoffController.text = circuitSelected?.handoff ?? "-";
-  //     apopStreetController.text = circuitSelected?.apopstreet ?? "-";
-  //     apopCityController.text = circuitSelected?.apopcity ?? "-";
-  //     apopStateController.text = circuitSelected?.apopzip.toString() ?? "-";
-  //     apopZipController.text = circuitSelected?.apopzip.toString() ?? "-";
-
-  //     apopLatitudeController.text = circuitSelected?.apoplat ?? "-";
-  //     apopLongitudeController.text = circuitSelected?.apoplong ?? "-";
-  //     bpopStreetController.text = circuitSelected?.bpopstreet ?? "-";
-  //     bpopCityController.text = circuitSelected?.bpopcity ?? "-";
-  //     bpopStateController.text = circuitSelected?.bpopstate ?? "-";
-  //     bpopZipController.text = circuitSelected?.bpopzip.toString() ?? "-";
-  //     bpopLatitudeController.text = circuitSelected?.bpoplat ?? "-";
-  //     bpopLongitudeController.text = circuitSelected?.bpoplong ?? "-";
-  //   } catch (e) {
-  //     print("Error in EditCircuit - $e");
-  //   }
-  // }
-
   // Función para eliminar un vehiculo
   Future<bool> deleteCircuit(int id) async {
     try {
@@ -505,6 +414,8 @@ class CircuitsProvider extends ChangeNotifier {
   // Update Circuit
   Future<bool> updateCircuit() async {
     try {
+      print(
+          "Valores en carrrier: $carrierSelectedValue  en type: $circuitTypeSelectedValue");
       await supabaseDashboard.from('rta_circuits').update({
         "pccid": pccidController.text,
         "rta_customer": rtaCustomerController.text,
@@ -514,9 +425,9 @@ class CircuitsProvider extends ChangeNotifier {
         "gemap": geMapSelectedValue,
         // "carrier": carrierController.text,
         "carrier": carrierSelectedValue,
-        "ckttype": cktTypeController.text,
+        "ckttype": circuitTypeSelectedValue,
         "cktuse": cktUseController.text,
-        "cktid": cktTypeController.text,
+        "cktid": cktIDController.text,
         "evc": evcController.text,
         "caracctnum": caracctnumController.text,
         "carcontid": carcontIDController.text,
@@ -567,7 +478,6 @@ class CircuitsProvider extends ChangeNotifier {
       evcController.text = circuitSelected?.evc ?? "-";
       caracctnumController.text = circuitSelected?.caracctnum ?? "-";
       carcontIDController.text = circuitSelected?.carcontid?.toString() ?? "-";
-
       contexpController.text =
           DateFormat("MM/dd/yyyy").format(circuitSelected!.contexp!);
       contLengthController.text = circuitSelected?.contlength.toString() ?? "-";
@@ -598,6 +508,7 @@ class CircuitsProvider extends ChangeNotifier {
       handoffSelectedValue = circuitSelected?.handoff ?? '';
       statusSelectedValue = circuitSelected?.cktstatus ?? '';
       geMapSelectedValue = circuitSelected?.gemap ?? "";
+      circuitTypeSelectedValue = circuitSelected?.ckttype ?? "";
       notifyListeners();
     } catch (e) {
       print('Error en getInformationTraining() - $e');
@@ -718,7 +629,6 @@ class CircuitsProvider extends ChangeNotifier {
       circuitTypeList = (response as List<dynamic>)
           .map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index)))
           .toList();
-      circuitTypeSelectedValue = circuitTypeList.first.name!;
       // HandOfff
       response =
           await supabaseCRM.from('cat_handoffs').select().eq('visible', true);

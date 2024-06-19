@@ -21,7 +21,8 @@ String apiGatewayURL = "$enviromentDomain/wop_x2/api";
 String apiGatewayAirflowURL =
     "https://apps.cblsrv42.rtatel.com/wop_x2/api"; //TODO: Este no debe de existir en producción
 String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
-String mapboxAccessToken = "pk.eyJ1IjoidXp6aWVscGFsbWE5OSIsImEiOiJja3hoeWxxaHUwYjVhMndvYzdkMW4wbTAzIn0.JGPo9_pMeml93PD7bELQRg";
+String mapboxAccessToken =
+    "pk.eyJ1IjoidXp6aWVscGFsbWE5OSIsImEiOiJja3hoeWxxaHUwYjVhMndvYzdkMW4wbTAzIn0.JGPo9_pMeml93PD7bELQRg";
 String mapboxStyle = "mapbox/dark-v11";
 
 // final Uri urlFMTAPK = Uri.parse(
@@ -368,8 +369,11 @@ const String routeCircuitSelected =
     '/gigfast_network/circuits/detailed_circuit';
 const String routeAddedCircuit = '/gigfast_network/circuits/Circuit_add';
 const String routeEditingCircuit = '/gigfast_network/circuits/Circuit_editing';
-const String mapCircuits =
-    '/gigfast_network/circuits/map_circuit';
+const String mapCircuits = '/gigfast_network/circuits/map_circuit';
+
+// Towers
+const String routeTowersSelected = '/gigfast_network/circuits/detailed_towers';
+const String routeEditingTowers = '/gigfast_network/circuits/editing_towers';
 
 // Call Center
 const String ecommerceRTA = '/call_center/ecommerceRTA';
