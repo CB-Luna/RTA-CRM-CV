@@ -93,6 +93,7 @@ class MapCircuitsProvider extends ChangeNotifier {
                   },
                   child: LocationMarker(
                     selected: indexSelected == index,
+                    logo: circuit.carrier?.toLowerCase(),
                   ),
                 );
               }
@@ -144,10 +145,12 @@ class MapCircuitsProvider extends ChangeNotifier {
 class LocationMarker extends StatelessWidget {
   const LocationMarker({
     super.key,
-    this.selected = false,
+    this.selected = false, 
+    this.logo = "icon",
   });
 
   final bool selected;
+  final String? logo;
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +160,7 @@ class LocationMarker extends StatelessWidget {
         height: size,
         width: size,
         duration: const Duration(milliseconds: 400),
-        child: Image.asset("assets/images/icon.png"),
+        child: Image.asset("assets/images/$logo.png"),
       ),
     );
   }

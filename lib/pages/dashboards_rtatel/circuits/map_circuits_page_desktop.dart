@@ -160,10 +160,16 @@ class _MapCircuitsPageDesktopState
                               ],
                             ),
                             Positioned(
-                              left: 0,
-                              right: 0,
-                              bottom: 20,
-                              height: MediaQuery.of(context).size.height * 0.2,
+                              top: 20,
+                              right: 20,
+                              height: MediaQuery.of(context).size.height * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.15,
+                              // child: Container(
+                              //   color: Colors.red,
+                              //   child: Text(
+                              //     "Hola"
+                              //   ),
+                              // ),
                               child: PageView.builder(
                                 controller: provider.pageController,
                                 physics: const NeverScrollableScrollPhysics(),
@@ -207,66 +213,90 @@ class MapItemDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-              child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset("assets/images/icon.png"),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "${mapMarker?.street}, ${mapMarker?.zip}, ${mapMarker?.city}, ${mapMarker?.state}",
-                        style: AppTheme.of(context)
-                        .bodyText1
-                        .override(
-                          fontFamily: 'Gotham-Regular',
-                          useGoogleFonts: false,
-                          color: AppTheme.of(context)
-                              .primaryText,
-                        ),
-                      ),
-                      const SizedBox(height: 10,),
-                      Text(
-                        "Carrier: ${mapMarker?.carrier}",
-                        style: AppTheme.of(context)
-                        .subtitle2
-                        .override(
-                          fontFamily: 'Gotham-Regular',
-                          useGoogleFonts: false,
-                          color: AppTheme.of(context)
-                              .primaryColor,
-                        ),
-                      ),
-                    ],
-                  )
-                ),
-              ],
-                      ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.08,
+              height: MediaQuery.of(context).size.width * 0.08,
+              child: mapMarker?.carrier?.toLowerCase() != null ? 
+              Image.asset("assets/images/${mapMarker!.carrier!.toLowerCase()}.png") :
+              Image.asset("assets/images/icon.png")
             ),
-          CustomTextIconButton(
-            mainAxisAlignment: MainAxisAlignment.center,
-            width: MediaQuery.of(context).size.width,
-            isLoading: false,
-            icon: Icon(Icons.location_on_outlined,
-                color: AppTheme.of(context)
-                    .primaryBackground),
-            text: '[Latitude: ${mapMarker?.latitude}, Longitude: ${mapMarker?.longitude}]',
+          ),
+          Text(
+            "${mapMarker?.street}, ${mapMarker?.zip}",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
-            .contenidoTablas
+            .bodyText1
             .override(
               fontFamily: 'Gotham-Regular',
               useGoogleFonts: false,
               color: AppTheme.of(context)
-                  .primaryBackground,
+                  .primaryText,
             ),
-            onTap: () => null
+          ),
+          const SizedBox(height: 5,),
+          Text(
+            "${mapMarker?.city}, ${mapMarker?.state}",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.of(context)
+            .bodyText1
+            .override(
+              fontFamily: 'Gotham-Regular',
+              useGoogleFonts: false,
+              color: AppTheme.of(context)
+                  .primaryText,
             ),
+          ),
+          const SizedBox(height: 10,),
+          Text(
+            "Carrier: ${mapMarker?.carrier}",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.of(context)
+            .subtitle2
+            .override(
+              fontFamily: 'Gotham-Regular',
+              useGoogleFonts: false,
+              color: AppTheme.of(context)
+                  .primaryColor,
+            ),
+          ),
+          const SizedBox(height: 10,),
+          Icon(
+            Icons.location_on_outlined,
+            color: AppTheme.of(context)
+                .secondaryColor,
+            size: 40,
+          ),
+          Text(
+            "[Latitude: ${mapMarker?.latitude},",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.of(context)
+            .subtitle2
+            .override(
+              fontFamily: 'Gotham-Regular',
+              useGoogleFonts: false,
+              color: AppTheme.of(context)
+                  .secondaryColor,
+            ),
+          ),
+          Text(
+            "Longitude: ${mapMarker?.longitude}]",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.of(context)
+            .subtitle2
+            .override(
+              fontFamily: 'Gotham-Regular',
+              useGoogleFonts: false,
+              color: AppTheme.of(context)
+                  .secondaryColor,
+            ),
+          ),
           ]
         ),
       ),
