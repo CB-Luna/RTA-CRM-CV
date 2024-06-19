@@ -22,7 +22,7 @@ String apiGatewayAirflowURL =
     "https://apps.cblsrv42.rtatel.com/wop_x2/api"; //TODO: Este no debe de existir en producción
 String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
 String mapboxAccessToken = "pk.eyJ1IjoidXp6aWVscGFsbWE5OSIsImEiOiJja3hoeWxxaHUwYjVhMndvYzdkMW4wbTAzIn0.JGPo9_pMeml93PD7bELQRg";
-String mapboxStyle = "mapbox/dark-v11";
+String mapboxStyle = "mapbox/light-v11";
 
 // final Uri urlFMTAPK = Uri.parse(
 //     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
@@ -40,7 +40,7 @@ String mapboxStyle = "mapbox/dark-v11";
 //     "https://apps.cblsrv41.rtatel.com/wop_x2/api"; //TODO: Este no debe de existir en producción
 // String powercodeURL = "https://apps.cblsrv41.rtatel.com/planbuilder/api";
 // String mapboxAccessToken = "pk.eyJ1IjoidXp6aWVscGFsbWE5OSIsImEiOiJja3hoeWxxaHUwYjVhMndvYzdkMW4wbTAzIn0.JGPo9_pMeml93PD7bELQRg";
-// String mapboxStyle = "mapbox/dark-v11";
+// String mapboxStyle = "mapbox/light-v11";
 
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   return PlutoGridScrollbarConfig(

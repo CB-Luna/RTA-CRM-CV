@@ -362,6 +362,27 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                               //     ],
                               //   ),
                               // ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomTextIconButton(
+                                        isLoading: false,
+                                        icon: Icon(Icons.map_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
+                                        text: 'Maps',
+                                        onTap: () async {
+                                          if (!context.mounted) return;
+                                          context.pushReplacement(
+                                            mapCircuits,
+                                          );
+                                        }),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
