@@ -91,6 +91,81 @@ class _MapCircuitsPageDesktopState
                                     );
                                   }),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 30),
+                              child: CustomTextIconButton(
+                                  color: provider.circuitButton ? 
+                                  AppTheme.of(context).primaryColor
+                                  :
+                                  AppTheme.of(context).primaryColor.withOpacity(0.5),
+                                  isLoading: false,
+                                  icon: Icon(Icons.ssid_chart_outlined,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground),
+                                  text: 'Circuits',
+                                  style: AppTheme.of(context)
+                                  .contenidoTablas
+                                  .override(
+                                    fontFamily: 'Gotham-Regular',
+                                    useGoogleFonts: false,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                                  onTap: () {
+                                    provider.updateStatusButton(0);
+                                  }),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 30),
+                              child: CustomTextIconButton(
+                                  color: provider.towerButton ? 
+                                  AppTheme.of(context).primaryColor
+                                  :
+                                  AppTheme.of(context).primaryColor.withOpacity(0.5),
+                                  isLoading: false,
+                                  icon: Icon(Icons.cell_tower_outlined,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground),
+                                  text: 'Towers',
+                                  style: AppTheme.of(context)
+                                  .contenidoTablas
+                                  .override(
+                                    fontFamily: 'Gotham-Regular',
+                                    useGoogleFonts: false,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                                  onTap: () {
+                                    provider.updateStatusButton(1);
+                                  }),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 30),
+                              child: CustomTextIconButton(
+                                  color: provider.dataCenterButton ? 
+                                  AppTheme.of(context).primaryColor
+                                  :
+                                  AppTheme.of(context).primaryColor.withOpacity(0.5),
+                                  isLoading: false,
+                                  icon: Icon(Icons.apartment_outlined,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground),
+                                  text: 'Data Centers',
+                                  style: AppTheme.of(context)
+                                  .contenidoTablas
+                                  .override(
+                                    fontFamily: 'Gotham-Regular',
+                                    useGoogleFonts: false,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                                  onTap: () {
+                                    provider.updateStatusButton(2);
+                                  }),
+                            ),
                           ],
                         ),
                       ),
@@ -120,7 +195,8 @@ class _MapCircuitsPageDesktopState
                                   },
                                 ),
 
-                                //Lines Apops
+                                // Lines Apops
+                                if(provider.circuitButton)
                                 PolylineLayer(
                                   polylines: provider.linesApops.map((line) {
                                     return Polyline(
@@ -132,7 +208,8 @@ class _MapCircuitsPageDesktopState
                                   }).toList(),
                                 ),
 
-                                //Lines Bpops
+                                // Lines Bpops
+                                if(provider.circuitButton)
                                 PolylineLayer(
                                   polylines: provider.linesBpops.map((line) {
                                     return Polyline(
@@ -143,8 +220,14 @@ class _MapCircuitsPageDesktopState
                                   }).toList(),
                                 ),
 
+                                if(provider.circuitButton)
                                 MarkerLayer(
-                                  markers: provider.markers,
+                                  markers: provider.markersCircuits,
+                                ),
+
+                                if(provider.towerButton)
+                                MarkerLayer(
+                                  markers: provider.markersTowers,
                                 ),
 
 
@@ -224,7 +307,7 @@ class MapItemDetails extends StatelessWidget {
             ),
           ),
           Text(
-            "${mapMarker?.street}, ${mapMarker?.zip}",
+            "${mapMarker?.street ?? 'Street'}, ${mapMarker?.zip ?? 'Zipcode'}",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -238,7 +321,7 @@ class MapItemDetails extends StatelessWidget {
           ),
           const SizedBox(height: 5,),
           Text(
-            "${mapMarker?.city}, ${mapMarker?.state}",
+            "${mapMarker?.city ?? 'City'}, ${mapMarker?.state ?? 'State'}",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -252,7 +335,7 @@ class MapItemDetails extends StatelessWidget {
           ),
           const SizedBox(height: 10,),
           Text(
-            "Carrier: ${mapMarker?.carrier}",
+            "Carrier: ${mapMarker?.carrier ?? 'Not selected'}",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -272,7 +355,7 @@ class MapItemDetails extends StatelessWidget {
             size: 40,
           ),
           Text(
-            "[Latitude: ${mapMarker?.latitude},",
+            "[Latitude: ${mapMarker?.latitude ?? 'Unknown'},",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -285,7 +368,7 @@ class MapItemDetails extends StatelessWidget {
             ),
           ),
           Text(
-            "Longitude: ${mapMarker?.longitude}]",
+            "Longitude: ${mapMarker?.longitude ?? 'Unknown'}]",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
