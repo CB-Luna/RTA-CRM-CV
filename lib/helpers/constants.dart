@@ -364,7 +364,7 @@ const String monitoringDashboard = '/gigfast_network/monitoring_dashboard';
 const String mapCoverage = '/gigfast_network/map_coverage';
 // Circuits
 
-const String routeCircuits = '/gigfast_network/circuits';
+const String routeCircuits = '/gigfast_network/network_structure_rta';
 const String routeCircuitSelected =
     '/gigfast_network/circuits/detailed_circuit';
 const String routeAddedCircuit = '/gigfast_network/circuits/Circuit_add';

@@ -15,7 +15,7 @@ class TowerProvider extends ChangeNotifier {
   final longController = TextEditingController();
   final latController = TextEditingController();
   final frequencyController = TextEditingController();
-  // final cktTypeController = TextEditingController(); leased - owned
+  final cktTypeController = TextEditingController(); // leased - owned
   final lessorController = TextEditingController();
   final licensedController = TextEditingController();
   final useController = TextEditingController();
@@ -23,10 +23,12 @@ class TowerProvider extends ChangeNotifier {
   final modelController = TextEditingController();
   final numbCustomerServedController = TextEditingController();
 
+  // Controladores Export
+  final dateExportDataController = TextEditingController();
   // Individual
   TowerRta? towerSelected;
   String companyName = "-";
-  String leasedOwnerSelectedValue = "";
+  String leasedOwnerSelectedValue = "-";
 
   //  Lists
   List<String> leasedType = ["Leased", "Owned", "Barter - t", "Barter"];
@@ -74,6 +76,8 @@ class TowerProvider extends ChangeNotifier {
       modelController.text = towerSelected?.model ?? "-";
       numbCustomerServedController.text =
           towerSelected?.numbCustomerServed.toString() ?? "-";
+      frequencyController.text = towerSelected?.frequency ?? "-";
+      cktTypeController.text = towerSelected?.leasedOwned ?? "-";
 
       notifyListeners();
     } catch (e) {
