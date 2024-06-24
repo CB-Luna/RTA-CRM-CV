@@ -3,7 +3,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_circuit_details.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_tower_details.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/map_circuits_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:latlong2/latlong.dart';
@@ -247,21 +248,34 @@ class _MapCircuitsPageDesktopState
                               right: 20,
                               height: MediaQuery.of(context).size.height * 0.4,
                               width: MediaQuery.of(context).size.width * 0.15,
-                              // child: Container(
-                              //   color: Colors.red,
-                              //   child: Text(
-                              //     "Hola"
-                              //   ),
-                              // ),
                               child: PageView.builder(
                                 controller: provider.pageController,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: 1,
                                 itemBuilder: (context, _ ) {
-                                  final item = provider.circuitSelected;
-                                  return MapItemDetails(
-                                    mapMarker: item,
-                                  );
+                                  switch (provider.itemSelected) {
+                                    case 1:
+                                      if(provider.circuitButton) {
+                                        final item = provider.circuitSelected;
+                                        return MapCircuitDetails(
+                                          mapMarker: item,
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    case 2:
+                                      if(provider.towerButton) {
+                                        final item = provider.towerSelected;
+                                        return MapTowerDetails(
+                                          mapMarker: item,
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                      
+                                    default:
+                                      return Container();
+                                  }
                                 }
                               ),
                             ),
@@ -276,114 +290,4 @@ class _MapCircuitsPageDesktopState
       ]),
     ));
   }
-}
-
-class MapItemDetails extends StatelessWidget {
-
-  const MapItemDetails({
-    Key? key,
-    required this.mapMarker,
-  }) : super (key: key);
-
-  final Circuits? mapMarker;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: Card(
-        color: AppTheme.of(context).primaryBackground,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.08,
-              height: MediaQuery.of(context).size.width * 0.08,
-              child: mapMarker?.carrier?.toLowerCase() != null ? 
-              Image.network("$supabaseUrl/storage/v1/object/public/assets/circuits/${mapMarker!.carrier!.toLowerCase()}.png") :
-              Image.network("$supabaseUrl/storage/v1/object/public/assets/circuits/icon.png")
-            ),
-          ),
-          Text(
-            "${mapMarker?.street ?? 'Street'}, ${mapMarker?.zip ?? 'Zipcode'}",
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.of(context)
-            .bodyText1
-            .override(
-              fontFamily: 'Gotham-Regular',
-              useGoogleFonts: false,
-              color: AppTheme.of(context)
-                  .primaryText,
-            ),
-          ),
-          const SizedBox(height: 5,),
-          Text(
-            "${mapMarker?.city ?? 'City'}, ${mapMarker?.state ?? 'State'}",
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.of(context)
-            .bodyText1
-            .override(
-              fontFamily: 'Gotham-Regular',
-              useGoogleFonts: false,
-              color: AppTheme.of(context)
-                  .primaryText,
-            ),
-          ),
-          const SizedBox(height: 10,),
-          Text(
-            "Carrier: ${mapMarker?.carrier ?? 'Not selected'}",
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.of(context)
-            .subtitle2
-            .override(
-              fontFamily: 'Gotham-Regular',
-              useGoogleFonts: false,
-              color: AppTheme.of(context)
-                  .primaryColor,
-            ),
-          ),
-          const SizedBox(height: 10,),
-          Icon(
-            Icons.location_on_outlined,
-            color: AppTheme.of(context)
-                .secondaryColor,
-            size: 40,
-          ),
-          Text(
-            "[Latitude: ${mapMarker?.latitude ?? 'Unknown'},",
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.of(context)
-            .subtitle2
-            .override(
-              fontFamily: 'Gotham-Regular',
-              useGoogleFonts: false,
-              color: AppTheme.of(context)
-                  .secondaryColor,
-            ),
-          ),
-          Text(
-            "Longitude: ${mapMarker?.longitude ?? 'Unknown'}]",
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.of(context)
-            .subtitle2
-            .override(
-              fontFamily: 'Gotham-Regular',
-              useGoogleFonts: false,
-              color: AppTheme.of(context)
-                  .secondaryColor,
-            ),
-          ),
-          ]
-        ),
-      ),
-    );
-  }
-
 }

@@ -19,6 +19,7 @@ class MapCircuitsProvider extends ChangeNotifier {
   TowerRta? towerSelected;
   int? indexCircuitSelected;
   int? indexTowerSelected;
+  int? itemSelected;
   List<List<LatLng>> linesApops = [];
   List<List<LatLng>> linesBpops = [];
 
@@ -109,19 +110,25 @@ class MapCircuitsProvider extends ChangeNotifier {
               width: markerSizeExpaned,
               point: point, 
               builder: (_) {
-                return GestureDetector(
-                  onTap: () {
-                    //Se salta hacia la información del marker que se presione
-                    circuitSelected = circuit;
-                    indexCircuitSelected = indexCircuit;
-                    print("Circuit es: ${circuit.id}");
-                    pageController.jumpToPage(indexCircuit);
-                    print("Selected: ${circuit.carrier}, ${circuit.apopstreet}, ${circuit.apopcity}");
-                    notifyListeners();
-                  },
-                  child: LocationMarkerCircuit(
-                    selected: indexCircuitSelected == indexCircuit,
-                    logo: circuit.carrier?.toLowerCase(),
+                return MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      //Se salta hacia la información del marker que se presione
+                      itemSelected = 1;
+                      towerSelected = null;
+                      indexTowerSelected = null;
+                      circuitSelected = circuit;
+                      indexCircuitSelected = indexCircuit;
+                      print("Circuit es: ${circuit.id}");
+                      pageController.jumpToPage(indexCircuit);
+                      print("Selected: ${circuit.carrier}, ${circuit.apopstreet}, ${circuit.apopcity}");
+                      notifyListeners();
+                    },
+                    child: LocationMarkerCircuit(
+                      selected: indexCircuitSelected == indexCircuit,
+                      logo: circuit.carrier?.toLowerCase(),
+                    ),
                   ),
                 );
               }
@@ -171,19 +178,26 @@ class MapCircuitsProvider extends ChangeNotifier {
               width: markerSizeExpaned,
               point: point, 
               builder: (_) {
-                return GestureDetector(
-                  onTap: () {
-                    //Se salta hacia la información del marker que se presione
-                    towerSelected = tower;
-                    indexTowerSelected = indexTower;
-                    print("Tower es: ${tower.id}");
-                    pageController.jumpToPage(indexTower);
-                    print("Selected: ${tower.make}, ${tower.model}, ${tower.frequency}");
-                    notifyListeners();
-                  },
-                  child: LocationMarkerTower(
-                    selected: indexTowerSelected == indexTower,
-                    logo: "icon",
+                return MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      //Se salta hacia la información del marker que se presione
+                      itemSelected = 2;
+                      circuitSelected = null;
+                      indexCircuitSelected = null;
+                      towerSelected = tower;
+                      indexTowerSelected = indexTower;
+                      print("Tower es: ${tower.id}");
+                      pageController.jumpToPage(indexTower);
+                      print("Selected: ${tower.make}, ${tower.model}, ${tower.frequency}");
+                      notifyListeners();
+                    },
+                    child: LocationMarkerTower(
+                      selected: indexTowerSelected == indexTower,
+                      logo: "icon",
+                      company: tower.companyId,
+                    ),
                   ),
                 );
               }
@@ -243,12 +257,14 @@ class LocationMarkerCircuit extends StatelessWidget {
 class LocationMarkerTower extends StatelessWidget {
   const LocationMarkerTower({
     super.key,
-    this.selected = false, 
+    this.selected = false,
+    required this.company, 
     this.logo = "icon",
   });
 
   final bool selected;
   final String? logo;
+  final int? company;
 
   @override
   Widget build(BuildContext context) {
@@ -260,8 +276,11 @@ class LocationMarkerTower extends StatelessWidget {
         duration: const Duration(milliseconds: 400),
         child: Icon(
           Icons.location_on_rounded,
-          color: AppTheme.of(context).secondaryColor,
-          size: 24,
+          color: company == 1 ? AppTheme.of(context).cryPrimary :
+          company == 2 ? AppTheme.of(context).odePrimary :
+          company == 3 ? AppTheme.of(context).smiPrimary :
+          AppTheme.of(context).primaryColor,
+          size: size * 0.8,
         ),
       ),
     );
