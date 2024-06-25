@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/tower_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -27,6 +28,7 @@ class _TowersDesktopState extends State<TowersDesktop> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
+    CircuitsProvider cIrcuitprovider = Provider.of<CircuitsProvider>(context);
 
     TowerProvider provider = Provider.of<TowerProvider>(context);
     double txfFieldWidth = (MediaQuery.of(context).size.width / 10);
@@ -88,16 +90,29 @@ class _TowersDesktopState extends State<TowersDesktop> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            CustomTextIconButton(
-                              isLoading: false,
-                              icon: Icon(Icons.arrow_back_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground),
-                              text: '',
-                              onTap: () async {
-                                // context.pop();
-                                context.pushReplacement(routeCircuits);
-                              },
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomTextIconButton(
+                                isLoading: false,
+                                icon: Icon(Icons.arrow_back_outlined,
+                                    color:
+                                        AppTheme.of(context).primaryBackground),
+                                text: 'Go Back',
+                                style: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .override(
+                                      fontFamily: 'Gotham-Regular',
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground,
+                                    ),
+                                onTap: () async {
+                                  context.pushReplacement(routeCircuits);
+                                  // context.pop();
+                                  await cIrcuitprovider.setIndex(1);
+                                  setState() {}
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -145,10 +160,6 @@ class _TowersDesktopState extends State<TowersDesktop> {
                                                 icon: Icons.cell_tower_outlined,
                                                 keyboardType:
                                                     TextInputType.text,
-                                                inputFormatters: <TextInputFormatter>[
-                                                  FilteringTextInputFormatter
-                                                      .digitsOnly,
-                                                ],
                                               ),
                                             ),
                                           ],
@@ -415,7 +426,7 @@ class _TowersDesktopState extends State<TowersDesktop> {
                                                       enabled: false,
                                                       width: txfFieldWidth,
                                                       controller: provider
-                                                          .lessorController,
+                                                          .cktTypeController,
                                                       label: 'leased/owned',
                                                       icon: Icons
                                                           .view_compact_alt_outlined,

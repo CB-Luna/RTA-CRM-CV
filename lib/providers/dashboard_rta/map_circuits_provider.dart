@@ -8,12 +8,18 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
+import 'package:rta_crm_cv/models/dashboard_rta/towers.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 class MapCircuitsProvider extends ChangeNotifier {
   // PlutoGridStateManager? stateManager;
-  List<Marker> markers = [];
+  List<Marker> markersCircuits = [];
+  List<Marker> markersTowers = [];
   Circuits? circuitSelected;
-  int? indexSelected;
+  TowerRta? towerSelected;
+  int? indexCircuitSelected;
+  int? indexTowerSelected;
+  int? itemSelected;
   List<List<LatLng>> linesApops = [];
   List<List<LatLng>> linesBpops = [];
 
@@ -31,14 +37,37 @@ class MapCircuitsProvider extends ChangeNotifier {
 
   // Listas
   List<Circuits> listCircuits = [];
+  List<TowerRta> listTowers = [];
 
   // Controladores
   final searchController = TextEditingController();
   final pageController = PageController();
 
+  bool circuitButton = true;
+  bool towerButton = true;
+  bool dataCenterButton = true;
+
+  void updateStatusButton(int index) {
+    switch (index) {
+      case 0:
+        circuitButton = !circuitButton;
+        break;
+      case 1:
+        towerButton = !towerButton;
+        break;
+      case 2:
+        dataCenterButton = !dataCenterButton;
+        break;
+      default:
+    }
+    notifyListeners();
+  }
+
+
 
   Future<void> updateState() async {
-    markers.clear();
+    markersCircuits.clear();
+    markersTowers.clear();
     linesApops.clear();
     linesBpops.clear();
 
@@ -52,21 +81,21 @@ class MapCircuitsProvider extends ChangeNotifier {
     //   notifyListeners();
     // }
     try {
-
-      final query = await supabase.rpc('search_circuits', params: {
+      //Circuits
+      final queryCircuits = await supabase.rpc('search_circuits', params: {
         'busqueda': searchController.text,
       });
       print("getMapCircuits");
 
-      final res = await query;
+      final resCircuits = await queryCircuits;
 
-      listCircuits = (res as List<dynamic>)
+      listCircuits = (resCircuits as List<dynamic>)
           .map((vehicles) => Circuits.fromJson(jsonEncode(vehicles)))
           .toList();
 
       for (var circuit in listCircuits) {
         //Se guarda el index actual de Markers
-        final index = markers.length;
+        final indexCircuit = markersCircuits.length;
         List<LatLng> subLineApop = [];
         List<LatLng> subLineBpop = [];
         if (circuit.gemap == "Yes") {
@@ -75,25 +104,31 @@ class MapCircuitsProvider extends ChangeNotifier {
             double.parse(circuit.longitude!)
           );
           subLineApop.add(point);
-          markers.add(
+          markersCircuits.add(
             Marker(
               height: markerSizeExpaned,
               width: markerSizeExpaned,
               point: point, 
               builder: (_) {
-                return GestureDetector(
-                  onTap: () {
-                    //Se salta hacia la información del marker que se presione
-                    circuitSelected = circuit;
-                    indexSelected = index;
-                    print("Circuit es: ${circuit.id}");
-                    pageController.jumpToPage(index);
-                    print("Selected: ${circuit.carrier}, ${circuit.apopstreet}, ${circuit.apopcity}");
-                    notifyListeners();
-                  },
-                  child: LocationMarker(
-                    selected: indexSelected == index,
-                    logo: circuit.carrier?.toLowerCase(),
+                return MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      //Se salta hacia la información del marker que se presione
+                      itemSelected = 1;
+                      towerSelected = null;
+                      indexTowerSelected = null;
+                      circuitSelected = circuit;
+                      indexCircuitSelected = indexCircuit;
+                      print("Circuit es: ${circuit.id}");
+                      pageController.jumpToPage(indexCircuit);
+                      print("Selected: ${circuit.carrier}, ${circuit.apopstreet}, ${circuit.apopcity}");
+                      notifyListeners();
+                    },
+                    child: LocationMarkerCircuit(
+                      selected: indexCircuitSelected == indexCircuit,
+                      logo: circuit.carrier?.toLowerCase(),
+                    ),
                   ),
                 );
               }
@@ -120,13 +155,65 @@ class MapCircuitsProvider extends ChangeNotifier {
           }
         }
       }
+
+      //Towers
+
+      final resTowers = await supabaseDashboard.from("rta_towers").select();
+
+      listTowers = (resTowers as List<dynamic>)
+          .map((tower) => TowerRta.fromJson(jsonEncode(tower)))
+          .toList();
+
+      for (TowerRta tower in listTowers) {
+        //Se guarda el index actual de Markers
+        final indexTower = markersTowers.length;
+        if (tower.lat != null && tower.lat != '""' && tower.long != null && tower.long != '""') {
+          var point = LatLng(
+            double.parse(tower.long!), 
+            double.parse(tower.lat!)
+          );
+          markersTowers.add(
+            Marker(
+              height: markerSizeExpaned,
+              width: markerSizeExpaned,
+              point: point, 
+              builder: (_) {
+                return MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      //Se salta hacia la información del marker que se presione
+                      itemSelected = 2;
+                      circuitSelected = null;
+                      indexCircuitSelected = null;
+                      towerSelected = tower;
+                      indexTowerSelected = indexTower;
+                      print("Tower es: ${tower.id}");
+                      pageController.jumpToPage(indexTower);
+                      print("Selected: ${tower.make}, ${tower.model}, ${tower.frequency}");
+                      notifyListeners();
+                    },
+                    child: LocationMarkerTower(
+                      selected: indexTowerSelected == indexTower,
+                      logo: "icon",
+                      company: tower.companyId,
+                    ),
+                  ),
+                );
+              }
+            ),
+          );
+        }
+      }
       print("Tamaño Lines Apop: ${linesApops.length}");
       print("Tamaño Lines Bpop: ${linesBpops.length}");
+      print("Tamaño Markers Tower: ${markersTowers.length}");
       // if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
       log('Error en getMapCircuits() - $e');
       print("Tamaño Lines Apop: ${linesApops.length}");
       print("Tamaño Lines Bpop: ${linesBpops.length}");
+      print("Tamaño Markers Tower: ${markersTowers.length}");
     }
     notifyListeners();
   }
@@ -135,15 +222,16 @@ class MapCircuitsProvider extends ChangeNotifier {
   void clearAll() {
     searchController.clear();
     listCircuits.clear();
-    markers.clear();
+    markersCircuits.clear();
+    markersTowers.clear();
     linesApops.clear();
     linesBpops.clear();
   }
 
 }
 
-class LocationMarker extends StatelessWidget {
-  const LocationMarker({
+class LocationMarkerCircuit extends StatelessWidget {
+  const LocationMarkerCircuit({
     super.key,
     this.selected = false, 
     this.logo = "icon",
@@ -161,6 +249,39 @@ class LocationMarker extends StatelessWidget {
         width: size,
         duration: const Duration(milliseconds: 400),
         child: Image.network("$supabaseUrl/storage/v1/object/public/assets/circuits/$logo.png"),
+      ),
+    );
+  }
+}
+
+class LocationMarkerTower extends StatelessWidget {
+  const LocationMarkerTower({
+    super.key,
+    this.selected = false,
+    required this.company, 
+    this.logo = "icon",
+  });
+
+  final bool selected;
+  final String? logo;
+  final int? company;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = selected ? markerSizeExpaned : markerSizeShrinked;
+    return Center(
+      child: AnimatedContainer(
+        height: size,
+        width: size,
+        duration: const Duration(milliseconds: 400),
+        child: Icon(
+          Icons.location_on_rounded,
+          color: company == 1 ? AppTheme.of(context).cryPrimary :
+          company == 2 ? AppTheme.of(context).odePrimary :
+          company == 3 ? AppTheme.of(context).smiPrimary :
+          AppTheme.of(context).primaryColor,
+          size: size * 0.8,
+        ),
       ),
     );
   }

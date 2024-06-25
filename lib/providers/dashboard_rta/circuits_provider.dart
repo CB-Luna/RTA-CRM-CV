@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
@@ -59,6 +61,7 @@ class CircuitsProvider extends ChangeNotifier {
 
   // Controladores
   final searchController = TextEditingController();
+  final searchTowersController = TextEditingController();
   final dateExportDataController = TextEditingController();
   //  Circuits
   final pccidController = TextEditingController();
@@ -140,10 +143,13 @@ class CircuitsProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
-    await setIndex(0);
+    // await setIndex(0);
     rows.clear();
-
-    await getCircuits();
+    if (indexSelected[0]) {
+      await getCircuits();
+    } else if (indexSelected[1]) {
+      await getTowers();
+    }
   }
 
   List<bool> indexSelected = [
@@ -161,12 +167,17 @@ class CircuitsProvider extends ChangeNotifier {
     switch (index) {
       case 0:
         await getCircuits(); // Circuits
+        searchController.clear();
         break;
       case 1:
         await getTowers(); // Towers
+        searchController.clear();
+
         break;
       case 2:
         await getCircuits(); // Others
+        searchController.clear();
+
         break;
     }
 
@@ -345,7 +356,11 @@ class CircuitsProvider extends ChangeNotifier {
       // final query = await supabase.rpc('search_circuits', params: {
       //   'busqueda': searchController.text,
       // });
-      final res = await supabaseDashboard.from("rta_towers").select();
+      final query = await supabase.rpc('search_towers', params: {
+        'busqueda': searchTowersController.text,
+      });
+      final res = await query;
+      // final res = await supabaseDashboard.from("rta_towers").select();
       listTowers = (res as List<dynamic>)
           .map((tower) => TowerRta.fromJson(jsonEncode(tower)))
           .toList();
@@ -371,7 +386,7 @@ class CircuitsProvider extends ChangeNotifier {
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      log('Error en getCircuits() - $e');
+      log('Error en getTowers() - $e');
     }
     notifyListeners();
   }
@@ -968,331 +983,385 @@ class CircuitsProvider extends ChangeNotifier {
     }
   }
 
-  // Crear PDF
-  Future<pdfx.PdfController> clientPDF(BuildContext context,
-      List<PlutoColumn> columns, List<PlutoRow> rows) async {
-    finalPdfController = null;
-    // notifyListeners();
-    final logo = (await rootBundle.load('assets/images/rta_logo.png'))
-        .buffer
-        .asUint8List();
+  // Excel de los reportes
+  Future<bool> excelActivityReportsTowers() async {
+    try {
+      // Crear excel
+      Excel excel = Excel.createExcel();
+      Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
 
-    final pdf = pw.Document();
-    pdf.addPage(
-      pw.Page(
-        pageFormat: PdfPageFormat.a4.landscape,
-        build: (pw.Context context) {
-          return pw.Table.fromTextArray(
-            headers: columns.map((column) => column.title).toList(),
-            data: rows
-                .map((row) => columns.map((column) {
-                      final cellValue = row.cells[column.field]?.value ?? '';
-                      return cellValue.toString();
-                    }).toList())
-                .toList(),
-          );
-        },
-      ),
-    );
-/*
-    pdf.addPage(
-      pw.Page(
-        build: (context) => pw.Column(
-          children: [
-            pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  pw.Container(
-                    alignment: pw.Alignment.topLeft,
-                    width: 250,
-                    height: 80,
-                    child: pw.Image(pw.MemoryImage(logo), fit: pw.BoxFit.fill),
-                  ),
-                  //Titulo
-                  pw.Column(children: [
-                    pw.Text(
-                      textAlign: pw.TextAlign.end,
-                      'JSA No._______________________',
-                      style: const pw.TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ]),
-                ]),
+      // Verificar si el sheet es null
+      if (sheet == null) return false;
 
-            pw.SizedBox(height: 10),
-            // pw.Row(children: [
-            //   pw.Text('Company Name: ___${generalInfo!.company}___',
-            //       textAlign: pw.TextAlign.start),
-            //   pw.Text('Title:__${generalInfo.title}__')
-            // ]),
-            //Contenido
-            pw.SizedBox(height: 15),
-            pw.Container(
-              alignment: pw.Alignment.center,
-              child: pw.Table(
-                  border: pw.TableBorder(
-                    left: borderStyle,
-                    right: borderStyle,
-                    top: borderStyle,
-                    bottom: borderStyle,
-                    verticalInside: borderStyle,
-                    horizontalInside: borderStyle,
-                  ),
-                  columnWidths: columnWidths,
-                  children: [
-                    pw.TableRow(
-                        verticalAlignment: pw.TableCellVerticalAlignment.middle,
-                        children: [
-                          pw.Text('Job Steps',
-                              textAlign: pw.TextAlign.center,
-                              style: const pw.TextStyle(
-                                fontSize: 15,
-                              )),
-                          pw.Text('Hazards',
-                              textAlign: pw.TextAlign.center,
-                              style: const pw.TextStyle(
-                                fontSize: 15,
-                              )),
-                          pw.Text('Barriers or Controls',
-                              textAlign: pw.TextAlign.center,
-                              style: const pw.TextStyle(
-                                fontSize: 15,
-                              ))
-                        ]),
-                    //Builder de los diferentes Steps
-                    //HACER CONSULTA DOBLE EN CUANTO A  LOS STEPS PARA RIESGOS Y CONTROL
-                  ]),
-            ),
-            // pw.ListView.builder(
-            //     itemBuilder: (context, index) {
-            //       return pw.Table(
-            //           border: pw.TableBorder(
-            //             left: borderStyle,
-            //             right: borderStyle,
-            //             top: borderStyle,
-            //             bottom: borderStyle,
-            //             verticalInside: borderStyle,
-            //             horizontalInside: borderStyle,
-            //           ),
-            //           columnWidths: columnWidths,
-            //           children: [
-            //             pw.TableRow(
-            //               children: [
-            //                 // pw.Text(
-            //                 //   generalInfo.jsaStepsJson![index].title,
-            //                 //   textAlign: pw.TextAlign.center,
-            //                 //   style: const pw.TextStyle(
-            //                 //     fontSize: 13,
-            //                 //   ),
-            //                 // ),
-            //                 // pw.Container(
-            //                 //   child: pw.Column(children: [
-            //                 //     pw.ListView.builder(
-            //                 //       itemCount: generalInfo
-            //                 //           .jsaStepsJson![index].risks.length,
-            //                 //       itemBuilder: (context, indexR) {
-            //                 //         print(
-            //                 //             "Riesgos: ${generalInfo.jsaStepsJson![index].risks[indexR].title}");
-            //                 //         return pw.Text(
-            //                 //           textAlign: pw.TextAlign.center,
-            //                 //           "${generalInfo.jsaStepsJson![index].risks[indexR].title}",
-            //                 //           style: const pw.TextStyle(
-            //                 //             fontSize: 11,
-            //                 //           ),
-            //                 //         );
-            //                 //       },
-            //                 //     ),
-            //                 //     pw.Text(
-            //                 //         '${generalInfo.jsaStepsJson![index].riskLevel}')
-            //                 //   ]),
-            //                 // ),
-            //                 // pw.Container(
-            //                 //   child: pw.Column(children: [
-            //                 //     pw.ListView.builder(
-            //                 //       itemCount: generalInfo
-            //                 //           .jsaStepsJson![index].controls.length,
-            //                 //       itemBuilder: (context, indexC) {
-            //                 //         return pw.Text(
-            //                 //           textAlign: pw.TextAlign.center,
-            //                 //           "${generalInfo.jsaStepsJson![index].controls[indexC].title}",
-            //                 //           style: const pw.TextStyle(
-            //                 //             fontSize: 11,
-            //                 //           ),
-            //                 //         );
-            //                 //       },
-            //                 //     ),
-            //                 //     pw.Text(
-            //                 //         '${generalInfo.jsaStepsJson![index].controlLevel}')
-            //                 //   ]),
-            //                 // ),
-            //               ],
-            //             )
-            //           ]);
-            //     },
-            //     itemCount: step),
-            pw.SizedBox(height: 15),
-            pw.Container(
-                child: pw.Table(
-                    border: pw.TableBorder(
-                      left: borderStyle,
-                      right: borderStyle,
-                      top: borderStyle,
-                      bottom: borderStyle,
-                      verticalInside: borderStyle,
-                      horizontalInside: borderStyle,
-                    ),
-                    children: [
-                  pw.TableRow(children: [
-                    pw.Center(
-                      child: pw.Text("Team Members",
-                          style: const pw.TextStyle(
-                            fontSize: 15,
-                          )),
-                    ),
-                    pw.Container(
-                      child: pw.Column(children: [
-                        // pw.ListView.builder(
-                        //   itemCount: generalInfo.teamMembers!.length,
-                        //   itemBuilder: (context, indexC) {
-                        //     return pw.Text(
-                        //       textAlign: pw.TextAlign.center,
-                        //       "${generalInfo.teamMembers![indexC].name}",
-                        //       style: const pw.TextStyle(
-                        //         fontSize: 11,
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
-                      ]),
-                    ),
-                  ]),
-                ])),
-            pw.SizedBox(height: 15),
-            pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  pw.Text(
-                    'Prepared By:_____${currentUser!.name} ${currentUser!.lastName}________',
-                    style: const pw.TextStyle(
-                      fontSize: 13,
-                      // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                    ),
-                  ),
-                  pw.Text(
-                    'Date Approved:____${DateFormat("MMM/dd/yyyy").format(date)}_________',
-                    textAlign: pw.TextAlign.end,
-                    style: const pw.TextStyle(
-                      fontSize: 13,
-                      // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                    ),
-                  ),
-                ]),
+      // TITULO
+      sheet.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
 
-            pw.SizedBox(height: 10),
-            pw.Text(
-              'Instructions:',
-              style: const pw.TextStyle(
-                fontSize: 15,
-                // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-              ),
-            ),
-            pw.SizedBox(height: 10),
-            pw.Column(children: [
-              pw.Row(children: [
-                pw.Text(
-                  '1. To be prepared by the supervisor most directly involved in the work.',
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-              pw.SizedBox(height: 5),
-              pw.Row(children: [
-                pw.Text(
-                  "2. Must be approved by preparer's management supervisor",
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-              pw.SizedBox(height: 5),
-              pw.Row(children: [
-                pw.Text(
-                  '3. Must be reviewed by all workers involved in the work.',
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-              pw.SizedBox(height: 5),
-              pw.Row(children: [
-                pw.Text(
-                  '4. Emergency plan must be considered',
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-              pw.SizedBox(height: 5),
-              pw.Row(children: [
-                pw.Text(
-                  '5. If the work plan changes and the JSA is amended, changes must be reviewed \nby all workers involved in the work',
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-            ]),
-            pw.SizedBox(height: 20),
-            pw.Expanded(
-              child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.center,
-                  children: [
-                    pw.Column(children: [
-                      pw.Text(
-                        'Accepted and Agreed to by RTA:',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                      // pw.Image(
-                      //   pw.MemoryImage(signature!),
-                      //   height: 58,
-                      //   width: 200,
-                      //   fit: pw.BoxFit.fill,
-                      //   alignment: pw.Alignment.center,
-                      // ),
-                      pw.Text(
-                        '${currentUser!.name} ${currentUser!.lastName}, Employee',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                    ]),
-                  ]),
-            )
-          ],
-        ),
-      ),
-    );
-    
-    */
-    pdf.save();
-    finalPdfController = pdfx.PdfController(
-      document: pdfx.PdfDocument.openData(pdf.save()),
-    );
-    documento = await pdf.save();
+      // Headers de la Tabla
+      const headers = [
+        "Company",
+        "Name",
+        "Height",
+        "Type",
+        "Address",
+        "City",
+        "Longitude",
+        "Latitude",
+        "Leased_Owned",
+        "Lessor",
+        "Licensed",
+        "Use",
+        "Make",
+        "Model",
+        "numb_customer_served",
+        "Frequency"
+      ];
+      const headerCells = [
+        "A3",
+        "B3",
+        "C3",
+        "D3",
+        "E3",
+        "F3",
+        "G3",
+        "H3",
+        "I3",
+        "J3",
+        "K3",
+        "L3",
+        "M3",
+        "N3",
+        "O3",
+        "P3"
+      ];
 
-    notifyListeners();
+      for (int i = 0; i < headers.length; i++) {
+        sheet.merge(CellIndex.indexByString(headerCells[i]),
+            CellIndex.indexByString(headerCells[i][0] + '4'));
+        var cell = sheet.cell(CellIndex.indexByString(headerCells[i]));
+        cell.value = headers[i];
+        cell.cellStyle = CellStyle(
+          backgroundColorHex: "#1E90FF",
+          fontColorHex: Colors.white.value.toRadixString(16),
+          fontFamily: getFontFamily(FontFamily.Calibri),
+          fontSize: 16,
+          bold: true,
+          horizontalAlign: HorizontalAlign.Center,
+          verticalAlign: VerticalAlign.Center,
+        );
+      }
 
-    return finalPdfController!;
+      // Ajustar anchura de algunas columnas
+      const colWidths = {
+        1: 25,
+        4: 25,
+        8: 25,
+        9: 35,
+        12: 25,
+        13: 25
+      }; // Posición - width
+      colWidths.forEach((col, width) {
+        sheet.setColWidth(col, width.toDouble());
+      });
+
+      // Estilo del título
+      CellStyle titulo = CellStyle(
+        fontFamily: getFontFamily(FontFamily.Calibri),
+        fontSize: 16,
+        bold: true,
+        horizontalAlign: HorizontalAlign.Center,
+        verticalAlign: VerticalAlign.Center,
+      );
+
+      var cellT = sheet.cell(CellIndex.indexByString("A1"));
+      cellT.value = "Title";
+      cellT.cellStyle = titulo;
+
+      var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
+      cellT2.value = "RTA Towers";
+      cellT2.cellStyle = titulo;
+
+      // Agregar línea vacía
+      sheet.appendRow(['']);
+      String getCompanyName(int? companyId) {
+        switch (companyId) {
+          case 1:
+            return 'CRY';
+          case 2:
+            return 'ODE';
+          case 3:
+            return 'SMI';
+          default:
+            return '';
+        }
+      }
+
+      // Agregar datos
+      for (int i = 0; i < listTowers.length; i++) {
+        TowerRta report = listTowers[i];
+        final List<dynamic> row = [
+          // report.companyId,
+          getCompanyName(report.companyId),
+          report.name,
+          report.height,
+          report.type,
+          report.address,
+          report.city,
+          report.long,
+          report.lat,
+          report.leasedOwned,
+          report.lessor,
+          report.licensed,
+          report.use,
+          report.make,
+          report.model,
+          report.numbCustomerServed,
+          report.frequency,
+        ];
+        sheet.appendRow(row);
+      }
+
+      // Descargar
+      final List<int>? fileBytes = excel.save(fileName: "RTA_Towers.xlsx");
+
+      // Limpiar controladores y variables
+      dateExportDataController.text = "";
+
+      if (fileBytes == null) return false;
+      print("Se acabo el proceso");
+
+      return true;
+    } catch (e) {
+      print("Error in excelActivityReport - $e");
+      return false;
+    }
   }
+  // Future<bool> excelActivityReportsTowers() async {
+  //   try {
+  //     //Crear excel
+  //     Excel excel = Excel.createExcel();
+  //     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+  //     print("Length towers: ${listTowers.length}");
+  //     // List<TowerRta> towerList = [];
+  //     //TITULO
+  //     sheet?.merge(
+  //         CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+  //     //Headers de la Tabla, aqui juntamos los dos renglones para una mejor vista.
+  //     sheet?.merge(CellIndex.indexByString("A3"),
+  //         CellIndex.indexByString("A4")); // Company
+  //     sheet?.merge(
+  //         CellIndex.indexByString("B3"), CellIndex.indexByString("B4")); // name
+  //     sheet?.merge(CellIndex.indexByString("C3"),
+  //         CellIndex.indexByString("C4")); // Height
+  //     sheet?.merge(
+  //         CellIndex.indexByString("D3"), CellIndex.indexByString("D4")); // type
+  //     sheet?.merge(CellIndex.indexByString("E3"),
+  //         CellIndex.indexByString("E4")); // Address
+  //     sheet?.merge(
+  //         CellIndex.indexByString("F3"), CellIndex.indexByString("F4")); // city
+  //     sheet?.merge(
+  //         CellIndex.indexByString("G3"), CellIndex.indexByString("G4")); // Long
+  //     sheet?.merge(
+  //         CellIndex.indexByString("H3"), CellIndex.indexByString("H4")); // Lat
+  //     sheet?.merge(CellIndex.indexByString("I3"),
+  //         CellIndex.indexByString("I4")); // Leased_owned
+  //     sheet?.merge(CellIndex.indexByString("J3"),
+  //         CellIndex.indexByString("J4")); // Lessor
+  //     sheet?.merge(CellIndex.indexByString("K3"),
+  //         CellIndex.indexByString("K4")); // Licensed
+  //     sheet?.merge(
+  //         CellIndex.indexByString("L3"), CellIndex.indexByString("L4")); // Use
+  //     sheet?.merge(
+  //         CellIndex.indexByString("M3"), CellIndex.indexByString("M4")); // Make
+  //     sheet?.merge(CellIndex.indexByString("N3"),
+  //         CellIndex.indexByString("N4")); // Model
+  //     sheet?.merge(CellIndex.indexByString("O3"),
+  //         CellIndex.indexByString("O4")); // numb_customer_served
+  //     sheet?.merge(CellIndex.indexByString("P3"),
+  //         CellIndex.indexByString("P4")); // Frequency
+  //     // sheet?.merge(
+  //     //     CellIndex.indexByString("Q3"), CellIndex.indexByString("Q4"));
+
+  //     // sheet?.merge(
+  //     //     CellIndex.indexByString("R3"), CellIndex.indexByString("R4"));
+  //     // sheet?.merge(
+  //     //     CellIndex.indexByString("S3"), CellIndex.indexByString("S4"));
+  //     // sheet?.merge(
+  //     //     CellIndex.indexByString("T3"), CellIndex.indexByString("T4"));
+  //     // sheet?.merge(
+  //     //     CellIndex.indexByString("U3"), CellIndex.indexByString("U4"));
+  //     // sheet?.merge(
+  //     //     CellIndex.indexByString("V3"), CellIndex.indexByString("V4"));
+
+  //     // //Headers para secciones
+  //     // // Fusión Apops
+  //     // sheet?.merge(
+  //     //     CellIndex.indexByString("W3"), CellIndex.indexByString("AB3"));
+  //     // // Fusión BPOPS
+  //     // sheet?.merge(
+  //     //     CellIndex.indexByString("AC3"), CellIndex.indexByString("AH3"));
+
+  //     // Aqui damos por ejemplo el primero es el numero de columna y el segundo el width de está
+  //     sheet?.setColWidth(1, 25);
+  //     sheet?.setColWidth(7, 25);
+  //     sheet?.setColWidth(10, 25);
+  //     // sheet?.setColWidth(11, 25); // ContEXP
+  //     // sheet?.setColWidth(13, 25); // Street
+  //     // sheet?.setColWidth(22, 25); // APOPSTREET
+  //     // sheet?.setColWidth(28, 25); // BPOPSTREET
+
+  //     // sheet?.setColWidth(5, 30);
+  //     // sheet?.setColWidth(11, 50);
+  //     // sheet?.setColWidth(12, 50);
+  //     // sheet?.setColWidth(13, 50);
+  //     // sheet?.setColWidth(14, 25);
+  //     // sheet?.setColWidth(15, 30);
+  //     // sheet?.setColWidth(18, 30);
+  //     // sheet?.setColWidth(20, 30);
+  //     // sheet?.setColWidth(26, 30);
+  //     // sheet?.setColWidth(28, 30);
+
+  //     if (sheet == null) return false;
+  //     CellStyle titulo = CellStyle(
+  //       fontFamily: getFontFamily(FontFamily.Calibri),
+  //       fontSize: 16,
+  //       bold: true,
+  //       horizontalAlign: HorizontalAlign.Center,
+  //       verticalAlign: VerticalAlign.Center,
+  //     );
+
+  //     // Son los princiaples
+  //     var cellT = sheet.cell(CellIndex.indexByString("A1"));
+  //     cellT.value = "Title";
+  //     cellT.cellStyle = titulo;
+
+  //     var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
+  //     cellT2.value = "RTA Towers";
+  //     cellT2.cellStyle = titulo;
+
+  //     //Agregar primera linea
+  //     sheet.appendRow(['']);
+  //     //Agregar linea vacia
+
+  //     //blanco, bold y mas grande
+  //     CellStyle cellStyle = CellStyle(
+  //       backgroundColorHex: "#1E90FF",
+  //       fontColorHex: Colors.white.value.toRadixString(16),
+  //       fontFamily: getFontFamily(FontFamily.Calibri),
+  //       fontSize: 16,
+  //       bold: true,
+  //       horizontalAlign: HorizontalAlign.Center,
+  //       verticalAlign: VerticalAlign.Center,
+  //     );
+  //     var cell = sheet.cell(CellIndex.indexByString("A3"));
+  //     cell.value = "Company";
+  //     cell.cellStyle = cellStyle;
+
+  //     var cell2 = sheet.cell(CellIndex.indexByString("B3"));
+  //     cell2.value = "Name";
+  //     cell2.cellStyle = cellStyle;
+
+  //     var cell3 = sheet.cell(CellIndex.indexByString("C3"));
+  //     cell3.value = "Height";
+  //     cell3.cellStyle = cellStyle;
+
+  //     var cell4 = sheet.cell(CellIndex.indexByString("D3"));
+  //     cell4.value = "Type";
+  //     cell4.cellStyle = cellStyle;
+
+  //     var cell5 = sheet.cell(CellIndex.indexByString("E3"));
+  //     cell5.value = "Address";
+  //     cell5.cellStyle = cellStyle;
+
+  //     var cell6 = sheet.cell(CellIndex.indexByString("F3"));
+  //     cell6.value = "City";
+  //     cell6.cellStyle = cellStyle;
+
+  //     var cell7 = sheet.cell(CellIndex.indexByString("G3"));
+  //     cell7.value = "Longitude";
+  //     cell7.cellStyle = cellStyle;
+
+  //     var cell8 = sheet.cell(CellIndex.indexByString("H3"));
+  //     cell8.value = "Latitude";
+  //     cell8.cellStyle = cellStyle;
+
+  //     var cell9 = sheet.cell(CellIndex.indexByString("I3"));
+  //     cell9.value = "Leased_Owned";
+  //     cell9.cellStyle = cellStyle;
+
+  //     var cell10 = sheet.cell(CellIndex.indexByString("J3"));
+  //     cell10.value = "Lessor";
+  //     cell10.cellStyle = cellStyle;
+
+  //     var cell11 = sheet.cell(CellIndex.indexByString("K3"));
+  //     cell11.value = "Licensed";
+  //     cell11.cellStyle = cellStyle;
+
+  //     var cell12 = sheet.cell(CellIndex.indexByString("L3"));
+  //     cell12.value = "Use";
+  //     cell12.cellStyle = cellStyle;
+
+  //     var cell13 = sheet.cell(CellIndex.indexByString("M3"));
+  //     cell13.value = "Make";
+  //     cell13.cellStyle = cellStyle;
+
+  //     var cell14 = sheet.cell(CellIndex.indexByString("N3"));
+  //     cell14.value = "Model";
+  //     cell14.cellStyle = cellStyle;
+
+  //     var cell15 = sheet.cell(CellIndex.indexByString("O3"));
+  //     cell15.value = "numb_customer_served";
+  //     cell15.cellStyle = cellStyle;
+  //     var cell16 = sheet.cell(CellIndex.indexByString("P3"));
+  //     cell15.value = "Frequency";
+  //     cell15.cellStyle = cellStyle;
+
+  //     //sortear por su Id
+  //     // listCircuits.sort((a, b) => a.pccid!.compareTo(b.pccid!));
+
+  //     for (int x = 0; x < listTowers.length; x++) {
+  //       // print("listCircuits: ${towerList[x].id}");
+  //       listTowers.add(listTowers[x]);
+  //     }
+
+  //     //Agregar datos
+  //     for (int i = 0; i < listTowers.length; i++) {
+  //       // await getCircuits();
+  //       TowerRta report = listTowers[i];
+
+  //       final List<dynamic> row = [
+  //         report.companyId,
+  //         // companyName,
+  //         report.name,
+  //         report.height,
+  //         report.type,
+  //         report.address,
+  //         report.city,
+  //         report.long,
+  //         report.lat,
+  //         report.leasedOwned,
+  //         report.lessor,
+  //         report.licensed,
+  //         report.use,
+  //         report.make,
+  //         report.model,
+  //         report.numbCustomerServed,
+  //         report.frequency,
+  //       ];
+  //       sheet.appendRow(row);
+  //     }
+
+  //     //Descargar
+  //     final List<int>? fileBytes = excel.save(fileName: "RTA_Towers.xlsx");
+  //     //Limpiar controladores y variables
+  //     dateExportDataController.text = "";
+
+  //     if (fileBytes == null) return false;
+  //     print("Se acabo el proceso");
+
+  //     return true;
+  //   } catch (e) {
+  //     print("Error in excelActivityReport -$e");
+  //     return false;
+  //   }
+  // }
 }
