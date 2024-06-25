@@ -503,7 +503,7 @@ class QuotesProvider extends ChangeNotifier {
           {
             'pccid': pcCustomer?.customerId,
             'ckttype': quote.circuitInfo!.circuitType!,
-            'cktuse':quote.circuitInfo!.circuitUse!,
+            'cktuse': quote.circuitInfo!.circuitUse!,
             'cir': quote.circuitInfo!.cir!,
             'port': quote.circuitInfo!.portSize!,
             'handoff': quote.orderInfo!.handoff!,

@@ -338,6 +338,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       parameter = (await supabaseCRM.from('cat_circuit_types').select().eq('name', quote.circuitInfo!.circuitType!))[0];
       parameter = CatCircuitTypes.fromRawJson(jsonEncode(parameter));
       circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
+      circuitUseSelectedValue = quote.circuitInfo!.circuitUse!;
       /* if (quote.circuitInfo!.circuitType == 'EVCoD') {
         evcodSelectedValue = quote.circuitInfo!.evcodType!;
         if (quote.circuitInfo!.evcodType == 'Existing EVC') {
