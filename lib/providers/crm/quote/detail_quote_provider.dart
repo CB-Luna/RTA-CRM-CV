@@ -166,6 +166,8 @@ class DetailQuoteProvider extends ChangeNotifier {
   //final locationController = TextEditingController();
   List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
   late String circuitTypeSelectedValue;
+  List<GenericCat> circuitUseList = [GenericCat(name: 'PTP')];
+  late String circuitUseSelectedValue;
   //List<String> ddosList = ['Yes', 'No'];
   //late String ddosSelectedValue;
   final bandwidthController = TextEditingController();
@@ -250,6 +252,11 @@ class DetailQuoteProvider extends ChangeNotifier {
       circuitTypeList.clear();
       circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
+
+      response = await supabaseCRM.from('cat_circuit_use').select().eq('visible', true);
+      circuitUseList.clear();
+      circuitUseList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
+      circuitUseSelectedValue = circuitUseList.first.name!;
 
       response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
       portSizeList.clear();

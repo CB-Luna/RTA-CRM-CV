@@ -213,6 +213,7 @@ class CircuitInfo {
   String? portSize;
   String? subnetType;
   String? circuitType;
+  String? circuitUse;
   String? evcCircuitId;
   String? interfaceType;
 
@@ -229,6 +230,7 @@ class CircuitInfo {
     this.portSize,
     this.subnetType,
     this.circuitType,
+    this.circuitUse,
     this.evcCircuitId,
     this.interfaceType,
   });
@@ -250,6 +252,7 @@ class CircuitInfo {
         portSize: json["port_size"],
         subnetType: json["subnet_type"],
         circuitType: json["circuit_type"],
+        circuitUse: json["circuit_use"],
         evcCircuitId: json["evc_circuit_id"],
         interfaceType: json["interface_type"],
       );
@@ -267,6 +270,7 @@ class CircuitInfo {
         "port_size": portSize,
         "subnet_type": subnetType,
         "circuit_type": circuitType,
+        "circuit_use":circuitUse,
         "evc_circuit_id": evcCircuitId,
         "interface_type": interfaceType,
       };
