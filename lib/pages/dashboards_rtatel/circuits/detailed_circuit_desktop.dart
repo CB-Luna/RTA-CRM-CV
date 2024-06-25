@@ -121,7 +121,14 @@ class _DetailedCircuitsPageDesktopState
                             isLoading: false,
                             icon: Icon(Icons.arrow_back_outlined,
                                 color: AppTheme.of(context).primaryBackground),
-                            text: '',
+                            text: 'Go Back',
+                            style: AppTheme.of(context)
+                                .contenidoTablas
+                                .override(
+                                  fontFamily: 'Gotham-Regular',
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).primaryBackground,
+                                ),
                             onTap: () async {
                               // context.pop();
                               context.pushReplacement(routeCircuits);

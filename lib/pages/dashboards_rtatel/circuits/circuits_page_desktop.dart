@@ -78,7 +78,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                           padding: const EdgeInsets.only(right: 10),
                           child: SizedBox(
                             height: 40,
-                            child: Text('Circuits',
+                            child: Text('Network Structure RTA',
                                 style: AppTheme.of(context).title1),
                           ),
                         ),
@@ -87,7 +87,13 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                   ),
                   DefaultTabController(
                     length: 3,
-                    initialIndex: 0,
+                    initialIndex: provider.indexSelected[0]
+                        ? 0
+                        : provider.indexSelected[1]
+                            ? 1
+                            : provider.indexSelected[2]
+                                ? 2
+                                : 0,
                     child: Column(
                       children: [
                         Container(
@@ -194,7 +200,9 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                 child: CustomTextField(
                                   width: 500,
                                   enabled: true,
-                                  controller: provider.searchController,
+                                  controller: provider.indexSelected[0]
+                                      ? provider.searchController
+                                      : provider.searchTowersController,
                                   icon: Icons.search,
                                   label: 'Search',
                                   keyboardType: TextInputType.text,
@@ -241,8 +249,13 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                         text: 'Export xlsx',
                                         onTap: () async {
                                           // if (context.canPop()) context.pop();
-
-                                          await provider.excelActivityReports();
+                                          if (provider.indexSelected[0]) {
+                                            await provider
+                                                .excelActivityReports();
+                                          } else {
+                                            provider
+                                                .excelActivityReportsTowers();
+                                          }
                                         }),
                                   ],
                                 ),
@@ -1206,42 +1219,41 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     ],
                                     resolveDefaultColumnFilter:
                                         (column, resolver) {
-                                      if (column.field == 'pccid_Column') {
+                                      if (column.field == 'company_id_Column') {
                                         return resolver<
                                                 PlutoFilterTypeContains>()
                                             as PlutoFilterType;
                                       } else if (column.field ==
-                                          'rta_customers_Column') {
+                                          'name_Column') {
                                         return resolver<
                                                 PlutoFilterTypeContains>()
                                             as PlutoFilterType;
                                       } else if (column.field ==
-                                          'CKTSTATUS_Column') {
+                                          'type_Column') {
                                         return resolver<
                                                 PlutoFilterTypeContains>()
                                             as PlutoFilterType;
                                       } else if (column.field ==
-                                          'CktID_Column') {
+                                          'address_Column') {
                                         return resolver<
                                                 PlutoFilterTypeContains>()
                                             as PlutoFilterType;
                                       } else if (column.field ==
-                                          'street_Column') {
+                                          'make_Column') {
                                         return resolver<
                                                 PlutoFilterTypeContains>()
                                             as PlutoFilterType;
                                       } else if (column.field ==
-                                          'state_Column') {
+                                          'model_Column') {
+                                        return resolver<
+                                                PlutoFilterTypeContains>()
+                                            as PlutoFilterType;
+                                      } else if (column.field == 'use_Column') {
                                         return resolver<
                                                 PlutoFilterTypeContains>()
                                             as PlutoFilterType;
                                       } else if (column.field ==
-                                          'CKTType_Column') {
-                                        return resolver<
-                                                PlutoFilterTypeContains>()
-                                            as PlutoFilterType;
-                                      } else if (column.field ==
-                                          'cktuse_Column') {
+                                          'users_Column') {
                                         return resolver<
                                                 PlutoFilterTypeContains>()
                                             as PlutoFilterType;
