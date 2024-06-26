@@ -435,7 +435,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   //if (p0 != null) provider.selectCircuitInfo(p0);
                                                 },
                                                 icon: Icons.info_outline,
-                                                label: 'Service Type',
+                                                label: 'Circuit Type',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(bottom: 10),
+                                              child: CustomDDownMenu(
+                                                enabled: false,
+                                                list: provider.circuitUseList.map((type) => type.name!).toList(),
+                                                dropdownValue: provider.circuitUseSelectedValue,
+                                                onChanged: (p0) {
+                                                  //if (p0 != null) provider.selectCircuitUse(p0);
+                                                },
+                                                icon: Icons.info_outline,
+                                                label: 'Circuit Use',
                                               ),
                                             ),
                                             if (provider

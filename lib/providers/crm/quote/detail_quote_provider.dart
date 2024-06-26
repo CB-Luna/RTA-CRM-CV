@@ -166,6 +166,8 @@ class DetailQuoteProvider extends ChangeNotifier {
   //final locationController = TextEditingController();
   List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
   late String circuitTypeSelectedValue;
+  List<GenericCat> circuitUseList = [GenericCat(name: 'PTP')];
+  late String circuitUseSelectedValue;
   //List<String> ddosList = ['Yes', 'No'];
   //late String ddosSelectedValue;
   final bandwidthController = TextEditingController();
@@ -251,6 +253,11 @@ class DetailQuoteProvider extends ChangeNotifier {
       circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
 
+      response = await supabaseCRM.from('cat_circuit_use').select().eq('visible', true);
+      circuitUseList.clear();
+      circuitUseList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
+      circuitUseSelectedValue = circuitUseList.first.name!;
+
       response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
       portSizeList.clear();
       portSizeList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
@@ -331,6 +338,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       parameter = (await supabaseCRM.from('cat_circuit_types').select().eq('name', quote.circuitInfo!.circuitType!))[0];
       parameter = CatCircuitTypes.fromRawJson(jsonEncode(parameter));
       circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
+      circuitUseSelectedValue = quote.circuitInfo!.circuitUse!;
       /* if (quote.circuitInfo!.circuitType == 'EVCoD') {
         evcodSelectedValue = quote.circuitInfo!.evcodType!;
         if (quote.circuitInfo!.evcodType == 'Existing EVC') {
