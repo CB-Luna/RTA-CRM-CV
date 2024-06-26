@@ -8,6 +8,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
+import 'package:rta_crm_cv/models/dashboard_rta/leads_not_serviceable.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/towers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -15,10 +16,13 @@ class MapCircuitsProvider extends ChangeNotifier {
   // PlutoGridStateManager? stateManager;
   List<Marker> markersCircuits = [];
   List<Marker> markersTowers = [];
+  List<Marker> markersleadsNotServiceable = [];
   Circuits? circuitSelected;
   TowerRta? towerSelected;
+  LeadsNotServiceable? leadNotServiceableSelected;
   int? indexCircuitSelected;
   int? indexTowerSelected;
+  int? indexLeadNotServiceableSelected;
   int? itemSelected;
   List<List<LatLng>> linesApops = [];
   List<List<LatLng>> linesBpops = [];
@@ -38,6 +42,7 @@ class MapCircuitsProvider extends ChangeNotifier {
   // Listas
   List<Circuits> listCircuits = [];
   List<TowerRta> listTowers = [];
+  List<LeadsNotServiceable> listLeadsNotServiceable= [];
 
   // Controladores
   final searchController = TextEditingController();
@@ -46,6 +51,7 @@ class MapCircuitsProvider extends ChangeNotifier {
   bool circuitButton = true;
   bool towerButton = true;
   bool dataCenterButton = true;
+  bool leadNotServiceableButton = true;
 
   void updateStatusButton(int index) {
     switch (index) {
@@ -57,6 +63,9 @@ class MapCircuitsProvider extends ChangeNotifier {
         break;
       case 2:
         dataCenterButton = !dataCenterButton;
+        break;
+      case 3:
+        leadNotServiceableButton = !leadNotServiceableButton;
         break;
       default:
     }
@@ -76,10 +85,6 @@ class MapCircuitsProvider extends ChangeNotifier {
 
   // Traer los circuitos
   Future<void> getMapCircuits() async {
-    // if (stateManager != null) {
-    //   stateManager!.setShowLoading(true);
-    //   notifyListeners();
-    // }
     try {
       //Circuits
       final queryCircuits = await supabase.rpc('search_circuits', params: {
@@ -118,6 +123,8 @@ class MapCircuitsProvider extends ChangeNotifier {
                       itemSelected = 1;
                       towerSelected = null;
                       indexTowerSelected = null;
+                      leadNotServiceableSelected = null;
+                      indexLeadNotServiceableSelected = null;
                       circuitSelected = circuit;
                       indexCircuitSelected = indexCircuit;
                       print("Circuit es: ${circuit.id}");
@@ -186,6 +193,8 @@ class MapCircuitsProvider extends ChangeNotifier {
                       itemSelected = 2;
                       circuitSelected = null;
                       indexCircuitSelected = null;
+                      leadNotServiceableSelected = null;
+                      indexLeadNotServiceableSelected = null;
                       towerSelected = tower;
                       indexTowerSelected = indexTower;
                       print("Tower es: ${tower.id}");
@@ -195,7 +204,6 @@ class MapCircuitsProvider extends ChangeNotifier {
                     },
                     child: LocationMarkerTower(
                       selected: indexTowerSelected == indexTower,
-                      logo: "icon",
                       company: tower.companyId,
                     ),
                   ),
@@ -205,15 +213,58 @@ class MapCircuitsProvider extends ChangeNotifier {
           );
         }
       }
-      print("Tamaño Lines Apop: ${linesApops.length}");
-      print("Tamaño Lines Bpop: ${linesBpops.length}");
-      print("Tamaño Markers Tower: ${markersTowers.length}");
+
+      //Leads Not Serviceable
+
+      final resLeadsNotServiceable = await supabaseDashboard.from("leads_not_serviceable").select();
+
+      listLeadsNotServiceable = (resLeadsNotServiceable as List<dynamic>)
+          .map((tower) => LeadsNotServiceable.fromJson(jsonEncode(tower)))
+          .toList();
+
+      for (LeadsNotServiceable leadNotServiceable in listLeadsNotServiceable) {
+        //Se guarda el index actual de Markers
+        final indexLeadNotServiceable = listLeadsNotServiceable.length;
+        var point = LatLng(
+          double.parse(leadNotServiceable.latitude), 
+          double.parse(leadNotServiceable.longitude)
+        );
+        markersleadsNotServiceable.add(
+          Marker(
+            height: markerSizeExpaned,
+            width: markerSizeExpaned,
+            point: point, 
+            builder: (_) {
+              return MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () {
+                    //Se salta hacia la información del marker que se presione
+                    itemSelected = 3;
+                    circuitSelected = null;
+                    indexCircuitSelected = null;
+                    towerSelected = null;
+                    indexTowerSelected = null;
+                    leadNotServiceableSelected = leadNotServiceable;
+                    indexLeadNotServiceableSelected = indexLeadNotServiceable;
+                    pageController.jumpToPage(indexLeadNotServiceable);
+                    notifyListeners();
+                  },
+                  child: LocationLeadNotServiceable(
+                    selected: indexTowerSelected == indexLeadNotServiceable,
+                    company: leadNotServiceable.companyFk,
+                  ),
+                ),
+              );
+            }
+          ),
+        );
+      }
+      
+      print("Tamaño Leads Not Serviceable: ${listLeadsNotServiceable.length}");
       // if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
       log('Error en getMapCircuits() - $e');
-      print("Tamaño Lines Apop: ${linesApops.length}");
-      print("Tamaño Lines Bpop: ${linesBpops.length}");
-      print("Tamaño Markers Tower: ${markersTowers.length}");
     }
     notifyListeners();
   }
@@ -222,8 +273,11 @@ class MapCircuitsProvider extends ChangeNotifier {
   void clearAll() {
     searchController.clear();
     listCircuits.clear();
+    listTowers.clear();
+    listLeadsNotServiceable.clear();
     markersCircuits.clear();
     markersTowers.clear();
+    markersleadsNotServiceable.clear();
     linesApops.clear();
     linesBpops.clear();
   }
@@ -259,11 +313,9 @@ class LocationMarkerTower extends StatelessWidget {
     super.key,
     this.selected = false,
     required this.company, 
-    this.logo = "icon",
   });
 
   final bool selected;
-  final String? logo;
   final int? company;
 
   @override
@@ -276,6 +328,38 @@ class LocationMarkerTower extends StatelessWidget {
         duration: const Duration(milliseconds: 400),
         child: Icon(
           Icons.location_on_rounded,
+          color: company == 1 ? AppTheme.of(context).cryPrimary :
+          company == 2 ? AppTheme.of(context).odePrimary :
+          company == 3 ? AppTheme.of(context).smiPrimary :
+          AppTheme.of(context).primaryColor,
+          size: size * 0.8,
+        ),
+      ),
+    );
+  }
+}
+
+
+class LocationLeadNotServiceable extends StatelessWidget {
+  const LocationLeadNotServiceable({
+    super.key,
+    this.selected = false,
+    required this.company, 
+  });
+
+  final bool selected;
+  final int? company;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = selected ? markerSizeExpaned : markerSizeShrinked;
+    return Center(
+      child: AnimatedContainer(
+        height: size,
+        width: size,
+        duration: const Duration(milliseconds: 400),
+        child: Icon(
+          Icons.person,
           color: company == 1 ? AppTheme.of(context).cryPrimary :
           company == 2 ? AppTheme.of(context).odePrimary :
           company == 3 ? AppTheme.of(context).smiPrimary :

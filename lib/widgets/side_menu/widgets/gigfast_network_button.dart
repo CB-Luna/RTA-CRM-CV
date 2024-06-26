@@ -92,7 +92,7 @@ class _GigfastNetworkButtonState extends State<GigfastNetworkButton> {
                         : const SizedBox.shrink(),
                     ListTile(
                       title: Text(
-                        'Circuits',
+                        'Network Structure RTA',
                         style: AppTheme.of(context).bodyText1.override(
                               fontFamily: 'Gotham-Bold',
                               color: AppTheme.of(context).gris,

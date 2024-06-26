@@ -128,6 +128,8 @@ class CreateQuoteProvider extends ChangeNotifier {
   //final locationController = TextEditingController();
   List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
   late String circuitTypeSelectedValue;
+  List<GenericCat> circuitUseList = [GenericCat(name: 'PTP')];
+  late String circuitUseSelectedValue;
   //List<String> ddosList = ['Yes', 'No'];
   //late String ddosSelectedValue;
   bool ddosSelectedValue = false;
@@ -199,6 +201,11 @@ class CreateQuoteProvider extends ChangeNotifier {
     selectCIR(cirList.first.name!);
     selectPortSize(cirList.first.name!);
     selectEVCOD(evcodList.first);
+    notifyListeners();
+  }
+
+  void selectCircuitUse(String selected) {
+    circuitUseSelectedValue = selected;
     notifyListeners();
   }
 
@@ -435,6 +442,11 @@ class CreateQuoteProvider extends ChangeNotifier {
       circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
 
+      response = await supabaseCRM.from('cat_circuit_use').select().eq('visible', true);
+      circuitUseList.clear();
+      circuitUseList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
+      circuitUseSelectedValue = circuitUseList.first.name!;
+
       response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
       portSizeList.clear();
       portSizeList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
@@ -643,6 +655,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           'port_size': portSizeSelectedValue,
         if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.evcod!)
           'evc_circuit_id': evcCircuitIdController.text,
+        'circuit_use': circuitUseSelectedValue,
         'ddos_type': ddosSelectedValue,
         'bgp_type': bgpSelectedValue,
         'ip_type': ipAdressSelectedValue,
@@ -729,6 +742,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "multicast": multicastRequired,
           //"location": locationController.text,
           "circuit_type": circuitTypeSelectedValue,
+          "circuit_use": circuitUseSelectedValue,
           "cir": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.cir! ? cirSelectedValue : null,
           "port_size": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.portSize!
               ? portSizeSelectedValue

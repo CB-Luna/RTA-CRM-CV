@@ -376,20 +376,40 @@ class _CircuitsEditDesktopState extends State<CircuitsEditDesktop> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 5),
-                                          child: CustomTextFieldCircuit(
-                                            key: const Key('cktUse'),
-                                            required: true,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5),
+                                          child: CustomDDownMenu(
                                             enabled: true,
+                                            list: provider.circuitUseList
+                                                .map((type) => type.name!)
+                                                .toList(),
+                                            dropdownValue:
+                                                provider.useSelectedValue,
+                                            onChanged: (p0) {
+                                              if (p0 != null) {
+                                                provider.selectUse(p0);
+                                              }
+                                            },
                                             width: txfFieldWidth,
-                                            controller:
-                                                provider.cktUseController,
-                                            label: 'CKTUse',
                                             icon: Icons.router_outlined,
-                                            keyboardType: TextInputType.text,
+                                            label: 'Circuit Use',
                                           ),
                                         ),
+                                        // Padding(
+                                        //   padding:
+                                        //       const EdgeInsets.only(bottom: 5),
+                                        //   child: CustomTextFieldCircuit(
+                                        //     key: const Key('cktUse'),
+                                        //     required: true,
+                                        //     enabled: true,
+                                        //     width: txfFieldWidth,
+                                        //     controller:
+                                        //         provider.cktUseController,
+                                        //     label: 'CKTUse',
+                                        //     icon: Icons.router_outlined,
+                                        //     keyboardType: TextInputType.text,
+                                        //   ),
+                                        // ),
                                         Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: CustomTextIconButton(

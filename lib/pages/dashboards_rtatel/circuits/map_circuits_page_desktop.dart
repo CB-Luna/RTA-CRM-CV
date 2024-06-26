@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_circuit_details.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_lead_not_serviceable_details.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_tower_details.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/map_circuits_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -167,6 +168,31 @@ class _MapCircuitsPageDesktopState
                                     provider.updateStatusButton(2);
                                   }),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 30),
+                              child: CustomTextIconButton(
+                                  color: provider.leadNotServiceableButton ? 
+                                  AppTheme.of(context).primaryColor
+                                  :
+                                  AppTheme.of(context).primaryColor.withOpacity(0.5),
+                                  isLoading: false,
+                                  icon: Icon(Icons.person_pin_circle_sharp,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground),
+                                  text: 'Leads Not Serviceable',
+                                  style: AppTheme.of(context)
+                                  .contenidoTablas
+                                  .override(
+                                    fontFamily: 'Gotham-Regular',
+                                    useGoogleFonts: false,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                                  onTap: () {
+                                    provider.updateStatusButton(3);
+                                  }),
+                            ),
                           ],
                         ),
                       ),
@@ -231,6 +257,11 @@ class _MapCircuitsPageDesktopState
                                   markers: provider.markersTowers,
                                 ),
 
+                                if(provider.leadNotServiceableButton)
+                                MarkerLayer(
+                                  markers: provider.markersleadsNotServiceable,
+                                ),
+
 
                                 // PolylineLayer(
                                 //   polylines: [
@@ -267,6 +298,15 @@ class _MapCircuitsPageDesktopState
                                       if(provider.towerButton) {
                                         final item = provider.towerSelected;
                                         return MapTowerDetails(
+                                          mapMarker: item,
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                      case 3:
+                                      if(provider.leadNotServiceableButton) {
+                                        final item = provider.leadNotServiceableSelected;
+                                        return LeadNotServiceableDetails(
                                           mapMarker: item,
                                         );
                                       } else {

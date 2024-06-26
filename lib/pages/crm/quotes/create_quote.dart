@@ -507,15 +507,32 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                              */
                                             Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
-                                              child: CustomDDownMenu(
-                                                enabled: true,
-                                                list: provider.circuitTypeList.map((type) => type.name!).toList(),
-                                                dropdownValue: provider.circuitTypeSelectedValue,
-                                                onChanged: (p0) {
-                                                  if (p0 != null) provider.selectCircuitInfo(p0);
-                                                },
-                                                icon: Icons.info_outline,
-                                                label: 'Service Type',
+                                              child: Row(
+                                                children: [
+                                                  CustomDDownMenu(
+                                                    enabled: true,
+                                                    list: provider.circuitTypeList.map((type) => type.name!).toList(),
+                                                    dropdownValue: provider.circuitTypeSelectedValue,
+                                                    onChanged: (p0) {
+                                                      if (p0 != null) provider.selectCircuitInfo(p0);
+                                                    },
+                                                    icon: Icons.info_outline,
+                                                    label: 'Circuit Type',
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 20),
+                                                    child: CustomDDownMenu(
+                                                      enabled: true,
+                                                      list: provider.circuitUseList.map((type) => type.name!).toList(),
+                                                      dropdownValue: provider.circuitUseSelectedValue,
+                                                      onChanged: (p0) {
+                                                        if (p0 != null) provider.selectCircuitUse(p0);
+                                                      },
+                                                      icon: Icons.info_outline,
+                                                      label: 'Circuit Use',
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             if (provider
