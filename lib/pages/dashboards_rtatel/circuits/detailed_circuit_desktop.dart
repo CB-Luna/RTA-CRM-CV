@@ -1,8 +1,10 @@
-// ignore_for_file: unrelated_type_equality_checks, await_only_futures
+// ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field_circuit.dart';
@@ -11,7 +13,6 @@ import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import '../../../public/colors.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DetailedCircuitsPageDesktop extends StatefulWidget {
   const DetailedCircuitsPageDesktop({super.key});
@@ -26,6 +27,7 @@ class _DetailedCircuitsPageDesktopState
   @override
   void initState() {
     super.initState();
+    // _initializeMap();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final CircuitsProvider provider = Provider.of<CircuitsProvider>(
@@ -36,13 +38,56 @@ class _DetailedCircuitsPageDesktopState
     });
   }
 
+  // final String _mapboxAccessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
+  // final double _latitude =
+  //     37.7749; // Latitud específica (ejemplo: San Francisco)
+  // final double _longitude =
+  //     -122.4194; // Longitud específica (ejemplo: San Francisco)
+  // void _initializeMap() {
+  //   // Register the view type
+  //   ui.platformViewRegistry.registerViewFactory(
+  //     'mapbox-view-type',
+  //     (int viewId) {
+  //       final divId = 'map_$viewId';
+  //       final mapDiv = DivElement()
+  //         ..id = divId
+  //         ..style.width = '100%'
+  //         ..style.height = '100%';
+
+  //       js.context.callMethod(
+  //           'initMap', [divId, _latitude, _longitude, _mapboxAccessToken]);
+
+  //       return mapDiv;
+  //     },
+  //   );
+  // }
+
+  // void initMap(
+  //     String divId, double latitude, double longitude, String accessToken) {
+  //   js.context.callMethod('eval', [
+  //     '''
+  //   mapboxgl.accessToken = '$accessToken';
+  //   const map = new mapboxgl.Map({
+  //     container: '$divId',
+  //     style: 'mapbox://styles/mapbox/streets-v11',
+  //     center: [$longitude, $latitude],
+  //     zoom: 13
+  //   });
+
+  //   const marker = new mapboxgl.Marker()
+  //     .setLngLat([$longitude, $latitude])
+  //     .addTo(map);
+  // '''
+  //   ]);
+  // }
+
   @override
   Widget build(BuildContext context) {
     // SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
     CircuitsProvider provider = Provider.of<CircuitsProvider>(context);
     // double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
     double txfFieldWidth = (MediaQuery.of(context).size.width / 10);
-
+    // late WebViewController _webViewController;
     // double txfFieldPadding = 10;
 
     double cardHeight = 2.5;
@@ -60,13 +105,37 @@ class _DetailedCircuitsPageDesktopState
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: CustomCard(
-                  title: "Circuit",
+                  title: provider.cktIDController == null
+                      ? "Circuit "
+                      : "Circuit - ${provider.cktIDController.text}",
                   height: MediaQuery.of(context).size.height - 20,
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomTextIconButton(
+                            isLoading: false,
+                            icon: Icon(Icons.arrow_back_outlined,
+                                color: AppTheme.of(context).primaryBackground),
+                            text: 'Go Back',
+                            style: AppTheme.of(context)
+                                .contenidoTablas
+                                .override(
+                                  fontFamily: 'Gotham-Regular',
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).primaryBackground,
+                                ),
+                            onTap: () async {
+                              // context.pop();
+                              context.pushReplacement(routeCircuits);
+                            },
+                          ),
+                        ],
+                      ),
                       SizedBox(
                         height:
                             MediaQuery.of(context).size.height / cardHeight +
@@ -80,7 +149,8 @@ class _DetailedCircuitsPageDesktopState
                               CustomCard(
                                 height: MediaQuery.of(context).size.height /
                                         cardHeight +
-                                    127,
+                                    // 127,
+                                    135,
                                 width: MediaQuery.of(context).size.width / 5,
                                 title: 'Order Info',
                                 child: Column(
@@ -149,16 +219,6 @@ class _DetailedCircuitsPageDesktopState
                                         icon: Icons
                                             .settings_input_component_outlined,
                                         keyboardType: TextInputType.text,
-                                        /* validator: (value) {
-                                              if (provider.dataCenterSelectedValue == 'New') {
-                                                if (value == null || value.isEmpty) {
-                                                  print('aqui3');
-                                                  return 'Please enter some text';
-                                                }
-                                                return null;
-                                              }
-                                              return null;
-                                            }, */
                                       ),
                                     ),
                                     Padding(
@@ -238,7 +298,8 @@ class _DetailedCircuitsPageDesktopState
                                 child: CustomCard(
                                   height: MediaQuery.of(context).size.height /
                                           cardHeight +
-                                      130,
+                                      // 127,
+                                      135,
                                   width: MediaQuery.of(context).size.width / 5,
                                   title: 'Order Info',
                                   child: Column(
@@ -383,7 +444,8 @@ class _DetailedCircuitsPageDesktopState
                                     child: CustomCard(
                                       height:
                                           MediaQuery.of(context).size.height /
-                                              4.7,
+                                              // 4.7,
+                                              4.5,
                                       width: MediaQuery.of(context).size.width *
                                           // 0.35,
                                           0.5,
@@ -527,8 +589,9 @@ class _DetailedCircuitsPageDesktopState
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
+                                    padding: const EdgeInsets.only(top: 33.0),
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Padding(
                                           padding:
@@ -537,7 +600,8 @@ class _DetailedCircuitsPageDesktopState
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                3,
+                                                // 3,
+                                                3.4,
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
@@ -703,7 +767,7 @@ class _DetailedCircuitsPageDesktopState
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                3,
+                                                3.4,
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
@@ -871,100 +935,41 @@ class _DetailedCircuitsPageDesktopState
                           ),
                         ),
                       ),
-                      // Container(
-                      //   height: 500,
-                      //   width: 500,
-                      //   child: GoogleMap(
-                      //     onMapCreated: _onMapCreated,
-                      //     initialCameraPosition: CameraPosition(
-                      //       target: _center,
-                      //       zoom: 11.0,
-                      //     ),
-                      //     markers: {
-                      //       const Marker(
-                      //         markerId: const MarkerId("Sydney"),
-                      //         position: LatLng(-33.86, 151.20),
-                      //       ), // Marker
-                      //     }, // markers
-                      //   ), // GoogleMap
-                      //   // GoogleMap(
-                      //   //   onMapCreated: _onMapCreated,
-                      //   //   initialCameraPosition: CameraPosition(
-                      //   //     target: LatLng(
-                      //   //         double.parse(
-                      //   //             provider.circuitSelected!.latitude!),
-                      //   //         double.parse(
-                      //   //             provider.circuitSelected!.longitude!)),
-                      //   //     zoom: 11.0,
-                      //   //   ),
-                      //   //   markers: {
-                      //   //     Marker(
-                      //   //       markerId: MarkerId('Texas'),
-                      //   //       position: LatLng(
-                      //   //           double.parse(
-                      //   //               provider.circuitSelected!.latitude!),
-                      //   //           double.parse(
-                      //   //               provider.circuitSelected!.longitude!)),
-                      //   //     )
-                      //   //   },
-                      //   // )
-                      // ),
-                      CustomScrollBar(
+
+                      // GoogleMap(
+                      //   onMapCreated: _onMapCreated,
+                      //   initialCameraPosition: CameraPosition(
+                      //     target: LatLng(
+                      //         double.parse(
+                      //             provider.circuitSelected!.latitude!),
+                      //         double.parse(
+                      //             provider.circuitSelected!.longitude!)),
+                      //     zoom: 11.0,
+                      //   ),
+                      //   markers: {
+                      //     Marker(
+                      //       markerId: MarkerId('Texas'),
+                      //       position: LatLng(
+                      //           double.parse(
+                      //               provider.circuitSelected!.latitude!),
+                      //           double.parse(
+                      //               provider.circuitSelected!.longitude!)),
+                      //     )
+                      //   },
+                      // )
+
+                      const CustomScrollBar(
                         scrollDirection: Axis.horizontal,
-                        child: Container(
+                        child: SizedBox(
                           // color: Colors.black,
                           // padding: const EdgeInsets.all(0),
                           // margin: const EdgeInsets.all(0),
                           child: Row(
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 20, top: 0),
+                              Padding(
+                                padding: EdgeInsets.only(left: 20, top: 20),
                                 child: DetailCircuitComments(),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width / 5 -
-                                      20,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      CustomTextFieldCircuit(
-                                        height: 48,
-                                        enabled: true,
-                                        controller: provider.commentsController,
-                                        icon: Icons.comment_outlined,
-                                        label: 'Comment',
-                                        keyboardType: TextInputType.text,
-                                        width:
-                                            (MediaQuery.of(context).size.width /
-                                                        5 -
-                                                    20) -
-                                                100,
-                                        // onDone: provider.addComment(),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 5),
-                                        child: CustomTextIconButton(
-                                          isLoading: false,
-                                          height: 48,
-                                          icon: Icon(
-                                            Icons.send,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground,
-                                          ),
-                                          text: 'Send',
-                                          onTap: () async =>
-                                              provider.addComment(),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                         ),
@@ -987,10 +992,26 @@ class DetailCircuitComments extends StatefulWidget {
 }
 
 class _DetailCircuitCommentsState extends State<DetailCircuitComments> {
+  // MapBoxStaticImage staticImage = MapBoxStaticImage(
+  //   apiKey:
+  //       'API Key', // dont pass if you have set it in MapBoxSearch.init('API KEY')
+  // );
+
+  // Uri getStaticImageWithMarker() => staticImage.getStaticUrlWithMarker(
+  //       center: Location(lat: 37.77343, lng: -122.46589),
+  //       marker: MapBoxMarker(
+  //           markerColor: RgbColor(40, 20, 10),
+  //           markerLetter: 'p',
+  //           markerSize: MarkerSize.LARGE),
+  //       height: 300,
+  //       width: 600,
+  //       zoomLevel: 16,
+  //       style: MapBoxStyle.Satellite_Street_V11,
+  //       render2x: true,
+  //     );
+
   @override
   Widget build(BuildContext context) {
-    // DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
-    DateTime? sended;
     CircuitsProvider provider = Provider.of<CircuitsProvider>(context);
 
     return CustomCard(
@@ -1023,7 +1044,6 @@ class _DetailCircuitCommentsState extends State<DetailCircuitComments> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  // itemCount: provider.comments.length,
                   itemCount: provider.comments.length,
                   itemBuilder: (context, index) {
                     return Padding(
@@ -1037,7 +1057,8 @@ class _DetailCircuitCommentsState extends State<DetailCircuitComments> {
                             children: [
                               Container(
                                 width:
-                                    MediaQuery.of(context).size.width / 5 - 60,
+                                    // MediaQuery.of(context).size.width / 5 - 60,
+                                    MediaQuery.of(context).size.width / 3 - 60,
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
@@ -1070,8 +1091,12 @@ class _DetailCircuitCommentsState extends State<DetailCircuitComments> {
                                             left: 30, top: 5, bottom: 5),
                                         child: Row(
                                           children: [
+                                            // Nombre del usuario que creo el comentario
+                                            Icon(Icons.person_2_outlined,
+                                                color: AppTheme.of(context)
+                                                    .primaryBackground),
                                             Text(
-                                              "${provider.circuitSelected?.notes}",
+                                              "${provider.comments[index].usercomment!.name} ${provider.comments[index].usercomment!.lastName}",
                                               // '${provider.comments[index].role} - ${provider.comments[index].name}',
                                               style: TextStyle(
                                                   color: AppTheme.of(context)
@@ -1081,15 +1106,15 @@ class _DetailCircuitCommentsState extends State<DetailCircuitComments> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(
+                                    SizedBox(
                                       //height: 50,
                                       child: Padding(
                                         padding: const EdgeInsets.all(5),
                                         child: CustomScrollBar(
                                           scrollDirection: Axis.vertical,
-                                          child: SelectableText(
-                                              // provider.comments[index].comment!
-                                              "Prueba prueba 2"),
+                                          child: SelectableText(provider
+                                              .comments[index].comment!),
+                                          // "Prueba prueba 2"),
                                         ),
                                       ),
                                     ),
@@ -1097,11 +1122,11 @@ class _DetailCircuitCommentsState extends State<DetailCircuitComments> {
                                 ),
                               ),
                               SelectableText(
-                                dateFormat(sended, true),
-
-                                // dateFormat(provider.comments[index].sended, true),
+                                // dateFormat(sended, true),
+                                dateFormat(
+                                    provider.comments[index].sended, true),
                                 style: AppTheme.of(context).hintText,
-                              )
+                              ),
                             ],
                           ),
                         ],
@@ -1110,6 +1135,44 @@ class _DetailCircuitCommentsState extends State<DetailCircuitComments> {
                   },
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width / 5 - 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: CustomTextFieldCircuit(
+                          height: 48,
+                          enabled: true,
+                          controller: provider.commentsController,
+                          icon: Icons.comment_outlined,
+                          label: 'Comment',
+                          keyboardType: TextInputType.text,
+                          width: (MediaQuery.of(context).size.width / 5 - 20) -
+                              100,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: CustomTextIconButton(
+                            isLoading: false,
+                            height: 48,
+                            icon: Icon(
+                              Icons.send,
+                              color: AppTheme.of(context).primaryBackground,
+                            ),
+                            text: 'Add',
+                            onTap: () async => await provider.addComment()),
+                      )
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ],
