@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/models/dashboard_rta/towers.dart';
+import 'package:rta_crm_cv/models/dashboard_rta/leads_not_serviceable.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-class MapTowerDetails extends StatelessWidget {
+class LeadNotServiceableDetails extends StatelessWidget {
 
-  const MapTowerDetails({
+  const LeadNotServiceableDetails({
     Key? key,
     required this.mapMarker,
   }) : super (key: key);
 
-  final TowerRta? mapMarker;
+  final LeadsNotServiceable? mapMarker;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,9 @@ class MapTowerDetails extends StatelessWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.08,
               child: Text(
-                mapMarker?.companyId == 1 ? "CRY" :
-                mapMarker?.companyId == 2 ? "ODE" :
-                mapMarker?.companyId == 3 ? "SMI" :
+                mapMarker?.companyFk == 1 ? "CRY" :
+                mapMarker?.companyFk == 2 ? "ODE" :
+                mapMarker?.companyFk == 3 ? "SMI" :
                 "RTA",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
@@ -36,9 +36,9 @@ class MapTowerDetails extends StatelessWidget {
                 .override(
                   fontFamily: 'Gotham-Regular',
                   useGoogleFonts: false,
-                  color: mapMarker?.companyId == 1 ? AppTheme.of(context).cryPrimary :
-                  mapMarker?.companyId == 2 ? AppTheme.of(context).odePrimary :
-                  mapMarker?.companyId == 3 ? AppTheme.of(context).smiPrimary :
+                  color: mapMarker?.companyFk == 1 ? AppTheme.of(context).cryPrimary :
+                  mapMarker?.companyFk == 2 ? AppTheme.of(context).odePrimary :
+                  mapMarker?.companyFk == 3 ? AppTheme.of(context).smiPrimary :
                   AppTheme.of(context).primaryColor,
                   fontSize: 40,
                 ),
@@ -47,7 +47,7 @@ class MapTowerDetails extends StatelessWidget {
           ),
           const SizedBox(height: 5,),
           Text(
-            mapMarker?.address ?? 'Address',
+            "${mapMarker?.name ?? 'Name'} ${mapMarker?.lastName ?? 'Last Name'}",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -61,7 +61,7 @@ class MapTowerDetails extends StatelessWidget {
           ),
           const SizedBox(height: 5,),
           Text(
-            mapMarker?.city ?? 'City',
+            mapMarker?.email ?? "Email",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -75,7 +75,9 @@ class MapTowerDetails extends StatelessWidget {
           ),
           const SizedBox(height: 10,),
           Text(
-            "Name: ${mapMarker?.name ?? 'Not selected'}",
+            mapMarker?.sourceFk == 1 ? "E-commerce" :
+            mapMarker?.sourceFk == 2 ? "Facebook" :
+            "Unknown",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -88,7 +90,7 @@ class MapTowerDetails extends StatelessWidget {
             ),
           ),
           Text(
-            "# Customer Served: ${mapMarker?.numbCustomerServed ?? 'Not selected'}",
+            "Phone: ${mapMarker?.phone ?? 'Not selected'}",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -102,7 +104,7 @@ class MapTowerDetails extends StatelessWidget {
           ),
           const SizedBox(height: 10,),
           Text(
-            "[Latitude: ${mapMarker?.long ?? 'Unknown'},",
+            "[Latitude: ${mapMarker?.latitude ?? 'Unknown'},",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
@@ -115,7 +117,7 @@ class MapTowerDetails extends StatelessWidget {
             ),
           ),
           Text(
-            "Longitude: ${mapMarker?.lat ?? 'Unknown'}]",
+            "Longitude: ${mapMarker?.longitude ?? 'Unknown'}]",
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.of(context)
