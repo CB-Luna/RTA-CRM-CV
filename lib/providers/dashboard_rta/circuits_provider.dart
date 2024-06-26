@@ -34,6 +34,7 @@ class CircuitsProvider extends ChangeNotifier {
   String handoffSelectedValue = "";
   String statusSelectedValue = "";
   String geMapSelectedValue = "";
+  String useSelectedValue = "";
   pdfx.PdfController? finalPdfController;
   Uint8List? documento;
   final date = DateTime.now();
@@ -56,6 +57,7 @@ class CircuitsProvider extends ChangeNotifier {
     "Disconnected ",
     "Deactivated"
   ];
+  List<GenericCat> circuitUseList = [];
   List<String> geMapList = ["Yes", "No"];
   List<CommentCircuit> comments = [];
 
@@ -208,6 +210,11 @@ class CircuitsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Función para actualizar el status
+  void selectUse(String selected) {
+    useSelectedValue = selected;
+    notifyListeners();
+  }
   // void selectLeadSource(String selected) {
   //   selectLeadSourceValue = selected;
   //   notifyListeners();
@@ -441,7 +448,8 @@ class CircuitsProvider extends ChangeNotifier {
         // "carrier": carrierController.text,
         "carrier": carrierSelectedValue,
         "ckttype": circuitTypeSelectedValue,
-        "cktuse": cktUseController.text,
+        // "cktuse": cktUseController.text,
+        "cktuse": useSelectedValue,
         "cktid": cktIDController.text,
         "evc": evcController.text,
         "caracctnum": caracctnumController.text,
@@ -524,6 +532,7 @@ class CircuitsProvider extends ChangeNotifier {
       statusSelectedValue = circuitSelected?.cktstatus ?? '';
       geMapSelectedValue = circuitSelected?.gemap ?? "";
       circuitTypeSelectedValue = circuitSelected?.ckttype ?? "";
+      useSelectedValue = circuitSelected?.cktuse ?? "";
       notifyListeners();
     } catch (e) {
       print('Error en getInformationTraining() - $e');
@@ -652,6 +661,14 @@ class CircuitsProvider extends ChangeNotifier {
           .map((index) => GenericCat.fromRawJson(jsonEncode(index)))
           .toList();
 
+      response = await supabaseCRM
+          .from('cat_circuit_use')
+          .select()
+          .eq('visible', true);
+      circuitUseList.clear();
+      circuitUseList = (response as List<dynamic>)
+          .map((index) => GenericCat.fromRawJson(jsonEncode(index)))
+          .toList();
       // handoffSelectedValue = handoffList.first.name!;
       // Status
       notifyListeners();
