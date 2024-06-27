@@ -219,12 +219,12 @@ class MapCircuitsProvider extends ChangeNotifier {
       final resLeadsNotServiceable = await supabaseDashboard.from("leads_not_serviceable").select();
 
       listLeadsNotServiceable = (resLeadsNotServiceable as List<dynamic>)
-          .map((tower) => LeadsNotServiceable.fromJson(jsonEncode(tower)))
+          .map((leadNotServiceable) => LeadsNotServiceable.fromJson(jsonEncode(leadNotServiceable)))
           .toList();
 
       for (LeadsNotServiceable leadNotServiceable in listLeadsNotServiceable) {
         //Se guarda el index actual de Markers
-        final indexLeadNotServiceable = listLeadsNotServiceable.length;
+        final indexLeadNotServiceable = markersleadsNotServiceable.length;
         var point = LatLng(
           double.parse(leadNotServiceable.latitude), 
           double.parse(leadNotServiceable.longitude)
@@ -251,7 +251,7 @@ class MapCircuitsProvider extends ChangeNotifier {
                     notifyListeners();
                   },
                   child: LocationLeadNotServiceable(
-                    selected: indexTowerSelected == indexLeadNotServiceable,
+                    selected: indexLeadNotServiceableSelected == indexLeadNotServiceable,
                     company: leadNotServiceable.companyFk,
                   ),
                 ),

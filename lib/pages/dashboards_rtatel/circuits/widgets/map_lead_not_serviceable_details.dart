@@ -73,6 +73,22 @@ class LeadNotServiceableDetails extends StatelessWidget {
                   .primaryText,
             ),
           ),
+          const SizedBox(height: 5,),
+          Text(
+            mapMarker?.address ?? "Address",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            style: AppTheme.of(context)
+            .bodyText1
+            .override(
+              fontFamily: 'Gotham-Regular',
+              useGoogleFonts: false,
+              color: AppTheme.of(context)
+                  .primaryText,
+              fontSize: 12
+            ),
+          ),
           const SizedBox(height: 10,),
           Text(
             mapMarker?.sourceFk == 1 ? "E-commerce" :
