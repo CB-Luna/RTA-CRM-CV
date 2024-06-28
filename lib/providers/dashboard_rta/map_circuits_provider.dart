@@ -15,8 +15,11 @@ import 'package:rta_crm_cv/theme/theme.dart';
 class MapCircuitsProvider extends ChangeNotifier {
   // PlutoGridStateManager? stateManager;
   List<Marker> markersCircuits = [];
-  List<Marker> markersTowers = [];
-  List<Marker> markersleadsNotServiceable = [];
+  List<Marker> markersTowersSMI = [];
+  List<Marker> markersTowersCRY = [];
+  List<Marker> markersTowersODE = [];
+  List<Marker> markersLeadsNotServiceableE = [];
+  List<Marker> markersLeadsNotServiceableF = [];
   Circuits? circuitSelected;
   TowerRta? towerSelected;
   LeadsNotServiceable? leadNotServiceableSelected;
@@ -50,8 +53,13 @@ class MapCircuitsProvider extends ChangeNotifier {
 
   bool circuitButton = true;
   bool towerButton = true;
+  bool towerButtonCRY = true;
+  bool towerButtonODE = true;
+  bool towerButtonSMI = true;
   bool dataCenterButton = true;
   bool leadNotServiceableButton = true;
+  bool leadNotServiceableButtonE = true;
+  bool leadNotServiceableButtonF = true;
 
   void updateStatusButton(int index) {
     switch (index) {
@@ -59,13 +67,51 @@ class MapCircuitsProvider extends ChangeNotifier {
         circuitButton = !circuitButton;
         break;
       case 1:
+        if(!towerButton) {
+          towerButtonCRY = true;
+          towerButtonODE = true;
+          towerButtonSMI = true;
+        }
         towerButton = !towerButton;
         break;
       case 2:
         dataCenterButton = !dataCenterButton;
         break;
       case 3:
+      if(!leadNotServiceableButton) {
+          leadNotServiceableButtonE = true;
+          leadNotServiceableButtonF = true;
+        }
         leadNotServiceableButton = !leadNotServiceableButton;
+        break;
+      default:
+    }
+    notifyListeners();
+  }
+
+  void updateStatusTowerButton(int index) {
+    switch (index) {
+      case 0:
+        towerButtonCRY = !towerButtonCRY;
+        break;
+      case 1:
+        towerButtonODE = !towerButtonODE;
+        break;
+      case 2:
+        towerButtonSMI = !towerButtonSMI;
+        break;
+      default:
+    }
+    notifyListeners();
+  }
+
+  void updateStatusLeadNotServiceableButton(int index) {
+    switch (index) {
+      case 0:
+        leadNotServiceableButtonE = !leadNotServiceableButtonE;
+        break;
+      case 1:
+        leadNotServiceableButtonF = !leadNotServiceableButtonF;
         break;
       default:
     }
@@ -76,7 +122,9 @@ class MapCircuitsProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     markersCircuits.clear();
-    markersTowers.clear();
+    markersTowersSMI.clear();
+    markersTowersCRY.clear();
+    markersTowersODE.clear();
     linesApops.clear();
     linesBpops.clear();
 
@@ -173,44 +221,112 @@ class MapCircuitsProvider extends ChangeNotifier {
 
       for (TowerRta tower in listTowers) {
         //Se guarda el index actual de Markers
-        final indexTower = markersTowers.length;
+        final indexTower = markersTowersCRY.length + markersTowersSMI.length + markersTowersODE.length;
         if (tower.lat != null && tower.lat != '""' && tower.long != null && tower.long != '""') {
           var point = LatLng(
             double.parse(tower.long!), 
             double.parse(tower.lat!)
           );
-          markersTowers.add(
-            Marker(
-              height: markerSizeExpaned,
-              width: markerSizeExpaned,
-              point: point, 
-              builder: (_) {
-                return MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      //Se salta hacia la información del marker que se presione
-                      itemSelected = 2;
-                      circuitSelected = null;
-                      indexCircuitSelected = null;
-                      leadNotServiceableSelected = null;
-                      indexLeadNotServiceableSelected = null;
-                      towerSelected = tower;
-                      indexTowerSelected = indexTower;
-                      print("Tower es: ${tower.id}");
-                      pageController.jumpToPage(indexTower);
-                      print("Selected: ${tower.make}, ${tower.model}, ${tower.frequency}");
-                      notifyListeners();
-                    },
-                    child: LocationMarkerTower(
-                      selected: indexTowerSelected == indexTower,
-                      company: tower.companyId,
-                    ),
-                  ),
-                );
-              }
-            ),
-          );
+          switch (tower.companyId) {
+            case 1:
+              markersTowersCRY.add(
+                Marker(
+                  height: markerSizeExpaned,
+                  width: markerSizeExpaned,
+                  point: point, 
+                  builder: (_) {
+                    return MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          //Se salta hacia la información del marker que se presione
+                          itemSelected = 2;
+                          circuitSelected = null;
+                          indexCircuitSelected = null;
+                          leadNotServiceableSelected = null;
+                          indexLeadNotServiceableSelected = null;
+                          towerSelected = tower;
+                          indexTowerSelected = indexTower;
+                          pageController.jumpToPage(indexTower);
+                          notifyListeners();
+                        },
+                        child: LocationMarkerTower(
+                          selected: indexTowerSelected == indexTower,
+                          company: tower.companyId,
+                        ),
+                      ),
+                    );
+                  }
+                ),
+              );
+              break;
+            case 2:
+            markersTowersODE.add(
+                Marker(
+                  height: markerSizeExpaned,
+                  width: markerSizeExpaned,
+                  point: point, 
+                  builder: (_) {
+                    return MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          //Se salta hacia la información del marker que se presione
+                          itemSelected = 2;
+                          circuitSelected = null;
+                          indexCircuitSelected = null;
+                          leadNotServiceableSelected = null;
+                          indexLeadNotServiceableSelected = null;
+                          towerSelected = tower;
+                          indexTowerSelected = indexTower;
+                          pageController.jumpToPage(indexTower);
+                          notifyListeners();
+                        },
+                        child: LocationMarkerTower(
+                          selected: indexTowerSelected == indexTower,
+                          company: tower.companyId,
+                        ),
+                      ),
+                    );
+                  }
+                ),
+              );
+              break;
+            case 3:
+              markersTowersSMI.add(
+                Marker(
+                  height: markerSizeExpaned,
+                  width: markerSizeExpaned,
+                  point: point, 
+                  builder: (_) {
+                    return MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          //Se salta hacia la información del marker que se presione
+                          itemSelected = 2;
+                          circuitSelected = null;
+                          indexCircuitSelected = null;
+                          leadNotServiceableSelected = null;
+                          indexLeadNotServiceableSelected = null;
+                          towerSelected = tower;
+                          indexTowerSelected = indexTower;
+                          pageController.jumpToPage(indexTower);
+                          notifyListeners();
+                        },
+                        child: LocationMarkerTower(
+                          selected: indexTowerSelected == indexTower,
+                          company: tower.companyId,
+                        ),
+                      ),
+                    );
+                  }
+                ),
+              );
+              break;
+            default:
+              break;
+          }
         }
       }
 
@@ -224,44 +340,80 @@ class MapCircuitsProvider extends ChangeNotifier {
 
       for (LeadsNotServiceable leadNotServiceable in listLeadsNotServiceable) {
         //Se guarda el index actual de Markers
-        final indexLeadNotServiceable = markersleadsNotServiceable.length;
+        final indexLeadNotServiceable = markersLeadsNotServiceableE.length + markersLeadsNotServiceableF.length;
         var point = LatLng(
           double.parse(leadNotServiceable.latitude), 
           double.parse(leadNotServiceable.longitude)
         );
-        markersleadsNotServiceable.add(
-          Marker(
-            height: markerSizeExpaned,
-            width: markerSizeExpaned,
-            point: point, 
-            builder: (_) {
-              return MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: () {
-                    //Se salta hacia la información del marker que se presione
-                    itemSelected = 3;
-                    circuitSelected = null;
-                    indexCircuitSelected = null;
-                    towerSelected = null;
-                    indexTowerSelected = null;
-                    leadNotServiceableSelected = leadNotServiceable;
-                    indexLeadNotServiceableSelected = indexLeadNotServiceable;
-                    pageController.jumpToPage(indexLeadNotServiceable);
-                    notifyListeners();
-                  },
-                  child: LocationLeadNotServiceable(
-                    selected: indexLeadNotServiceableSelected == indexLeadNotServiceable,
-                    company: leadNotServiceable.companyFk,
-                  ),
-                ),
-              );
-            }
-          ),
-        );
+        switch (leadNotServiceable.sourceFk) {
+          case 1:
+            markersLeadsNotServiceableE.add(
+              Marker(
+                height: markerSizeExpaned,
+                width: markerSizeExpaned,
+                point: point, 
+                builder: (_) {
+                  return MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        //Se salta hacia la información del marker que se presione
+                        itemSelected = 3;
+                        circuitSelected = null;
+                        indexCircuitSelected = null;
+                        towerSelected = null;
+                        indexTowerSelected = null;
+                        leadNotServiceableSelected = leadNotServiceable;
+                        indexLeadNotServiceableSelected = indexLeadNotServiceable;
+                        pageController.jumpToPage(indexLeadNotServiceable);
+                        notifyListeners();
+                      },
+                      child: LocationLeadNotServiceable(
+                        selected: indexLeadNotServiceableSelected == indexLeadNotServiceable,
+                        source: leadNotServiceable.sourceFk,
+                      ),
+                    ),
+                  );
+                }
+              ),
+            );
+            break;
+          case 2:
+            markersLeadsNotServiceableF.add(
+              Marker(
+                height: markerSizeExpaned,
+                width: markerSizeExpaned,
+                point: point, 
+                builder: (_) {
+                  return MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        //Se salta hacia la información del marker que se presione
+                        itemSelected = 3;
+                        circuitSelected = null;
+                        indexCircuitSelected = null;
+                        towerSelected = null;
+                        indexTowerSelected = null;
+                        leadNotServiceableSelected = leadNotServiceable;
+                        indexLeadNotServiceableSelected = indexLeadNotServiceable;
+                        pageController.jumpToPage(indexLeadNotServiceable);
+                        notifyListeners();
+                      },
+                      child: LocationLeadNotServiceable(
+                        selected: indexLeadNotServiceableSelected == indexLeadNotServiceable,
+                        source: leadNotServiceable.sourceFk,
+                      ),
+                    ),
+                  );
+                }
+              ),
+            );
+            break;
+          default:
+        }
       }
       
-      print("Tamaño Leads Not Serviceable: ${listLeadsNotServiceable.length}");
       // if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
       log('Error en getMapCircuits() - $e');
@@ -276,8 +428,11 @@ class MapCircuitsProvider extends ChangeNotifier {
     listTowers.clear();
     listLeadsNotServiceable.clear();
     markersCircuits.clear();
-    markersTowers.clear();
-    markersleadsNotServiceable.clear();
+    markersTowersCRY.clear();
+    markersTowersODE.clear();
+    markersTowersSMI.clear();
+    markersLeadsNotServiceableE.clear();
+    markersLeadsNotServiceableF.clear();
     linesApops.clear();
     linesBpops.clear();
   }
@@ -344,11 +499,11 @@ class LocationLeadNotServiceable extends StatelessWidget {
   const LocationLeadNotServiceable({
     super.key,
     this.selected = false,
-    required this.company, 
+    required this.source, 
   });
 
   final bool selected;
-  final int? company;
+  final int? source;
 
   @override
   Widget build(BuildContext context) {
@@ -359,10 +514,8 @@ class LocationLeadNotServiceable extends StatelessWidget {
         width: size,
         duration: const Duration(milliseconds: 400),
         child: Icon(
-          Icons.person,
-          color: company == 1 ? AppTheme.of(context).cryPrimary :
-          company == 2 ? AppTheme.of(context).odePrimary :
-          company == 3 ? AppTheme.of(context).smiPrimary :
+          Icons.person_rounded,
+          color: source == 1 ? AppTheme.of(context).tertiaryColor :
           AppTheme.of(context).primaryColor,
           size: size * 0.8,
         ),
