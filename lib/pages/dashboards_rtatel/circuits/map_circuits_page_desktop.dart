@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_circuit_details.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_lead_not_serviceable_options.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_tower_options.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_lead_not_serviceable_details.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/widgets/map_tower_details.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/map_circuits_provider.dart';
@@ -252,14 +254,26 @@ class _MapCircuitsPageDesktopState
                                   markers: provider.markersCircuits,
                                 ),
 
-                                if(provider.towerButton)
+                                if(provider.towerButton && provider.towerButtonCRY)
                                 MarkerLayer(
-                                  markers: provider.markersTowers,
+                                  markers: provider.markersTowersCRY,
+                                ),
+                                if(provider.towerButton && provider.towerButtonODE)
+                                MarkerLayer(
+                                  markers: provider.markersTowersODE,
+                                ),
+                                if(provider.towerButton && provider.towerButtonSMI)
+                                MarkerLayer(
+                                  markers: provider.markersTowersSMI,
                                 ),
 
-                                if(provider.leadNotServiceableButton)
+                                if(provider.leadNotServiceableButton && provider.leadNotServiceableButtonE)
                                 MarkerLayer(
-                                  markers: provider.markersleadsNotServiceable,
+                                  markers: provider.markersLeadsNotServiceableE,
+                                ),
+                                if(provider.leadNotServiceableButton && provider.leadNotServiceableButtonF)
+                                MarkerLayer(
+                                  markers: provider.markersLeadsNotServiceableF,
                                 ),
 
 
@@ -277,7 +291,7 @@ class _MapCircuitsPageDesktopState
                             Positioned(
                               top: 20,
                               right: 20,
-                              height: MediaQuery.of(context).size.height * 0.4,
+                              bottom: 20,
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: PageView.builder(
                                 controller: provider.pageController,
@@ -288,8 +302,12 @@ class _MapCircuitsPageDesktopState
                                     case 1:
                                       if(provider.circuitButton) {
                                         final item = provider.circuitSelected;
-                                        return MapCircuitDetails(
-                                          mapMarker: item,
+                                        return Column(
+                                          children: [
+                                            MapCircuitDetails(
+                                              mapMarker: item,
+                                            ),
+                                          ],
                                         );
                                       } else {
                                         return Container();
@@ -297,8 +315,13 @@ class _MapCircuitsPageDesktopState
                                     case 2:
                                       if(provider.towerButton) {
                                         final item = provider.towerSelected;
-                                        return MapTowerDetails(
-                                          mapMarker: item,
+                                        return Column(
+                                          children: [
+                                            MapTowerDetails(
+                                              mapMarker: item,
+                                            ),
+                                            const MapTowerOptions(),
+                                          ],
                                         );
                                       } else {
                                         return Container();
@@ -306,8 +329,13 @@ class _MapCircuitsPageDesktopState
                                       case 3:
                                       if(provider.leadNotServiceableButton) {
                                         final item = provider.leadNotServiceableSelected;
-                                        return LeadNotServiceableDetails(
-                                          mapMarker: item,
+                                        return Column(
+                                          children: [
+                                            LeadNotServiceableDetails(
+                                              mapMarker: item,
+                                            ),
+                                            const MapLeadNotServiceableOptions(),
+                                          ],
                                         );
                                       } else {
                                         return Container();

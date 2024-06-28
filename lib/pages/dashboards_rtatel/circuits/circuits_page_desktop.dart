@@ -560,7 +560,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.13,
+                                              0.15, // 0.13
                                           cellPadding: EdgeInsets.zero,
                                           titleTextAlign:
                                               PlutoColumnTextAlign.center,
@@ -782,7 +782,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.09,
+                                              0.11, //0.09
                                           cellPadding: EdgeInsets.zero,
                                           titleTextAlign:
                                               PlutoColumnTextAlign.center,
@@ -997,12 +997,10 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                                 style: AppTheme.of(context)
                                                     .encabezadoTablas)
                                           ]),
-                                          width:
-                                              // MediaQuery.of(context).size.width * 0.17,
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.19,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.15, // 0.19
                                           cellPadding: EdgeInsets.zero,
                                           titleTextAlign:
                                               PlutoColumnTextAlign.center,
@@ -1296,8 +1294,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                     renderer: (rendererContext) {
                                       return PlutoGridCompanyCellTowers(
                                           text: rendererContext.cell.value
-                                                  .toString() ??
-                                              "-");
+                                              .toString());
                                     },
                                     footerRenderer: (context) {
                                       return SizedBox(
@@ -1707,9 +1704,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                             gradient: whiteGradient),
                                         child: Center(
                                             child: Text(
-                                          rendererContext.cell.value
-                                                  .toString() ??
-                                              "-",
+                                          rendererContext.cell.value.toString(),
                                           style: AppTheme.of(context)
                                               .contenidoTablas
                                               .override(
