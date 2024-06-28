@@ -5,7 +5,7 @@ class LeadsNotServiceable {
     DateTime createdAt;
     String name;
     String lastName;
-    String phone;
+    String? phone;
     String email;
     String address;
     String latitude;
@@ -18,7 +18,7 @@ class LeadsNotServiceable {
         required this.createdAt,
         required this.name,
         required this.lastName,
-        required this.phone,
+        this.phone,
         required this.email,
         required this.address,
         required this.latitude,
